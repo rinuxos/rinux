@@ -4,7 +4,7 @@ use spin::Mutex;
 use volatile::Volatile;
 
 lazy_static! {
-    /// A global `Writer` instance that can be used for printing to the text buffer.
+    /// A global `Writer` instance that can be used for printing to the VGA text buffer.
     ///
     /// Used by the `print!` and `println!` macros.
     pub static ref WRITER: Mutex<Writer> = Mutex::new(Writer {
@@ -14,7 +14,7 @@ lazy_static! {
     });
 }
 
-/// The standard color palette in text mode.
+/// The standard color palette in VGA text mode.
 #[allow(dead_code)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
@@ -49,7 +49,7 @@ impl ColorCode {
     }
 }
 
-/// A screen character in the text buffer, consisting of an ASCII character and a `ColorCode`.
+/// A screen character in the VGA text buffer, consisting of an ASCII character and a `ColorCode`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(C)]
 struct ScreenChar {
@@ -62,7 +62,7 @@ const BUFFER_HEIGHT: usize = 25;
 /// The width of the text buffer (normally 80 columns).
 const BUFFER_WIDTH: usize = 80;
 
-/// A structure representing the text buffer.
+/// A structure representing the VGA text buffer.
 #[repr(transparent)]
 struct Buffer {
     chars: [[Volatile<ScreenChar>; BUFFER_WIDTH]; BUFFER_HEIGHT],
@@ -106,7 +106,7 @@ impl Writer {
     /// Writes the given ASCII string to the buffer.
     ///
     /// Wraps lines at `BUFFER_WIDTH`. Supports the `\n` newline character. Does **not**
-    /// support strings with non-ASCII characters, since they can't be printed in the text
+    /// support strings with non-ASCII characters, since they can't be printed in the VGA text
     /// mode.
     fn write_string(&mut self, s: &str) {
         for byte in s.bytes() {
@@ -150,20 +150,20 @@ impl fmt::Write for Writer {
     }
 }
 
-/// Like the `print!` macro in the standard library, but prints to the text buffer.
+/// Like the `print!` macro in the standard library, but prints to the VGA text buffer.
 #[macro_export]
 macro_rules! print {
-    ($($arg:tt)*) => ($crate::vga_buffer::_print(format_args!($($arg)*)));
+    ($($arg:tt)*) => ($crate::buffer::_print(format_args!($($arg)*)));
 }
 
-/// Like the `println!` macro in the standard library, but prints to the text buffer.
+/// Like the `println!` macro in the standard library, but prints to the VGA text buffer.
 #[macro_export]
 macro_rules! println {
     () => ($crate::print!("\n"));
     ($($arg:tt)*) => ($crate::print!("{}\n", format_args!($($arg)*)));
 }
 
-/// Prints the given formatted string to the text buffer through the global `WRITER` instance.
+/// Prints the given formatted string to the VGA text buffer through the global `WRITER` instance.
 #[doc(hidden)]
 pub fn _print(args: fmt::Arguments) {
     use core::fmt::Write;

@@ -3,16 +3,15 @@
 
 use core::panic::PanicInfo;
 
-mod buffer;
+mod vga_buffer;
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    println!("Hello World{}", "!");
+    println!("Rusty{}", "OS");
     loop {
 
     }
 }
-
 
 
 

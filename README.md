@@ -1,3 +1,3 @@
 # RustyOS
 
-OS written in rust
+## OS written in rust
