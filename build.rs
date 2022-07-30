@@ -5,12 +5,7 @@ use std::{
 };
 
 
-const VERSION: &'static str = "v0.1.0-BETA";
 const USE_DEBUG_PRINT: bool = true;
-
-
-
-
 
 
 
@@ -146,7 +141,7 @@ impl Operation {
 }
 #[derive(Clone, Debug)]
 pub struct EnderPearl {
-    print: bool,
+    pub print: bool,
     pub(crate) operations: Vec<Operation>
 }
 impl EnderPearl {
@@ -186,7 +181,6 @@ impl EnderPearl {
 
 
 fn main() -> std::io::Result<()> {
-    let mut print: bool = true;
     let mut file = match File::open(".enderpearl") {
         Ok(file) => {
             println!("Found Build File...\nExecuting 'STASIS' Command");
@@ -198,7 +192,8 @@ fn main() -> std::io::Result<()> {
     };
     let mut contents = String::new();
     file.read_to_string(&mut contents)?;
-    let (_, tkn, _) = Token::tokenize(contents);
+    let (_, mut tkn, _) = Token::tokenize(contents);
+    tkn.print = USE_DEBUG_PRINT;
     tkn.run("STASIS".to_string());
     Ok(())
 }
