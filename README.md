@@ -20,11 +20,10 @@ cargo install bootimage
 cargo build --release
 ```
 
-your finall binary should be in [`/target/x86_64-rustyos/debug/`](./target/x86_64-rustyos/debug/)
+your finall binary should be in [`/target/x86_64-rinux/release/`](./target/x86_64-rinux/release/)
 
 ### Limitations:
 
 no `std`
 
-no terminal
-
+no terminal (yet, maybe)
