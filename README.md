@@ -14,7 +14,7 @@ LTS in [`/release`](/release/)
 cargo install bootimage
 ```
 
-**! IMPORTANT ! you need to have [bootimage](https://github.com/rust-osdev/bootimage) installed**
+**Every time:**
 
 ```shell
 cargo build --release
