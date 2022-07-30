@@ -1,15 +1,10 @@
 [package]
-name = "rustyos"
+name = "rinux"
 version = "0.1.0"
 authors = ["Atomic"]
 edition = "2018"
-
+license = "MIT"
 
 [dependencies]
-bootloader = "0.9.8"
-volatile = "0.2.6"
-spin = "0.5.2"
-
-[dependencies.lazy_static]
-version = "1.0"
-features = ["spin_no_std"]
+bootloader = { version = "0.9.8", features = ["map_physical_memory"]}
+rinuxcore = { path = "./rinux", package = "rinuxcore"}
