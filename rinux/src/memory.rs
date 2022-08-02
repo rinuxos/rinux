@@ -8,7 +8,9 @@ use x86_64::{
 
 pub unsafe fn init(physical_memory_offset: VirtAddr) -> OffsetPageTable<'static> {
     let level_4_table = active_level_4_table(physical_memory_offset);
-    print_ok!("[OK] RAM initialized\n");
+    if crate::conf::QUIET_BOOT != true {
+        print_ok!("[OK] RAM initialized\n");
+    };
     OffsetPageTable::new(level_4_table, physical_memory_offset)
 }
 
@@ -41,7 +43,9 @@ pub struct BootInfoFrameAllocator {
 
 impl BootInfoFrameAllocator {
     pub unsafe fn init(memory_map: &'static MemoryMap) -> Self {
-        print_ok!("[OK] BootInfoFrameAllocator initialized\n");
+        if crate::conf::QUIET_BOOT != true {
+            print_ok!("[OK] BootInfoFrameAllocator initialized\n");
+        };
         BootInfoFrameAllocator {
             memory_map,
             next: 0,

@@ -44,7 +44,9 @@ lazy_static! {
 
 pub fn init_idt() {
     IDT.load();
-    print_ok!("[OK] IDT initialized\n");
+    if crate::conf::QUIET_BOOT != true {
+        print_ok!("[OK] IDT initialized\n");
+    }
 }
 
 extern "x86-interrupt" fn breakpoint_handler(stack_frame: InterruptStackFrame) {

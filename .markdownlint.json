@@ -1,4 +1,5 @@
 {
     "no-trailing-punctuation": false,
+    "no-inline-html": false,
     "line-length": false
 }

@@ -2,28 +2,38 @@
 
 ## OS written in rust
 
-### Pre-built binnaries:
-
-LTS in [`/release`](/release/)
-
 ### Build yourself:
 
-**First Run:**
+Tools needed to run: [`enderpearl`](https://github.com/AtomicGamer9523/Enderpearl), [`bootimage`](https://github.com/rust-osdev/bootimage), and [`qemu`](https://qemu.org)
+
+1. Modify project's metadata in [.config.enderpearl](./.config.enderpearl)
+
+2. Import your project via [.build.enderpearl](./.build.enderpearl)
+
+3. Build & Run:
 
 ```shell
-cargo install bootimage
+enderpearl run
 ```
 
-**Every time:**
+or
 
 ```shell
-cargo build --release
+cargo run
 ```
 
-your finall binary should be in [`/target/x86_64-rinux/release/`](./target/x86_64-rinux/release/)
+<br>
 
 ### Limitations:
 
 no `std`
 
 no terminal (yet, maybe)
+
+<br>
+
+### Build for release:
+
+```shell
+enderpearl release
+```

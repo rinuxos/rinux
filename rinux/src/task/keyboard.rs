@@ -33,9 +33,13 @@ pub struct ScancodeStream {
 impl ScancodeStream {
     pub fn new() -> Self {
         match SCANCODE_QUEUE.try_init_once(|| ArrayQueue::new(100)) {
-            Ok(_) => { print_ok!("[OK] Scancode initialized\n") },
+            Ok(_) => {
+                if crate::conf::QUIET_BOOT != true {
+                    print_ok!("[OK] Scancode initialized\n");
+                };
+            },
             Err(_) => {
-                print_err!("ScancodeStream::new should only be called once");
+                print_err!("[ERR] ScancodeStream::new should only be called once");
                 panic!("ScancodeStream::new should only be called once");
             }
         }
@@ -76,11 +80,16 @@ pub async fn print_keypresses() {
             if let Some(key) = keyboard.process_keyevent(key_event) {
                 match key {
                     DecodedKey::Unicode(character) => {
-                        print!("[{}]", character);
+                        print!("{}", character);
                     },
                     DecodedKey::RawKey(key) => print!("{:?}", key),
                 }
             }
         }
     }
+}
+
+pub async fn init() {
+    let _ = ScancodeStream::new();
+    let _ = Keyboard::new(layouts::Us104Key, ScancodeSet1, HandleControl::Ignore);
 }

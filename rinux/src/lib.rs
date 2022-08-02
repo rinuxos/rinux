@@ -10,6 +10,7 @@
 pub use bootloader::{self,BootInfo};
 use memory::BootInfoFrameAllocator;
 use core::panic::PanicInfo;
+pub(crate) mod conf;
 extern crate alloc;
 pub mod interrupts;
 pub mod vga_buffer;
@@ -21,10 +22,10 @@ pub mod task;
 pub mod gdt;
 
 
-const VERSION: &'static str = "v0.1.0BETA";
+const VERSION: &'static str = "v0.1.1-RELEASE";
 const AUTHORS: &'static str = "Atomic";
-const RINUX_ART: &'static str = r#"
-######   ###  #     #  #     #  #     #
+const RINUX_ART: &'static str = 
+r#"######   ###  #     #  #     #  #     #
 #     #   #   ##    #  #     #   #   #
 #     #   #   # #   #  #     #    # #
 ######    #   #  #  #  #     #     #
@@ -35,28 +36,38 @@ const RINUX_ART: &'static str = r#"
 
 
 
-pub fn init(boot_info: &'static BootInfo, script: &'static str){
-    print_logo!(
-        "{}\nVersion: {}\nAuthors: [{}]\nScript: {}\n\n",
+pub fn init(boot_info: &'static BootInfo){
+    if conf::PROJECT_NAME == "" || conf::PROJECT_VERSION == "" {
+        panic!("Please use the enderpearl build system");
+    };
+    vga_buffer::_print_logo(format_args!(
+        "{}\nRinux Version: {}\nRinux Authors: [{}]\nScript: {}\nScript Version: {}\n\n",
         RINUX_ART,
         VERSION,
         AUTHORS,
-        script
-    );
+        conf::PROJECT_NAME,
+        conf::PROJECT_VERSION
+    ));
 
     use x86_64::VirtAddr;
     gdt::init();
     interrupts::init_idt();
     unsafe {
         interrupts::PICS.lock().initialize();
-        print_ok!("[OK] interupts initialized\n");
+        if conf::QUIET_BOOT != true {
+            print_ok!("[OK] Interupts initialized\n");
+        };
     };
     x86_64::instructions::interrupts::enable();
-    print_ok!("[OK] instructions initialized\n");
+    if conf::QUIET_BOOT != true {
+        print_ok!("[OK] Instructions initialized\n");
+    };
 
     let phys_mem_offset = VirtAddr::new(boot_info.physical_memory_offset);
     let mut mapper = unsafe {
-        print_ok!("[OK] VRAM initialized\n");
+        if conf::QUIET_BOOT != true {
+            print_ok!("[OK] VRAM initialized\n");
+        }
         memory::init(phys_mem_offset)
     };
     let mut frame_allocator = unsafe {
@@ -64,8 +75,14 @@ pub fn init(boot_info: &'static BootInfo, script: &'static str){
     };
 
     match allocator::init_heap(&mut mapper, &mut frame_allocator) {
-        Ok(_) => { print_ok!("[OK] Heap Initialization\n") },
-        Err(_) => { print_err!("[ERR] Heap Initialization\n") }
+        Ok(_) => {
+            if conf::QUIET_BOOT != true {
+                print_ok!("[OK] Heap Initialization\n");
+            };
+        },
+        Err(_) => {
+            print_err!("[ERR] Heap Initialization\n");
+        }
     };
 
     #[cfg(test)]
@@ -144,6 +161,5 @@ fn panic(info: &PanicInfo) -> ! {
 }
 #[alloc_error_handler]
 fn alloc_error_handler(layout: alloc::alloc::Layout) -> ! {
-    print_err!("[FAIL] allocation error: {:?}", layout);
     panic!("allocation error: {:?}", layout)
 }

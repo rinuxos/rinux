@@ -5,12 +5,12 @@ use x86_64::VirtAddr;
 use crate::print_ok;
 
 pub const DOUBLE_FAULT_IST_INDEX: u16 = 0;
+pub(crate) const STACK_SIZE: usize = 1024 * 20; // 20480
 
 lazy_static! {
     static ref TSS: TaskStateSegment = {
         let mut tss = TaskStateSegment::new();
         tss.interrupt_stack_table[DOUBLE_FAULT_IST_INDEX as usize] = {
-            const STACK_SIZE: usize = 4096 * 5;
             static mut STACK: [u8; STACK_SIZE] = [0; STACK_SIZE];
 
             let stack_start = VirtAddr::from_ptr(unsafe { &STACK });
@@ -50,5 +50,7 @@ pub fn init() {
         CS::set_reg(GDT.1.code_selector);
         load_tss(GDT.1.tss_selector);
     }
-    print_ok!("[OK] GDT initialized\n")
+    if crate::conf::QUIET_BOOT != true {
+        print_ok!("[OK] GDT initialized\n");
+    }
 }

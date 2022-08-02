@@ -1,6 +1,14 @@
+This file is used for building Rinux
+NOT for importing your own projects into Rinux
+All commands are allowed
 
 
-#STASIS(
-echo Nothing in 'STASIS'
-echo Running PureOS
+If you are getting the error 'Please use the enderpearl build system' try rebuilding
+fixed the issue 99% of the time
+
+
+Building for release
+#RELEASE(
+cargo build --release
+cargo bootimage --release
 )

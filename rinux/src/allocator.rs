@@ -13,8 +13,8 @@ pub mod bump;
 pub mod fixed_size_block;
 pub mod linked_list;
 
-pub const HEAP_START: usize = 0x_4444_4444_0000;
-pub const HEAP_SIZE: usize = 200 * 1024; // 200 KiB
+pub(crate) const HEAP_START: usize = 0x_4444_4444_0000;
+pub(crate) const HEAP_SIZE: usize = 200 * 1024; // 200 KiB
 
 #[global_allocator]
 static ALLOCATOR: Locked<FixedSizeBlockAllocator> = Locked::new(FixedSizeBlockAllocator::new());
@@ -41,7 +41,9 @@ pub fn init_heap(
 
     unsafe {
         ALLOCATOR.lock().init(HEAP_START, HEAP_SIZE);
-        print_ok!("[OK] Heap allocation successful\n");
+        if crate::conf::QUIET_BOOT != true {
+            print_ok!("[OK] Heap allocation successful\n");
+        };
     }
 
     Ok(())

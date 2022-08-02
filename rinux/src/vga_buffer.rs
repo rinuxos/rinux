@@ -16,7 +16,7 @@ lazy_static! {
         buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
     });
 
-    pub static ref LOGOWRITER: Mutex<Writer> = Mutex::new(Writer {
+    pub(crate) static ref LOGOWRITER: Mutex<Writer> = Mutex::new(Writer {
         column_position: 0,
         color_code: ColorCode::new(Color::Brown, Color::Black),
         buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
@@ -128,7 +128,7 @@ impl Writer {
     fn clear_row(&mut self, row: usize) {
         let blank = ScreenChar {
             ascii_character: b' ',
-            color_code: self.color_code,
+            color_code: ColorCode::new(Color::Black,Color::Black),
         };
         for col in 0..BUFFER_WIDTH {
             self.buffer.chars[row][col].write(blank);
@@ -203,13 +203,13 @@ macro_rules! print_ok {
 }
 
 #[macro_export]
-macro_rules! print_logo {
+macro_rules! print_err {
     (
         $(
             $arg: tt
         )*
     ) => (
-        $crate::vga_buffer::_print_logo(
+        $crate::vga_buffer::_print_err(
             format_args!(
                 $(
                     $arg
@@ -220,13 +220,13 @@ macro_rules! print_logo {
 }
 
 #[macro_export]
-macro_rules! print_err {
+macro_rules! print_info {
     (
         $(
             $arg: tt
         )*
     ) => (
-        $crate::vga_buffer::_print_err(
+        $crate::vga_buffer::_print_info(
             format_args!(
                 $(
                     $arg
@@ -247,7 +247,7 @@ pub fn _print(args: fmt::Arguments) {
 }
 
 #[doc(hidden)]
-pub fn _print_logo(args: fmt::Arguments) {
+pub(crate) fn _print_logo(args: fmt::Arguments) {
     use core::fmt::Write;
     use x86_64::instructions::interrupts;
     interrupts::without_interrupts(|| {
@@ -270,6 +270,15 @@ pub fn _print_err(args: fmt::Arguments) {
     use x86_64::instructions::interrupts;
     interrupts::without_interrupts(|| {
         ERRWRITER.lock().write_fmt(args).unwrap();
+    });
+}
+
+#[doc(hidden)]
+pub fn _print_info(args: fmt::Arguments) {
+    use core::fmt::Write;
+    use x86_64::instructions::interrupts;
+    interrupts::without_interrupts(|| {
+        INFOWRITER.lock().write_fmt(args).unwrap();
     });
 }
 
