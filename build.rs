@@ -10,7 +10,7 @@ fn main() -> std::io::Result<()> {
 
 
     // Checks to see if build should use Enderpearl
-    if USE_ENDERPEARL == true {
+    if USE_ENDERPEARL {
 
 
         // Function for all enderpearl
@@ -94,14 +94,14 @@ fn enderpearl() -> std::io::Result<()> {
             };
         };
         fn preset(name: String, version: String, quiet: bool) -> String {
-            return format!("#[allow(dead_code)] pub(crate) const PROJECT_NAME: &'static str = \"{}\";\n#[allow(dead_code)] pub(crate) const PROJECT_VERSION: &'static str = \"{}\";\n#[allow(dead_code)] pub(crate) const QUIET_BOOT: bool = {};",
+            format!("#[allow(dead_code)] pub(crate) const PROJECT_NAME: &'static str = \"{}\";\n#[allow(dead_code)] pub(crate) const PROJECT_VERSION: &'static str = \"{}\";\n#[allow(dead_code)] pub(crate) const QUIET_BOOT: bool = {};",
                 name,
                 version,
                 quiet
-            );
+            )
         }
         let mut file = File::create("./rinux/src/conf/mod.rs")?;
-        file.write(
+        file.write_all(
             preset(
                 res_config_name,
                 res_config_version,
@@ -181,7 +181,7 @@ fn enderpearl() -> std::io::Result<()> {
                 txttype = 0;
                 for part in opstr.clone().chars() {
                     if part == '\n' {
-                        if cmds != "" {
+                        if !cmds.is_empty() {
                             op.commands.push(Command::new(cmds));
                         }
                         cmds = String::new();
