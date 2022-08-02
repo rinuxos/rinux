@@ -2,6 +2,8 @@
 
 ## OS written in rust
 
+[![Build](https://github.com/AtomicGamer9523/rinux/actions/workflows/code.yml/badge.svg)](https://github.com/AtomicGamer9523/rinux/actions/workflows/code.yml)
+
 ### Build yourself:
 
 Tools needed to run: [`enderpearl`](https://github.com/AtomicGamer9523/Enderpearl), [`bootimage`](https://github.com/rust-osdev/bootimage), and [`qemu`](https://qemu.org)
