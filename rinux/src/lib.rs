@@ -143,7 +143,6 @@ pub fn hlt_loop() -> ! {
 
 
 
-
 #[cfg(test)]
 use bootloader::entry_point;
 #[cfg(test)]

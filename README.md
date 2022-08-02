@@ -30,7 +30,7 @@ cargo run
 
 no `std`
 
-no terminal (yet, maybe)
+no terminal (yet, working on it)
 
 <br>
 
