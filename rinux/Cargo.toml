@@ -1,7 +1,7 @@
 [package]
 name = "rinuxcore"
-version = "0.1.1"
-authors = ["Atomic"]
+version = "0.1.2-PRE1"
+authors = ["AtomicGamer9523@github.com"]
 edition = "2018"
 license = "MIT"
 
@@ -13,8 +13,15 @@ harness = false
 name = "stack_overflow"
 harness = false
 
+[build-dependencies]
+epearl = { path = "./enderpearl", package = "enderpearl" }
+
+[features]
+epearl = []
+
 [dependencies]
 bootloader = { version = "0.9.8", features = ["map_physical_memory"]}
+epearl = { path = "./enderpearl", package = "enderpearl" }
 volatile = "0.2.6"
 spin = "0.5.2"
 x86_64 = "0.14.2"

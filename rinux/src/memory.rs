@@ -6,7 +6,7 @@ use x86_64::{
 };
 
 
-pub unsafe fn init(physical_memory_offset: VirtAddr) -> OffsetPageTable<'static> {
+pub(crate) unsafe fn init(physical_memory_offset: VirtAddr) -> OffsetPageTable<'static> {
     let level_4_table = active_level_4_table(physical_memory_offset);
     if crate::conf::QUIET_BOOT != true {
         print_ok!("[OK] RAM initialized\n");
@@ -27,7 +27,7 @@ unsafe fn active_level_4_table(physical_memory_offset: VirtAddr) -> &'static mut
     &mut *page_table_ptr
 }
 
-pub struct EmptyFrameAllocator;
+pub(crate) struct EmptyFrameAllocator;
 
 unsafe impl FrameAllocator<Size4KiB> for EmptyFrameAllocator {
     fn allocate_frame(&mut self) -> Option<PhysFrame> {
@@ -36,13 +36,13 @@ unsafe impl FrameAllocator<Size4KiB> for EmptyFrameAllocator {
 }
 
 
-pub struct BootInfoFrameAllocator {
+pub(crate) struct BootInfoFrameAllocator {
     memory_map: &'static MemoryMap,
     next: usize,
 }
 
 impl BootInfoFrameAllocator {
-    pub unsafe fn init(memory_map: &'static MemoryMap) -> Self {
+    pub(crate) unsafe fn init(memory_map: &'static MemoryMap) -> Self {
         if crate::conf::QUIET_BOOT != true {
             print_ok!("[OK] BootInfoFrameAllocator initialized\n");
         };

@@ -9,6 +9,7 @@ pub struct BumpAllocator {
     allocations: usize,
 }
 
+#[allow(dead_code)]
 impl BumpAllocator {
     pub const fn new() -> Self {
         BumpAllocator {

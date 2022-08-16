@@ -1,10 +1,19 @@
 [package]
 name = "rinux"
-version = "0.1.1"
-authors = ["Atomic"]
+version = "0.1.2-PRE1"
+authors = ["AtomicGamer@github.com"]
 edition = "2018"
 license = "MIT"
 
-[dependencies]
-bootloader = { version = "0.9.8", features = ["map_physical_memory"]}
-rinuxcore = { path = "./rinux", package = "rinuxcore"}
+
+[dependencies.bootloader]
+version = "0.9.8"
+features = ["map_physical_memory"]
+
+[dependencies.rinuxcore]
+path = "./rinux"
+package = "rinuxcore"
+features = [
+    #? Something cool comming soon...
+    # "epearl"
+]

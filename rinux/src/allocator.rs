@@ -9,9 +9,9 @@ use x86_64::{
     VirtAddr,
 };
 
-pub mod bump;
-pub mod fixed_size_block;
-pub mod linked_list;
+pub(crate) mod bump;
+pub(crate) mod fixed_size_block;
+pub(crate) mod linked_list;
 
 pub(crate) const HEAP_START: usize = 0x_4444_4444_0000;
 pub(crate) const HEAP_SIZE: usize = 200 * 1024; // 200 KiB
@@ -19,7 +19,7 @@ pub(crate) const HEAP_SIZE: usize = 200 * 1024; // 200 KiB
 #[global_allocator]
 static ALLOCATOR: Locked<FixedSizeBlockAllocator> = Locked::new(FixedSizeBlockAllocator::new());
 
-pub fn init_heap(
+pub(crate) fn init_heap(
     mapper: &mut impl Mapper<Size4KiB>,
     frame_allocator: &mut impl FrameAllocator<Size4KiB>,
 ) -> Result<(), MapToError<Size4KiB>> {
@@ -49,7 +49,7 @@ pub fn init_heap(
     Ok(())
 }
 
-pub struct Dummy;
+pub(crate) struct Dummy;
 
 unsafe impl GlobalAlloc for Dummy {
     unsafe fn alloc(&self, _layout: Layout) -> *mut u8 {
@@ -61,18 +61,18 @@ unsafe impl GlobalAlloc for Dummy {
     }
 }
 
-pub struct Locked<A> {
+pub(crate) struct Locked<A> {
     inner: spin::Mutex<A>,
 }
 
 impl<A> Locked<A> {
-    pub const fn new(inner: A) -> Self {
+    pub(crate) const fn new(inner: A) -> Self {
         Locked {
             inner: spin::Mutex::new(inner),
         }
     }
 
-    pub fn lock(&self) -> spin::MutexGuard<A> {
+    pub(crate) fn lock(&self) -> spin::MutexGuard<A> {
         self.inner.lock()
     }
 }

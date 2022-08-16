@@ -21,8 +21,20 @@ pub use x86_64;
 pub mod task;
 pub mod gdt;
 
+// #[cfg(feature = "epearl")]
+// pub use epearl;
 
-const VERSION: &'static str = "v0.1.1-RELEASE";
+
+#[repr(u8)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum BuildType {
+    Test = 0,
+    Debug = 1,
+    Release = 2
+}
+
+static mut TEST_MODE: BuildType = BuildType::Test;
+const VERSION: &'static str = "v0.1.2-PRE1";
 const AUTHORS: &'static str = "Atomic";
 const RINUX_ART: &'static str = 
 r#"######   ###  #     #  #     #  #     #
@@ -40,10 +52,46 @@ pub fn init(boot_info: &'static BootInfo){
     if conf::PROJECT_NAME == "" || conf::PROJECT_VERSION == "" {
         panic!("Please use the enderpearl build system");
     };
+    unsafe {
+        match env!("BUILD_TYPE"){
+            v => {
+                if v == "test" {
+                    TEST_MODE = BuildType::Test
+                } else if v == "debug" {
+                    TEST_MODE = BuildType::Debug;
+                } else if v == "release" {
+                    TEST_MODE = BuildType::Release;
+                } else {
+                    TEST_MODE = BuildType::Debug;
+                };
+            }
+        }
+
+        vga_buffer::_print_logo(format_args!("{}\n",RINUX_ART));
+        if VERSION.ends_with("-RELEASE") {
+            if TEST_MODE == BuildType::Test {
+                vga_buffer::_print_warn(format_args!("Rinux Version: {}-TEST\n",VERSION));
+            } else if TEST_MODE == BuildType::Debug {
+                vga_buffer::_print_ok(format_args!("Rinux Version: {}\n",VERSION));
+            } else if TEST_MODE == BuildType::Release {
+                vga_buffer::_print_logo(format_args!("Rinux Version: {}\n",VERSION));
+            } else {
+                panic!("Invalid BuildType");
+            }
+        } else {
+            if TEST_MODE == BuildType::Test {
+                vga_buffer::_print_warn(format_args!("Rinux Version: {}-TEST\n",VERSION));
+            } else if TEST_MODE == BuildType::Debug {
+                vga_buffer::_print_warn(format_args!("Rinux Version: {}\n",VERSION));
+            } else if TEST_MODE == BuildType::Release {
+                panic!("Please match VERSION and ENV.BUILD_TYPE");
+            } else {
+                panic!("Invalid BuildType");
+            }
+        }
+    }
     vga_buffer::_print_logo(format_args!(
-        "{}\nRinux Version: {}\nRinux Authors: [{}]\nScript: {}\nScript Version: {}\n\n",
-        RINUX_ART,
-        VERSION,
+        "Rinux Authors: [{}]\nScript: {}\nScript Version: {}\n\n",
         AUTHORS,
         conf::PROJECT_NAME,
         conf::PROJECT_VERSION
@@ -88,6 +136,7 @@ pub fn init(boot_info: &'static BootInfo){
     #[cfg(test)]
     test_main();
 }
+
 pub trait Testable {
     fn run(&self) -> ();
 }
@@ -148,8 +197,8 @@ use bootloader::entry_point;
 #[cfg(test)]
 entry_point!(test_kernel_main);
 #[cfg(test)]
-fn test_kernel_main(_boot_info: &'static BootInfo) -> ! {
-    init();
+fn test_kernel_main(boot_info: &'static BootInfo) -> ! {
+    init(boot_info);
     test_main();
     hlt_loop();
 }

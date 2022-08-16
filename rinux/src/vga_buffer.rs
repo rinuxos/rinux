@@ -4,13 +4,13 @@ use spin::Mutex;
 use volatile::Volatile;
 
 lazy_static! {
-    pub static ref WRITER: Mutex<Writer> = Mutex::new(Writer {
+    pub(crate) static ref WRITER: Mutex<Writer> = Mutex::new(Writer {
         column_position: 0,
         color_code: ColorCode::new(Color::White, Color::Black),
         buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
     });
 
-    pub static ref INFOWRITER: Mutex<Writer> = Mutex::new(Writer {
+    pub(crate) static ref INFOWRITER: Mutex<Writer> = Mutex::new(Writer {
         column_position: 0,
         color_code: ColorCode::new(Color::Magenta, Color::Black),
         buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
@@ -22,13 +22,19 @@ lazy_static! {
         buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
     });
 
-    pub static ref OKWRITER: Mutex<Writer> = Mutex::new(Writer {
+    pub(crate) static ref OKWRITER: Mutex<Writer> = Mutex::new(Writer {
         column_position: 0,
         color_code: ColorCode::new(Color::Green, Color::Black),
         buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
     });
 
-    pub static ref ERRWRITER: Mutex<Writer> = Mutex::new(Writer {
+    pub(crate) static ref WARNWRITER: Mutex<Writer> = Mutex::new(Writer {
+        column_position: 0,
+        color_code: ColorCode::new(Color::LightRed, Color::Black),
+        buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
+    });
+
+    pub(crate) static ref ERRWRITER: Mutex<Writer> = Mutex::new(Writer {
         column_position: 0,
         color_code: ColorCode::new(Color::Red, Color::Black),
         buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
@@ -83,13 +89,13 @@ struct Buffer {
     chars: [[Volatile<ScreenChar>; BUFFER_WIDTH]; BUFFER_HEIGHT],
 }
 
-pub struct Writer {
+pub(crate) struct Writer {
     column_position: usize,
     color_code: ColorCode,
     buffer: &'static mut Buffer,
 }
 impl Writer {
-    pub fn write_byte(&mut self, byte: u8) {
+    pub(crate) fn write_byte(&mut self, byte: u8) {
         match byte {
             b'\n' => self.new_line(),
             byte => {
@@ -270,6 +276,15 @@ pub fn _print_err(args: fmt::Arguments) {
     use x86_64::instructions::interrupts;
     interrupts::without_interrupts(|| {
         ERRWRITER.lock().write_fmt(args).unwrap();
+    });
+}
+
+#[doc(hidden)]
+pub fn _print_warn(args: fmt::Arguments) {
+    use core::fmt::Write;
+    use x86_64::instructions::interrupts;
+    interrupts::without_interrupts(|| {
+        WARNWRITER.lock().write_fmt(args).unwrap();
     });
 }
 

@@ -4,7 +4,7 @@ use x86_64::structures::tss::TaskStateSegment;
 use x86_64::VirtAddr;
 use crate::print_ok;
 
-pub const DOUBLE_FAULT_IST_INDEX: u16 = 0;
+pub(crate) const DOUBLE_FAULT_IST_INDEX: u16 = 0;
 pub(crate) const STACK_SIZE: usize = 1024 * 20; // 20480
 
 lazy_static! {
@@ -41,7 +41,7 @@ struct Selectors {
     tss_selector: SegmentSelector,
 }
 
-pub fn init() {
+pub(crate) fn init() {
     use x86_64::instructions::segmentation::{Segment, CS};
     use x86_64::instructions::tables::load_tss;
 

@@ -5,15 +5,10 @@
 #![reexport_test_harness_main = "test_main"]
 // extern crate alloc;
 use rinuxcore::{
+    println,
+    task::{executor::Executor, Task},
     BootInfo,
-    task::{
-        executor::Executor,
-        Task
-    },
-    println
 };
-
-
 
 bootloader::entry_point!(kernel_main);
 fn kernel_main(boot_info: &'static BootInfo) -> ! {
@@ -28,20 +23,12 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
     //* Warning don't call rinuxcore::task::keyboard::print_keypresses() if you are using init()
     // executor.spawn(Task::new(rinuxcore::task::keyboard::print_keypresses()));
 
-
-
     executor.run()
 }
 
-async fn main(){
+async fn main() {
     println!("Hello World");
 }
-
-
-
-
-
-
 
 #[cfg(not(test))]
 #[panic_handler]

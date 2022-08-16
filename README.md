@@ -6,11 +6,11 @@
 
 ### Build yourself:
 
-Tools needed to run: [`enderpearl`](https://github.com/AtomicGamer9523/Enderpearl), [`bootimage`](https://github.com/rust-osdev/bootimage), and [`qemu`](https://qemu.org)
+Tools needed to run: [`enderpearl`](./doc/enderpearl.md), [`bootimage`](https://github.com/rust-osdev/bootimage), and [`qemu`](https://qemu.org)
 
-1. Modify project's metadata in [.config.enderpearl](./.config.enderpearl)
+1. Modify project's metadata in [config.enderpearl](./config.enderpearl)
 
-2. Import your project via [.build.enderpearl](./.build.enderpearl)
+2. Import your project via [build.enderpearl](./build.enderpearl)
 
 3. Build & Run:
 
@@ -28,9 +28,9 @@ cargo run
 
 ### Limitations:
 
-no `std`
+no `std` (working on a replacement)
 
-no terminal (yet, working on it)
+no terminal
 
 <br>
 

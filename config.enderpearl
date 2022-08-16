@@ -1,0 +1,12 @@
+This file is used for configuring Rinux
+NOT for building Rinux
+Allowed properties are: 'NAME', 'QUIET', and 'VERSION', all other ones will be ignored
+
+Name for the Project, string
+#NAME(MyProject)
+
+Project's version, string
+#VERSION(v0.1.0)
+
+If no debug info should be printed, will still print errors bool -> 'true' or 'false'
+#QUIET(false)

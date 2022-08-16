@@ -4,12 +4,12 @@ use pic8259::ChainedPics;
 use spin;
 use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame, PageFaultErrorCode};
 
-pub const PIC_1_OFFSET: u8 = 32;
-pub const PIC_2_OFFSET: u8 = PIC_1_OFFSET + 8;
+pub(crate) const PIC_1_OFFSET: u8 = 32;
+pub(crate) const PIC_2_OFFSET: u8 = PIC_1_OFFSET + 8;
 
 #[derive(Debug, Clone, Copy)]
 #[repr(u8)]
-pub enum InterruptIndex {
+pub(crate) enum InterruptIndex {
     Timer = PIC_1_OFFSET,
     Keyboard,
 }
@@ -24,7 +24,7 @@ impl InterruptIndex {
     }
 }
 
-pub static PICS: spin::Mutex<ChainedPics> = spin::Mutex::new(unsafe { ChainedPics::new(PIC_1_OFFSET, PIC_2_OFFSET) });
+pub(crate) static PICS: spin::Mutex<ChainedPics> = spin::Mutex::new(unsafe { ChainedPics::new(PIC_1_OFFSET, PIC_2_OFFSET) });
 
 lazy_static! {
     static ref IDT: InterruptDescriptorTable = {
@@ -42,7 +42,7 @@ lazy_static! {
     };
 }
 
-pub fn init_idt() {
+pub(crate) fn init_idt() {
     IDT.load();
     if crate::conf::QUIET_BOOT != true {
         print_ok!("[OK] IDT initialized\n");
