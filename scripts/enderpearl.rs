@@ -27,12 +27,9 @@ pub(crate) enum Token {
     TEXT_COMMAND
 }
 impl Token {
-    pub(crate) fn tokenize(string: String, config: String) -> ( Vec<Token>, EnderPearl, usize) {
-
+    pub(crate) fn tokenize(string: String, config: String) -> ( Vec<Token>, EnderPearl ) {
         let config = read_config(config);
-
         let mut vec = vec![];
-    
         let mut efile: EnderPearl = EnderPearl {
             print: true,
             operations: Vec::new()
@@ -41,19 +38,15 @@ impl Token {
         let mut opstr: String = String::new();
         let mut cmds: String = String::new();
         let mut config_str: String = String::new();
-    
         let mut txttype: TextKind = TextKind::None;
-    
         for part in string.chars() {
             if part == '#' {
                 op = Operation::new();
                 vec.push(Token::SIGN_HASHTAG);
                 txttype = TextKind::CommandName;
-
             } else if part == '(' {
                 vec.push(Token::SIGN_OPENING_BRACKET);
                 txttype = TextKind::Command;
-
             } else if part == ')' {
                 vec.push(Token::SIGN_CLOSING_BRACKET);
                 txttype = TextKind::None;
@@ -70,18 +63,14 @@ impl Token {
                 efile.newop(op);
                 op = Operation::new();
                 opstr = String::new();
-
             } else if part == '$' && txttype == TextKind::ConfigValue {
                 vec.push(Token::SIGN_DOLLAR);
                 txttype = TextKind::Command;
-
             } else if part == '$' && txttype != TextKind::ConfigValue {
                 vec.push(Token::SIGN_DOLLAR);
                 txttype = TextKind::ConfigValue;
-
             } else if part == '{' && txttype == TextKind::ConfigValue {
                 vec.push(Token::SIGN_OPENING_CURLY_BRACKET);
-
             } else if part == '}' && txttype == TextKind::ConfigValue {
                 vec.push(Token::SIGN_CLOSING_CURLY_BRACKET);
                 for kv in config.iter() {
@@ -92,27 +81,20 @@ impl Token {
                     }
                 }
                 config_str = String::new();
-
             } else if txttype == TextKind::ConfigValue && part != ' ' {
                 config_str.push(part);
                 vec.push(Token::TEXT_COMMAND);
-
             } else if txttype == TextKind::CommandName && part != ' ' {
                 op.name.push(part);
                 vec.push(Token::TEXT_COMMAND_NAME);
-
             } else if txttype == TextKind::Command && part != '\r'{
                 opstr.push(part);
                 vec.push(Token::TEXT_COMMAND);
             }
         }
-
-        let len: usize = vec.len();
-    
         return (
             vec,
-            efile,
-            len
+            efile
         );
     }
 }
@@ -155,7 +137,6 @@ pub(crate) fn read_config(contents: String) -> Vec<ConfigKV> {
             dattype = 0;
             kv1 = ConfigKV::from(key1, val1);
             keys_and_values.push(kv1);
-            // kv1 = ConfigKV::new();
             key1 = String::new();
             val1 = String::new();
         } else if dattype == 1 {

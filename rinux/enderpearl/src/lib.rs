@@ -43,7 +43,7 @@ pub(crate) enum Token {
 }
 
 impl Token {
-    pub(crate) fn tokenize(string: String, config: String) -> ( Vec<Token>, EnderPearl, usize) {
+    pub(crate) fn tokenize(string: String, config: String) -> ( Vec<Token>, EnderPearl ) {
         let config = read_config(config);
         let mut vec = Vec::new();
         let mut efile: EnderPearl = EnderPearl {
@@ -117,13 +117,9 @@ impl Token {
                 vec.push(Token::TEXT_COMMAND);
             }
         }
-
-        let len: usize = vec.len();
-    
         return (
             vec,
-            efile,
-            len
+            efile
         );
     }
 }
@@ -301,7 +297,7 @@ impl EnderPearl {
     }
 
     pub fn parse(&mut self, main_file: String, config_file: String ) -> EnderPearl {
-        let (_, dat, _) = Token::tokenize(main_file, config_file);
+        let (_, dat) = Token::tokenize(main_file, config_file);
         dat
     }
 

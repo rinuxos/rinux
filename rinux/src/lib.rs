@@ -21,8 +21,8 @@ pub use x86_64;
 pub mod task;
 pub mod gdt;
 
-// #[cfg(feature = "epearl")]
-// pub use epearl;
+#[cfg(feature = "epearl")]
+pub use epearl;
 
 
 #[repr(u8)]

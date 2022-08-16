@@ -1,6 +1,6 @@
 [package]
 name = "rinuxcore"
-version = "0.1.2-PRE1"
+version = "0.1.2-PRE2"
 authors = ["AtomicGamer9523@github.com"]
 edition = "2018"
 license = "MIT"

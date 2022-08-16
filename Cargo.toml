@@ -1,6 +1,6 @@
 [package]
 name = "rinux"
-version = "0.1.2-PRE1"
+version = "0.1.2-PRE2"
 authors = ["AtomicGamer@github.com"]
 edition = "2018"
 license = "MIT"
