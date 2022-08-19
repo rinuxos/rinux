@@ -23,22 +23,7 @@
 # 
 
 [package]
-name = "rinux"
-version = "0.1.2"
-authors = ["AtomicGamer@github.com"]
-edition = "2018"
-license = "MIT"
-
-
-
-
-[build-dependencies.epearl]
-path = "./core/enderpearl"
-package = "enderpearl"
-
-[dependencies.rinuxcore]
-path = "./core/rinux"
-package = "rinuxcore"
-features = [
-    "epearl"
-]
+name = "enderpearl"
+version = "0.1.1"
+edition = "2021"
+authors = ["AtomicGamer9523@github.com"]

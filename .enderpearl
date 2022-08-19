@@ -6,11 +6,15 @@ All commands are allowed
 If you are getting the error 'Please use the enderpearl build system' try running
 'enderpearl tryfix', fixed the issue 99% of the time
 #TRYFIX(
-echo '#![allow(dead_code)]pub(crate) const QUIET_BOOT: bool = {};'  > ./rinux/src/conf/mod.rs
+echo ' '  > ./core/rinux/src/conf/file.rs
 cargo build --offline
 cargo check
 )
 
+
+#BUILD(
+echo nothing in build
+)
 
 
 Building for release
