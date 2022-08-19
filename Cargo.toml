@@ -30,7 +30,9 @@ edition = "2018"
 license = "MIT"
 
 
-
+[dependencies.bootloader]
+version = "0.9.8"
+features = ["map_physical_memory"]
 
 [build-dependencies.epearl]
 path = "./core/enderpearl"
