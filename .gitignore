@@ -5,3 +5,8 @@ Cargo.lock
 **/*.rs.bk
 
 .vscode
+
+
+# Now Auto-Generated
+/build.enderpearl
+/config.enderpearl

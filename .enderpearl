@@ -3,8 +3,18 @@ NOT for importing your own projects into Rinux
 All commands are allowed
 
 
-If you are getting the error 'Please use the enderpearl build system' try rebuilding
-fixed the issue 99% of the time
+If you are getting the error 'Please use the enderpearl build system' try running
+'enderpearl tryfix', fixed the issue 99% of the time
+#TRYFIX(
+echo ' '  > ./core/rinux/src/conf/file.rs
+cargo build --offline
+cargo check
+)
+
+
+#BUILD(
+echo nothing in build
+)
 
 
 Building for release

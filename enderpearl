@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # 
 # MIT License
 # 
@@ -22,25 +24,33 @@
 # SOFTWARE.
 # 
 
-[package]
-name = "rinux"
-version = "0.1.2"
-authors = ["AtomicGamer@github.com"]
-edition = "2018"
-license = "MIT"
+
+# ##########################################################################
+#
+#  Enderpearl script for Most OSes
+#
+# ##########################################################################
+
+# Attempt to set APP_HOME
+
+# Resolve links: $0 may be a link
+app_path=$0
+
+# Need this for daisy-chained symlinks.
+while
+    APP_HOME=${app_path%"${app_path##*/}"}  # leaves a trailing /; empty if no leading path
+    [ -h "$app_path" ]
+do
+    ls=$( ls -ld "$app_path" )
+    link=${ls#*' -> '}
+    case $link in             #(
+      /*)   app_path=$link ;; #(
+      *)    app_path=$APP_HOME$link ;;
+    esac
+done
+
+APP_HOME=$( cd "${APP_HOME:-./}" && pwd -P ) || exit
 
 
-[dependencies.bootloader]
-version = "0.9.8"
-features = ["map_physical_memory"]
-
-[build-dependencies.epearl]
-path = "./core/enderpearl"
-package = "enderpearl"
-
-[dependencies.rinuxcore]
-path = "./core/rinux"
-package = "rinuxcore"
-features = [
-    "epearl"
-]
+exec "rustc" "$APP_HOME/scripts/enderpearl.rs" -o "$APP_HOME/scripts/enderpearl"
+exec "$APP_HOME/scripts/enderpearl" "$@"
