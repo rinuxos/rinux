@@ -1,0 +1,53 @@
+# 
+# MIT License
+# 
+# Copyright (c) 2022 AtomicGamer9523
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+# 
+
+[package]
+authors = ["AtomicGamer9523@github.com"]
+description = "Support for x86_64 specific instructions, registers, and structures."
+documentation = "https://docs.rs/x86_64"
+license = "MIT"
+name = "x86_64"
+repository = "https://github.com/rust-osdev/x86_64"
+version = "2.14.10"
+edition = "2018"
+rust-version = "1.57" # Needed to support panic! in const fns
+
+[dependencies]
+bit_field = { path = "../bit_field", package = "bit_field" }
+bitflags = "1.0.4"
+volatile = { path = "../volatile", package = "volatile" }
+rustversion = "1.0.5"
+
+[features]
+default = ["nightly", "instructions"]
+instructions = []
+nightly = ["const_fn", "step_trait", "abi_x86_interrupt", "doc_cfg"]
+abi_x86_interrupt = []
+const_fn = []
+step_trait = []
+doc_cfg = []
+
+# These features are no longer used and only there for backwards compatibility.
+external_asm = []
+inline_asm = []

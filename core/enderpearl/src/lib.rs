@@ -37,6 +37,7 @@ extern crate alloc;
 use alloc::{string::String, vec::Vec};
 mod runner;
 
+#[doc(hidden)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 enum TextKind {
     ConfigValue,
@@ -45,6 +46,7 @@ enum TextKind {
     None,
 }
 
+#[doc(hidden)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub(crate) enum Token {
     SIGN_HASHTAG,
@@ -58,6 +60,7 @@ pub(crate) enum Token {
 }
 
 impl Token {
+    #[doc(hidden)]
     pub(crate) fn tokenize(string: String, config: String) -> (Vec<Token>, EnderPearl) {
         let config = read_config(config);
         let mut vec = Vec::new();
@@ -127,23 +130,24 @@ impl Token {
     }
 }
 
+/// Uses the enderpearl tokenizer to tokenize content
 pub unsafe fn _customTokenize(contents: String) -> Vec<(String, String)> {
     #[derive(Clone, Debug)]
     pub(crate) struct ConfigKV {
-        pub key: String,
-        pub value: String,
+        pub(crate) key: String,
+        pub(crate) value: String,
     }
     impl ConfigKV {
-        pub fn new() -> ConfigKV {
+        pub(crate) fn new() -> ConfigKV {
             ConfigKV {
                 key: String::new(),
                 value: String::new(),
             }
         }
-        pub fn from(key: String, value: String) -> ConfigKV {
+        pub(crate) fn from(key: String, value: String) -> ConfigKV {
             ConfigKV { key, value }
         }
-        pub fn to_set(key: String, value: String) -> (String, String) {
+        pub(crate) fn to_set(key: String, value: String) -> (String, String) {
             (key, value)
         }
     }
@@ -177,23 +181,27 @@ pub unsafe fn _customTokenize(contents: String) -> Vec<(String, String)> {
     result
 }
 
+#[doc(hidden)]
 #[derive(Clone, Debug)]
 pub(crate) struct ConfigKV {
-    pub key: String,
-    pub value: String,
+    pub(crate) key: String,
+    pub(crate) value: String,
 }
 impl ConfigKV {
-    pub fn new() -> ConfigKV {
+    #[doc(hidden)]
+    pub(crate) fn new() -> ConfigKV {
         ConfigKV {
             key: String::new(),
             value: String::new(),
         }
     }
-    pub fn from(key: String, value: String) -> ConfigKV {
+    #[doc(hidden)]
+    pub(crate) fn from(key: String, value: String) -> ConfigKV {
         ConfigKV { key, value }
     }
 }
 
+#[doc(hidden)]
 pub(crate) fn read_config(contents: String) -> Vec<ConfigKV> {
     let mut keys_and_values: Vec<ConfigKV> = Vec::new();
     let mut kv1: ConfigKV = ConfigKV::new();
@@ -221,8 +229,10 @@ pub(crate) fn read_config(contents: String) -> Vec<ConfigKV> {
     keys_and_values
 }
 
+/// Command Structure
 #[derive(Clone, Debug)]
 pub struct Command {
+    /// The command to be run
     pub command: String,
 }
 impl Command {
@@ -230,10 +240,13 @@ impl Command {
         Command { command }
     }
 
-    pub(crate) fn run(&self, print: bool) {
+    /// Default run function
+    /// **WARNING** not yet implemented
+    pub fn run(&self, print: bool) {
         runner::run(&self.command, print);
     }
 
+    /// Uses a custom runner to run the command
     pub unsafe fn _useCustomRunner<F: FnMut(String, bool) -> ()>(
         command: &Command,
         print: bool,
@@ -243,6 +256,8 @@ impl Command {
     }
 }
 
+/// Operation Structure
+/// includes a name and a vector of commands
 #[derive(Clone, Debug)]
 pub struct Operation {
     pub name: String,
@@ -256,12 +271,14 @@ impl Operation {
         }
     }
 
+    /// Default run function
     pub fn run(&self, print: bool) {
         for command in &self.commands {
             command.run(print);
         }
     }
 
+    /// Custom run function for the operation
     pub unsafe fn _useCustomRunner<F: FnMut(&Vec<Command>, bool) -> ()>(
         operation: &Operation,
         print: bool,
@@ -271,13 +288,18 @@ impl Operation {
     }
 }
 
+/// Enderpearl structure
+/// includes a vector of Operations
 #[derive(Clone, Debug)]
 pub struct EnderPearl {
+    #[doc(hidden)]
     print: bool,
+    #[doc(hidden)]
     pub(crate) operations: Vec<Operation>,
 }
 
 impl EnderPearl {
+    /// Create a new plain Enderpearl Structure
     pub fn new(print: bool) -> EnderPearl {
         EnderPearl {
             print,
@@ -285,19 +307,23 @@ impl EnderPearl {
         }
     }
 
+    #[doc(hidden)]
     pub(crate) fn newop(&mut self, op: Operation) {
         self.operations.push(op);
     }
 
+    /// parses two string using the built-in parser
     pub fn parse(&mut self, main_file: String, config_file: String) -> EnderPearl {
         let (_, dat) = Token::tokenize(main_file, config_file);
         dat
     }
 
+    /// Runs using default runner
     pub fn run(&self, name: String) {
         runcmd(name, &self, self.print);
     }
 
+    /// Uses custom runner to run enderpearl (still uses default parser)
     pub unsafe fn _useCustomRunner<F: FnMut(&Vec<Operation>, bool) -> ()>(
         pearl: &EnderPearl,
         mut f: F,
@@ -306,6 +332,7 @@ impl EnderPearl {
     }
 }
 
+#[doc(hidden)]
 pub(crate) fn runcmd(cmd: String, tkn: &EnderPearl, print: bool) {
     for op in &tkn.operations {
         if op.name.to_lowercase() == String::from("pre") {

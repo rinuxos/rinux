@@ -22,7 +22,7 @@
 // SOFTWARE.
 //
 
-use crate::{print, print_err, print_ok};
+use crate::{print, print_err, vga_buffer::print_ok};
 use conquer_once::spin::OnceCell;
 use core::{
     pin::Pin,

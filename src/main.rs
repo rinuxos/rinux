@@ -21,31 +21,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-
 #![no_std]
 #![no_main]
 #![feature(custom_test_frameworks)]
 #![test_runner(rinuxcore::test_runner)]
 #![reexport_test_harness_main = "test_main"]
-// extern crate alloc;
+
 use rinuxcore::{
-    entry_point, println,
+    kernel, println,
     task::{executor::Executor, Task},
     BootInfo,
-};
 
-entry_point!(kernel_main);
+    //? Useful for setting custom project metadata, instead of using enderpearl
+    set_config_type,ConfigType,conf::Config
+};
+kernel!(kernel_main);
 fn kernel_main(boot_info: &'static BootInfo) -> ! {
     //? Useful for setting custom project metadata, instead of using enderpearl
-    // rinuxcore::set_config_type(
-    //     rinuxcore::ConfigType::Custom(
-    //         rinuxcore::conf::Config::new(
-    //             "MyProject",
-    //             "v0.1.0",
-    //             false
-    //         )
-    //     )
-    // );
+    set_config_type(
+        ConfigType::Custom(
+            Config::new(
+                "MyProject",
+                "v0.1.0",
+                false
+            )
+        )
+    );
 
     rinuxcore::init(boot_info);
     let mut executor = Executor::new();
@@ -65,12 +66,14 @@ async fn main() {
     println!("Hello World");
 }
 
+#[doc(hidden)]
 #[cfg(not(test))]
 #[panic_handler]
 fn panic(info: &core::panic::PanicInfo) -> ! {
     rinuxcore::print_err!("{}", info);
     rinuxcore::hlt_loop();
 }
+#[doc(hidden)]
 #[cfg(test)]
 #[panic_handler]
 fn panic(info: &core::panic::PanicInfo) -> ! {

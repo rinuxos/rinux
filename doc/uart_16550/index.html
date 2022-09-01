@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Minimal support for serial communication through UART devices, which are compatible to the 16550 UART."><meta name="keywords" content="rust, rustlang, rust-lang, uart_16550"><title>uart_16550 - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../dark.css" disabled><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="../crates.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../uart_16550/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"></h2>
+    </nav>
+    <nav class="sidebar"><a class="sidebar-logo" href="../uart_16550/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"><a href="#">Crate uart_16550</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 0.2.18</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#structs">Structs</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../uart_16550/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><div id="settings-menu" tabindex="-1">
+                                <a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div>
+                        </div></form></nav></div><section id="main-content" class="content"><div class="main-heading">
+    <h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">uart_16550</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/uart_16550/lib.rs.html#25-128">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Minimal support for
+<a href="https://en.wikipedia.org/wiki/Asynchronous_serial_communication">serial communication</a>
+through <a href="https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter">UART</a>
+devices, which are compatible to the <a href="https://en.wikipedia.org/wiki/16550_UART">16550 UART</a>.</p>
+<p>This crate supports port-mapped and memory mapped UARTS.</p>
+<h3 id="usage"><a href="#usage">Usage</a></h3>
+<p>Depending on the system architecture, the UART can be either accessed through
+<a href="https://wiki.osdev.org/Port_IO">port-mapped I/O</a> or
+<a href="https://en.wikipedia.org/wiki/Memory-mapped_I/O">memory-mapped I/O</a>.</p>
+<h4 id="with-port-mappd-io"><a href="#with-port-mappd-io">With port-mappd I/O</a></h4>
+<p>The UART is accessed through port-mapped I/O on architectures such as <code>x86_64</code>.
+On these architectures, the  <a href="struct.SerialPort.html" title="SerialPort"><code>SerialPort</code></a> type can be used:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use</span> <span class="ident">uart_16550::SerialPort</span>;
+
+<span class="kw">const</span> <span class="ident">SERIAL_IO_PORT</span>: <span class="ident">u16</span> <span class="op">=</span> <span class="number">0x3F8</span>;
+
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">serial_port</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">SerialPort::new</span>(<span class="ident">SERIAL_IO_PORT</span>) };
+<span class="ident">serial_port</span>.<span class="ident">init</span>();
+
+<span class="comment">// Now the serial port is ready to be used. To send a byte:</span>
+<span class="ident">serial_port</span>.<span class="ident">send</span>(<span class="number">42</span>);
+
+<span class="comment">// To receive a byte:</span>
+<span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">serial_port</span>.<span class="ident">receive</span>();</code></pre></div>
+<h4 id="with-memory-mapped-serial-port"><a href="#with-memory-mapped-serial-port">With memory mapped serial port</a></h4>
+<p>Most other architectures, such as <a href="https://en.wikipedia.org/wiki/RISC-V">RISC-V</a>, use
+memory-mapped I/O for accessing the UARTs. On these architectures, the <a href="struct.MmioSerialPort.html" title="MmioSerialPort"><code>MmioSerialPort</code></a>
+type can be used:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use</span> <span class="ident">uart_16550::MmioSerialPort</span>;
+
+<span class="kw">const</span> <span class="ident">SERIAL_PORT_BASE_ADDRESS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0x1000_0000</span>;
+
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">serial_port</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">MmioSerialPort::new</span>(<span class="ident">SERIAL_PORT_BASE_ADDRESS</span>) };
+<span class="ident">serial_port</span>.<span class="ident">init</span>();
+
+<span class="comment">// Now the serial port is ready to be used. To send a byte:</span>
+<span class="ident">serial_port</span>.<span class="ident">send</span>(<span class="number">42</span>);
+
+<span class="comment">// To receive a byte:</span>
+<span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">serial_port</span>.<span class="ident">receive</span>();</code></pre></div>
+</div></details><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.MmioSerialPort.html" title="uart_16550::MmioSerialPort struct">MmioSerialPort</a></div><div class="item-right docblock-short"><p>A memory-mapped UART.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.SerialPort.html" title="uart_16550::SerialPort struct">SerialPort</a></div><div class="item-right docblock-short"><p>A port-mapped UART.</p>
+</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="uart_16550" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (20a6f3a8a 2022-06-25)" ></div>
+</body></html>
