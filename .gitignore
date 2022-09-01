@@ -8,5 +8,5 @@ Cargo.lock
 
 
 # Now Auto-Generated
-/build.enderpearl
-/config.enderpearl
+/enderpearl/*.enderpearl
+*.exe

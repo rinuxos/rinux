@@ -22,6 +22,61 @@
 // SOFTWARE.
 //
 
+//! # Rinux
+//! 
+//! ## OS, written in rust
+//! 
+//! ### Basic Example:
+//! 
+//! ```rust
+//! #![no_std]
+//! #![no_main]
+//! #![feature(custom_test_frameworks)]
+//! #![test_runner(rinuxcore::test_runner)]
+//! #![reexport_test_harness_main = "test_main"]
+//!
+//! use rinuxcore::{
+//!     kernel, println,
+//!     task::{
+//!         executor::Executor,
+//!         Task
+//!     },
+//!     BootInfo
+//! };
+//! kernel!(kernel_main);
+//! fn kernel_main(boot_info: &'static BootInfo) -> ! {
+//!     rinuxcore::init(boot_info);
+//!     let mut executor = Executor::new();
+//! 
+//!     executor.spawn(Task::new(rinuxcore::task::keyboard::init()));
+//!     executor.spawn(Task::new(main()));
+//! 
+//!     executor.run()
+//! }
+//! 
+//! async fn main() {
+//!     println!("Hello World");
+//! }
+//! 
+//! #[cfg(not(test))]
+//! #[panic_handler]
+//! fn panic(info: &core::panic::PanicInfo) -> ! {
+//!     rinuxcore::print_err!("{}", info);
+//!     rinuxcore::hlt_loop();
+//! }
+//! #[cfg(test)]
+//! #[panic_handler]
+//! fn panic(info: &core::panic::PanicInfo) -> ! {
+//!     rinuxcore::test_panic_handler(info)
+//! }
+//! #[test_case]
+//! fn trivial_assertion() {
+//!     assert_eq!(1, 1);
+//! }
+//! ```
+//!  
+//!
+
 #![no_std]
 #![cfg_attr(test, no_main)]
 #![feature(custom_test_frameworks)]
@@ -31,7 +86,22 @@
 #![test_runner(crate::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
-pub use bootloader::{self, entry_point, BootInfo};
+pub use bootloader::BootInfo;
+
+#[macro_export]
+macro_rules! kernel {
+    ($path:path) => {
+        #[doc(hidden)]
+        #[export_name = "_start"]
+        pub extern "C" fn __impl_start(boot_info: &'static $crate::BootInfo) -> ! {
+            // validate the signature of the program entry point
+            let f: fn(&'static $crate::BootInfo) -> ! = $path;
+
+            f(boot_info)
+        }
+    };
+}
+
 use core::panic::PanicInfo;
 use memory::BootInfoFrameAllocator;
 pub mod conf;
@@ -40,13 +110,20 @@ pub mod allocator;
 pub mod interrupts;
 pub mod memory;
 pub mod serial;
-pub mod vga_buffer;
 pub use x86_64;
 pub mod gdt;
 pub mod task;
 
 #[cfg(feature = "epearl")]
 pub use epearl;
+
+
+
+#[allow(unused_imports)]
+#[macro_use]
+pub extern crate vga_buffer;
+pub use vga_buffer::{print,println,print_err};
+
 
 #[repr(u8)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -235,7 +312,7 @@ pub enum QemuExitCode {
     Failed = 0x11,
 }
 
-/// Quits Qemu (stops)
+/// Quits Qemu using certain exit code
 pub fn exit_qemu(exit_code: QemuExitCode) {
     use x86_64::instructions::port::Port;
     unsafe {

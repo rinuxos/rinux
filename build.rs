@@ -50,15 +50,15 @@ echo Running PureOS
 
 fn main() -> std::io::Result<()> {
     fn set_project_metadata() -> std::io::Result<()> {
-        let contents: String = match File::open("config.enderpearl") {
+        let contents: String = match File::open("./enderpearl/config.enderpearl") {
             Ok(mut v) => {
                 let mut res = String::new();
                 v.read_to_string(&mut res)?;
                 res
             }
             Err(_) => {
-                println!("couldn't find 'config.enderpearl' in project root");
-                let mut newfile = File::create("config.enderpearl")?;
+                println!("couldn't find 'config.enderpearl' in 'project root/enderpearl'");
+                let mut newfile = File::create("./enderpearl/config.enderpearl")?;
                 newfile.write_all(DEFAULT_FILE_CONFIG.as_bytes())?;
                 String::from(DEFAULT_FILE_BUILD)
             }
@@ -85,19 +85,18 @@ fn main() -> std::io::Result<()> {
             };
         }
         fn preset(name: String, version: String, quiet: bool) -> String {
-            format!(
-                r#"#![allow(dead_code)]
-pub(crate) const PROJECT_NAME: &'static str = "{}";
-pub(crate) const PROJECT_VERSION: &'static str = "{}";
-pub(crate) const QUIET_BOOT: bool = {};"#,
+            format!(r#"#![no_std]
+pub const PROJECT_NAME: &'static str = "{}";
+pub const PROJECT_VERSION: &'static str = "{}";
+pub const QUIET_BOOT: bool = {};"#,
                 name, version, quiet
             )
         }
-        let _res = match File::open("./core/rinux/src/conf/file.rs") {
+        let _res = match File::open("./core/config/src/lib.rs") {
             Ok(mut file) => file
                 .write_all(preset(res_config_name, res_config_version, res_config_quiet).as_bytes())
                 .is_ok(),
-            Err(_) => match File::create("./core/rinux/src/conf/file.rs") {
+            Err(_) => match File::create("./core/config/src/lib.rs") {
                 Ok(mut file) => file
                     .write_all(
                         preset(res_config_name, res_config_version, res_config_quiet).as_bytes(),
@@ -110,28 +109,28 @@ pub(crate) const QUIET_BOOT: bool = {};"#,
         // let mut file = File::create("./src/conf/file.rs")?;
     }
     fn enderpearl_build() -> std::io::Result<()> {
-        let config_file: String = match File::open("config.enderpearl") {
+        let config_file: String = match File::open("./enderpearl/config.enderpearl") {
             Ok(mut v) => {
                 let mut res = String::new();
                 v.read_to_string(&mut res)?;
                 res
             }
             Err(_) => {
-                println!("couldn't find 'config.enderpearl' in project root");
-                let mut newfile = File::create("config.enderpearl")?;
+                println!("couldn't find 'config.enderpearl' in 'project root/enderpearl'");
+                let mut newfile = File::create("./enderpearl/config.enderpearl")?;
                 newfile.write_all(DEFAULT_FILE_CONFIG.as_bytes())?;
                 String::from(DEFAULT_FILE_CONFIG)
             }
         };
-        let main_file: String = match File::open("build.enderpearl") {
+        let main_file: String = match File::open("./enderpearl/build.enderpearl") {
             Ok(mut v) => {
                 let mut res = String::new();
                 v.read_to_string(&mut res)?;
                 res
             }
             Err(_) => {
-                println!("couldn't find 'build.enderpearl' in project root");
-                let mut newfile = File::create("build.enderpearl")?;
+                println!("couldn't find 'build.enderpearl' in 'project root/enderpearl'");
+                let mut newfile = File::create("./enderpearl/build.enderpearl")?;
                 newfile.write_all(DEFAULT_FILE_BUILD.as_bytes())?;
                 String::from(DEFAULT_FILE_BUILD)
             }
