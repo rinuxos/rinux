@@ -106,11 +106,16 @@ use core::panic::PanicInfo;
 use memory::BootInfoFrameAllocator;
 pub mod conf;
 extern crate alloc;
+#[doc(hidden)]
 pub mod allocator;
+#[doc(hidden)]
 pub mod interrupts;
+#[doc(hidden)]
 pub mod memory;
+#[doc(hidden)]
 pub mod serial;
 pub use x86_64;
+#[doc(hidden)]
 pub mod gdt;
 pub mod task;
 
@@ -137,7 +142,7 @@ static mut CONFIGURED: bool = false;
 static mut CONFIGTYPE: ConfigType = ConfigType::File;
 pub(crate) static mut CONFIG: conf::Config = conf::Config::cnst();
 static mut TEST_MODE: BuildType = BuildType::Test;
-const VERSION: &'static str = "v0.1.2-RELEASE";
+const VERSION: &'static str = "v1.0.0-RELEASE";
 const AUTHORS: &'static str = "Atomic";
 const RINUX_ART: &'static str = r#"######   ###  #     #  #     #  #     #
 #     #   #   ##    #  #     #   #   #
