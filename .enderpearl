@@ -6,8 +6,13 @@ All commands are allowed
 If you are getting the error 'Please use the enderpearl build system' try running
 'enderpearl tryfix', fixed the issue 99% of the time
 #TRYFIX(
-echo ' '  > ./core/rinux/src/conf/file.rs
-cargo build --offline
+cargo build
+cargo check
+)
+
+
+#FIRSTRUN(
+cargo build
 cargo check
 )
 

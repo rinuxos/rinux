@@ -32,9 +32,16 @@
 #![allow(non_snake_case)]
 #![allow(unused_assignments)]
 #![allow(non_camel_case_types)]
+#![feature(trait_alias)]
+#![feature(box_into_inner)]
+
 
 extern crate alloc;
 use alloc::{string::String, vec::Vec};
+#[doc(hidden)]
+pub mod __runner {
+    pub use crate::runner::*;
+}
 mod runner;
 
 #[doc(hidden)]
@@ -247,12 +254,9 @@ impl Command {
     }
 
     /// Uses a custom runner to run the command
-    pub unsafe fn _useCustomRunner<F: FnMut(String, bool) -> ()>(
-        command: &Command,
-        print: bool,
-        mut f: F,
-    ) {
-        f(String::from(&command.command), print)
+    pub unsafe fn _useCustomRunner(f: runner::RunableFunc) {
+        runner::set_runner(runner::Runner::Custom(f));
+        // f(String::from(&command.command), print)
     }
 }
 

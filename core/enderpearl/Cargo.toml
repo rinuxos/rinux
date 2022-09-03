@@ -27,3 +27,6 @@ name = "enderpearl"
 version = "0.1.1"
 edition = "2021"
 authors = ["AtomicGamer9523@github.com"]
+
+[dependencies]
+lazy_static = { path = "../lazy_static", package = "lazy_static" }

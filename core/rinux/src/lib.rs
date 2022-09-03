@@ -120,8 +120,10 @@ pub mod gdt;
 pub mod task;
 
 #[cfg(feature = "epearl")]
-pub use epearl;
+pub extern crate epearl;
 
+// #[cfg(feature = "blake3")]
+// pub use blake3;
 
 
 #[allow(unused_imports)]
