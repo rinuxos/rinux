@@ -122,6 +122,9 @@ pub mod task;
 #[cfg(feature = "epearl")]
 pub extern crate epearl;
 
+// #[cfg(feature = "blake3")]
+// pub use blake3;
+
 
 #[allow(unused_imports)]
 #[macro_use]
