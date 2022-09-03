@@ -35,4 +35,4 @@ runner = "bootimage runner"
 
 [env]
 # can be "test", "debug", and "release"
-BUILD_TYPE = "debug"
+BUILD_TYPE = "release"

@@ -39,11 +39,13 @@ harness = false
 
 [features]
 epearl = []
+# blake3 = ["dep:blake3"]
 
 
 [dependencies]
 bootloader = { version = "0.9.8", features = ["map_physical_memory"]}
 epearl = { path = "../enderpearl", package = "enderpearl" }
+blake3 = { path = "../blake3/rust_bindings", package = "blake3" }
 config = { path = "../config", package = "config" }
 vga_buffer = { path = "../vga_buffer", package = "vga_buffer" }
 lazy_static = { path = "../lazy_static", package = "lazy_static" }

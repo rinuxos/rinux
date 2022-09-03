@@ -26,23 +26,21 @@ SOFTWARE.
 
 ## OS written in rust
 
-[![Build](https://github.com/AtomicGamer9523/rinux/actions/workflows/code.yml/badge.svg)](https://github.com/AtomicGamer9523/rinux/actions/workflows/code.yml)
+[![Build](https://github.com/AtomicGamer9523/rinux/actions/workflows/code.yml/badge.svg)](https://github.com/AtomicGamer9523/rinux/actions/workflows/code.yml) [![Page](https://github.com/AtomicGamer9523/rinux/actions/workflows/pages.yml/badge.svg)](https://atomicgamer9523.github.io/rinux)
+
+### [Docs](https://atomicgamer9523.github.io/rinux)
 
 ### Build yourself:
 
-Tools needed to run: [`enderpearl`](./doc/enderpearl.md), [`bootimage`](https://github.com/rust-osdev/bootimage), and [`qemu`](https://qemu.org)
+Tools needed to run: [`bootimage`](https://github.com/rust-osdev/bootimage), and [`Qemu`](https://qemu.org). [Enderpearl](https://github.com/AtomicGamer9523/Enderpearl) is now included
 
-1. Modify project's metadata in [config.enderpearl](./config.enderpearl)
-
-2. Import your project via [build.enderpearl](./build.enderpearl)
-
-3. Build & Run:
+1. First Build:
 
 ```shell
-enderpearl run
+./epearl firstrun
 ```
 
-or
+2. All other builds:
 
 ```shell
 cargo run

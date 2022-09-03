@@ -20,7 +20,20 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// 
+//
+
+const DEFAULT_FILE_CONFIG: &str = r#"This file is used for configuring Rinux
+NOT for building Rinux
+Allowed properties are: 'NAME', 'QUIET', and 'VERSION', all other ones will be ignored
+
+Name for the Project, string
+#NAME(MyProject)
+
+Project's version, string
+#VERSION(v0.1.0)
+
+If no debug info should be printed, will still print errors bool -> 'true' or 'false'
+#QUIET(false)"#;
 
 use std::{
     process,
@@ -285,7 +298,6 @@ fn main() -> io::Result<()> {
     let mut print: bool = true;
     let mut color: bool = true;
     let mut contents = String::new();
-    let mut contents2 = String::new();
     let mut file = match File::open(".enderpearl") {
         Ok(v) => v,
         Err(_) => {
@@ -294,8 +306,18 @@ fn main() -> io::Result<()> {
         }
     };
     file.read_to_string(&mut contents)?;
-    file = File::open("./enderpearl/config.enderpearl")?;
-    file.read_to_string(&mut contents2)?;
+    let contents2 = match File::open("./enderpearl/config.enderpearl"){
+        Ok(mut v) => {
+            let mut res = String::new();
+            v.read_to_string(&mut res)?;
+            res
+        },
+        Err(_) => {
+            File::create("./enderpearl/config.enderpearl")?;
+            file.write_all(DEFAULT_FILE_CONFIG.as_ref())?;
+            String::from(DEFAULT_FILE_CONFIG)
+        }
+    };
     let (_, tkn) = Token::tokenize(contents, contents2);
     let mut arg: String = match env::args().nth(1) {
         Some(data) => data,

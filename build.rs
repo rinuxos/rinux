@@ -137,55 +137,66 @@ pub const QUIET_BOOT: bool = {};"#,
         };
         let pearl = epearl::EnderPearl::new(true).parse(main_file, config_file);
         unsafe {
+
+            epearl::Command::_useCustomRunner(Box::new(|cmd: &String,print|{
+                let output = if cfg!(target_os = "windows") {
+                    std::process::Command::new("cmd")
+                        .args(["/C", cmd.as_str()])
+                        .output()
+                } else {
+                    std::process::Command::new("sh")
+                        .arg("-c")
+                        .arg(cmd)
+                        .output()
+                };
+                match output {
+                    Ok(v) => {
+                        if print {
+                            std::io::stdout().write_all(&v.stdout).unwrap();
+                        };
+                        Ok(())
+                    },
+                    Err(v) => {
+                        Err(epearl::__runner::RunnerError::new(v.to_string()))
+                    }
+                }
+            }));
+
             epearl::EnderPearl::_useCustomRunner(&pearl, |operations, print| {
                 for operation in operations {
                     if operation.name.to_lowercase() == "pre" {
                         epearl::Operation::_useCustomRunner(operation, print, |commands, print| {
                             for command in commands {
-                                epearl::Command::_useCustomRunner(command, print, |cmd, print| {
-                                    run(cmd, print)
-                                });
+                                command.run(print);
+                                // epearl::Command::_useCustomRunner(command, print, |cmd, print| {
+                                //     run(cmd, print)
+                                // });
                             }
                         });
                     }
                     if operation.name.to_lowercase() == "stasis" {
                         epearl::Operation::_useCustomRunner(operation, print, |commands, print| {
                             for command in commands {
-                                epearl::Command::_useCustomRunner(command, print, |cmd, print| {
-                                    run(cmd, print)
-                                });
+                                command.run(print);
+                                // epearl::Command::_useCustomRunner(command, print, |cmd, print| {
+                                //     run(cmd, print)
+                                // });
                             }
                         });
                     }
                     if operation.name.to_lowercase() == "post" {
                         epearl::Operation::_useCustomRunner(operation, print, |commands, print| {
                             for command in commands {
-                                epearl::Command::_useCustomRunner(command, print, |cmd, print| {
-                                    run(cmd, print)
-                                });
+                                command.run(print);
+                                // epearl::Command::_useCustomRunner(command, print, |cmd, print| {
+                                //     run(cmd, print)
+                                // });
                             }
                         });
                     }
                 }
             });
         };
-        fn run(cmd: String, print: bool) {
-            let output = if cfg!(target_os = "windows") {
-                std::process::Command::new("cmd")
-                    .args(["/C", cmd.as_str()])
-                    .output()
-                    .expect("failed to execute process")
-            } else {
-                std::process::Command::new("sh")
-                    .arg("-c")
-                    .arg(cmd)
-                    .output()
-                    .expect("failed to execute process")
-            };
-            if print {
-                std::io::stdout().write_all(&output.stdout).unwrap();
-            }
-        }
         Ok(())
     }
     set_project_metadata()?;
