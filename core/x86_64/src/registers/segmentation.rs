@@ -27,7 +27,7 @@
 use super::model_specific::Msr;
 use crate::{PrivilegeLevel, VirtAddr};
 use bit_field::BitField;
-use core::fmt;
+use std3::fmt;
 // imports for intra doc links
 #[cfg(doc)]
 use crate::{

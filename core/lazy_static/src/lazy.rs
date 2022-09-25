@@ -22,9 +22,7 @@
 // SOFTWARE.
 //
 
-pub extern crate spin;
-
-use self::spin::Once;
+use std3::sync::Once;
 pub struct Lazy<T: Sync>(Once<T>);
 
 impl<T: Sync> Lazy<T> {

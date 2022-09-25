@@ -30,7 +30,7 @@ use crate::{
     structures::gdt::SegmentSelector,
     VirtAddr,
 };
-use core::arch::asm;
+use std3::arch::asm;
 
 macro_rules! get_reg_impl {
     ($name:literal) => {

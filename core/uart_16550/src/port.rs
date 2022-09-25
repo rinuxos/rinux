@@ -22,7 +22,7 @@
 // SOFTWARE.
 //
 
-use core::fmt;
+use std3::fmt;
 
 use x86_64::instructions::port::{Port, PortReadOnly, PortWriteOnly};
 

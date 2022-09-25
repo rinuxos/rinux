@@ -25,7 +25,7 @@
 //! Functions to flush the translation lookaside buffer (TLB).
 
 use crate::VirtAddr;
-use core::arch::asm;
+use std3::arch::asm;
 
 /// Invalidate the given address in the TLB using the `invlpg` instruction.
 #[inline]

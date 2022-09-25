@@ -24,19 +24,20 @@
 
 [package]
 name = "rinux"
-version = "1.0.0"
+version = "1.2.0"
 authors = ["AtomicGamer@github.com"]
 edition = "2018"
 license = "MIT"
 
 
-[dependencies.bootloader]
-version = "0.9.8"
-features = ["map_physical_memory"]
-
 [build-dependencies.epearl]
 path = "./core/enderpearl"
 package = "enderpearl"
+
+
+[dependencies.bootloader]
+version = "0.9.8"
+features = ["map_physical_memory"]
 
 [dependencies.rinuxcore]
 path = "./core/rinux"
@@ -44,3 +45,6 @@ package = "rinuxcore"
 features = [
     "epearl"
 ]
+
+[dependencies.std3]
+version = "0.1.1"

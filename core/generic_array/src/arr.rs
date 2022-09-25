@@ -1,7 +1,7 @@
 //! Implementation for `arr!` macro.
 
 use super::ArrayLength;
-use core::ops::Add;
+use std3::ops::Add;
 use typenum::U1;
 
 /// Helper trait for `arr!` macro

@@ -25,7 +25,7 @@
 //! Provides a type for the task state segment structure.
 
 use crate::VirtAddr;
-use core::mem::size_of;
+use std3::mem::size_of;
 
 /// In 64-bit mode the TSS holds information that is not
 /// directly related to the task-switch mechanism,

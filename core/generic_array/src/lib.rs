@@ -80,11 +80,11 @@ mod impl_serde;
 #[cfg(feature = "zeroize")]
 mod impl_zeroize;
 
-use core::iter::FromIterator;
-use core::marker::PhantomData;
-use core::mem::{MaybeUninit, ManuallyDrop};
-use core::ops::{Deref, DerefMut};
-use core::{mem, ptr, slice};
+use std3::iter::FromIterator;
+use std3::marker::PhantomData;
+use std3::mem::{MaybeUninit, ManuallyDrop};
+use std3::ops::{Deref, DerefMut};
+use std3::{mem, ptr, slice};
 use typenum::bit::{B0, B1};
 use typenum::uint::{UInt, UTerm, Unsigned};
 
@@ -632,7 +632,7 @@ where
 #[doc(hidden)]
 pub unsafe fn transmute<A, B>(a: A) -> B {
     let a = ManuallyDrop::new(a);
-    ::core::ptr::read(&*a as *const A as *const B)
+    ::std3::ptr::read(&*a as *const A as *const B)
 }
 
 #[cfg(test)]
@@ -645,7 +645,7 @@ mod test {
 
     #[inline(never)]
     pub fn black_box<T>(val: T) -> T {
-        use core::{mem, ptr};
+        use std3::{mem, ptr};
 
         let ret = unsafe { ptr::read_volatile(&val) };
         mem::forget(val);

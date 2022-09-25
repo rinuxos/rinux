@@ -28,7 +28,7 @@
 #![test_runner(rinuxcore::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
-use core::panic::PanicInfo;
+use std3::panic::PanicInfo;
 use rinuxcore::println;
 
 #[no_mangle]

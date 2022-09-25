@@ -86,7 +86,7 @@ impl Default for MxCsr {
 #[cfg(feature = "instructions")]
 mod x86_64 {
     use super::*;
-    use core::arch::asm;
+    use std3::arch::asm;
 
     /// Read the value of MXCSR.
     #[inline]

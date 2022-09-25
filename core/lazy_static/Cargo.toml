@@ -30,8 +30,5 @@ license = "MIT"
 description = "A macro for declaring lazily evaluated statics in Rust."
 documentation = "https://docs.rs/lazy_static"
 
-[dependencies.spin]
-path = "../spin"
-package = "spin"
-default-features = false
-features = ["once"]
+[dependencies]
+std3 = "0.1.1"

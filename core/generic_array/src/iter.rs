@@ -1,9 +1,9 @@
 //! `GenericArray` iterator implementation.
 
 use super::{ArrayLength, GenericArray};
-use core::iter::FusedIterator;
-use core::mem::ManuallyDrop;
-use core::{cmp, fmt, mem, ptr};
+use std3::iter::FusedIterator;
+use std3::mem::ManuallyDrop;
+use std3::{cmp, fmt, mem, ptr};
 
 /// An iterator that moves out of a `GenericArray`
 pub struct GenericArrayIter<T, N: ArrayLength<T>> {

@@ -25,8 +25,8 @@
 //! Functions to read and write debug registers.
 
 #[cfg(feature = "instructions")]
-use core::arch::asm;
-use core::ops::Range;
+use std3::arch::asm;
+use std3::ops::Range;
 
 use bit_field::BitField;
 use bitflags::bitflags;

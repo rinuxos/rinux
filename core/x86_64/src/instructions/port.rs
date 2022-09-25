@@ -24,9 +24,9 @@
 
 //! Access to I/O ports
 
-use core::arch::asm;
-use core::fmt;
-use core::marker::PhantomData;
+use std3::arch::asm;
+use std3::fmt;
+use std3::marker::PhantomData;
 
 pub use crate::structures::port::{PortRead, PortWrite};
 
@@ -193,7 +193,7 @@ impl<T, A: sealed::Access> fmt::Debug for PortGeneric<T, A> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_struct("PortGeneric")
             .field("port", &self.port)
-            .field("size", &core::mem::size_of::<T>())
+            .field("size", &std3::mem::size_of::<T>())
             .field("access", &format_args!("{}", A::DEBUG_NAME))
             .finish()
     }

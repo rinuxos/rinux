@@ -37,7 +37,7 @@
 #![warn(missing_docs)]
 
 use access::{ReadOnly, ReadWrite, Readable, Writable, WriteOnly};
-use core::{
+use std3::{
     fmt,
     marker::PhantomData,
     ops::Deref,
@@ -46,7 +46,7 @@ use core::{
     slice::SliceIndex,
 };
 #[cfg(feature = "unstable")]
-use core::{
+use std3::{
     intrinsics,
     ops::{Range, RangeBounds},
     slice::range,
@@ -196,7 +196,7 @@ where
     /// Returns a copy of the read value. Volatile reads are guaranteed not to be optimized
     /// away by the compiler, but by themselves do not have atomic ordering
     /// guarantees. To also get atomicity, consider looking at the `Atomic` wrapper types of
-    /// the standard/`core` library.
+    /// the standard/`std3` library.
     ///
     /// ## Examples
     ///
@@ -223,7 +223,7 @@ where
     ///
     /// Volatile writes are guaranteed to not be optimized away by the compiler, but by
     /// themselves do not have atomic ordering guarantees. To also get atomicity, consider
-    /// looking at the `Atomic` wrapper types of the standard/`core` library.
+    /// looking at the `Atomic` wrapper types of the standard/`std3` library.
     ///
     /// ## Example
     ///
@@ -645,7 +645,7 @@ where
         T: Copy,
         R: DerefMut,
     {
-        // implementation taken from https://github.com/rust-lang/rust/blob/683d1bcd405727fcc9209f64845bd3b9104878b8/library/core/src/slice/mod.rs#L2726-L2738
+        // implementation taken from https://github.com/rust-lang/rust/blob/683d1bcd405727fcc9209f64845bd3b9104878b8/library/std3/src/slice/mod.rs#L2726-L2738
         let Range {
             start: src_start,
             end: src_end,

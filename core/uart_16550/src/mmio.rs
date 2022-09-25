@@ -22,7 +22,7 @@
 // SOFTWARE.
 //
 
-use core::{
+use std3::{
     fmt,
     sync::atomic::{AtomicPtr, Ordering},
 };

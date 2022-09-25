@@ -24,7 +24,7 @@
 
 use super::{align_up, Locked};
 use alloc::alloc::{GlobalAlloc, Layout};
-use core::ptr;
+use std3::ptr;
 
 pub struct BumpAllocator {
     heap_start: usize,

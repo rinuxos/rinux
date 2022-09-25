@@ -32,4 +32,4 @@ authors = ["AtomicGamer9523@github.com"]
 lazy_static = { path = "../lazy_static", package = "lazy_static" }
 volatile = { path = "../volatile", package = "volatile"}
 x86_64 = { path = "../x86_64", package = "x86_64"}
-spin = { path = "../spin", package = "spin"}
+std3 = "0.1.1"

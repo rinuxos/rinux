@@ -92,7 +92,9 @@ This crate provides one cargo feature:
 pub mod lazy;
 
 #[doc(hidden)]
-pub use core::ops::Deref as __Deref;
+extern crate std3;
+#[doc(hidden)]
+pub use std3::ops::Deref as __Deref;
 
 #[macro_export(local_inner_macros)]
 #[doc(hidden)]

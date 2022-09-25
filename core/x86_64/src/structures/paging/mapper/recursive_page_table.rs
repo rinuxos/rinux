@@ -24,7 +24,7 @@
 
 //! Access the page tables through a recursively mapped level 4 table.
 
-use core::fmt;
+use std3::fmt;
 
 use super::*;
 use crate::registers::control::Cr3;

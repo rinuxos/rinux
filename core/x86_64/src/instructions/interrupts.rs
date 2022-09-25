@@ -24,7 +24,7 @@
 
 //! Enabling and disabling interrupts
 
-use core::arch::asm;
+use std3::arch::asm;
 
 /// Returns whether interrupts are enabled.
 #[inline]

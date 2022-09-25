@@ -24,8 +24,8 @@
 
 //! Abstractions for page tables and page table entries.
 
-use core::fmt;
-use core::ops::{Index, IndexMut};
+use std3::fmt;
+use std3::ops::{Index, IndexMut};
 
 use super::{PageSize, PhysFrame, Size4KiB};
 use crate::addr::PhysAddr;

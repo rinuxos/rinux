@@ -38,10 +38,10 @@
 use crate::{PrivilegeLevel, VirtAddr};
 use bit_field::BitField;
 use bitflags::bitflags;
-use core::fmt;
-use core::marker::PhantomData;
-use core::ops::Bound::{Excluded, Included, Unbounded};
-use core::ops::{Deref, Index, IndexMut, RangeBounds};
+use std3::fmt;
+use std3::marker::PhantomData;
+use std3::ops::Bound::{Excluded, Included, Unbounded};
+use std3::ops::{Deref, Index, IndexMut, RangeBounds};
 use volatile::Volatile;
 
 /// An Interrupt Descriptor Table with 256 entries.
@@ -527,7 +527,7 @@ impl InterruptDescriptorTable {
     /// safely used if the table is never modified or destroyed while in use.
     #[cfg(feature = "instructions")]
     fn pointer(&self) -> crate::structures::DescriptorTablePointer {
-        use core::mem::size_of;
+        use std3::mem::size_of;
         crate::structures::DescriptorTablePointer {
             base: VirtAddr::new(self as *const _ as u64),
             limit: (size_of::<Self>() - 1) as u16,
@@ -1230,7 +1230,7 @@ macro_rules! set_general_handler {
         {
             fn set_general_handler(
                 idt: &mut $crate::structures::idt::InterruptDescriptorTable,
-                range: impl ::core::ops::RangeBounds<u8>,
+                range: impl ::std3::ops::RangeBounds<u8>,
             ) {
                 $crate::set_general_handler_recursive_bits!(idt, GENERAL_HANDLER, range);
             }
@@ -1417,7 +1417,7 @@ mod test {
 
     #[test]
     fn size_test() {
-        use core::mem::size_of;
+        use std3::mem::size_of;
         assert_eq!(size_of::<Entry<HandlerFunc>>(), 16);
         assert_eq!(size_of::<InterruptDescriptorTable>(), 256 * 16);
     }

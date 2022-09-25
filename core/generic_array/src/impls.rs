@@ -1,7 +1,7 @@
-use core::borrow::{Borrow, BorrowMut};
-use core::cmp::Ordering;
-use core::fmt::{self, Debug};
-use core::hash::{Hash, Hasher};
+use std3::borrow::{Borrow, BorrowMut};
+use std3::cmp::Ordering;
+use std3::fmt::{self, Debug};
+use std3::hash::{Hash, Hasher};
 
 use super::{ArrayLength, GenericArray};
 

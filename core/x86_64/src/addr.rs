@@ -25,11 +25,11 @@
 //! Physical and virtual addresses manipulation
 
 #[cfg(feature = "step_trait")]
-use core::convert::TryFrom;
-use core::fmt;
+use std3::convert::TryFrom;
+use std3::fmt;
 #[cfg(feature = "step_trait")]
-use core::iter::Step;
-use core::ops::{Add, AddAssign, Sub, SubAssign};
+use std3::iter::Step;
+use std3::ops::{Add, AddAssign, Sub, SubAssign};
 
 use crate::structures::paging::page_table::PageTableLevel;
 use crate::structures::paging::{PageOffset, PageTableIndex};
@@ -75,7 +75,7 @@ pub struct PhysAddr(u64);
 /// Contains the invalid address.
 pub struct VirtAddrNotValid(pub u64);
 
-impl core::fmt::Debug for VirtAddrNotValid {
+impl std3::fmt::Debug for VirtAddrNotValid {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_tuple("VirtAddrNotValid")
             .field(&format_args!("{:#x}", self.0))
@@ -434,7 +434,7 @@ impl Step for VirtAddr {
 /// Contains the invalid address.
 pub struct PhysAddrNotValid(pub u64);
 
-impl core::fmt::Debug for PhysAddrNotValid {
+impl std3::fmt::Debug for PhysAddrNotValid {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_tuple("PhysAddrNotValid")
             .field(&format_args!("{:#x}", self.0))
