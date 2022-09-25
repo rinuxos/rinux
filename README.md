@@ -30,6 +30,8 @@ SOFTWARE.
 
 ### [Docs](https://atomicgamer9523.github.io/rinux)
 
+### If you would like to help with STD3, please do so [here](https://github.com/AtomicGamer9523/std3)
+
 ### Build yourself:
 
 Tools needed to run: [`bootimage`](https://github.com/rust-osdev/bootimage), and [`Qemu`](https://qemu.org). [Enderpearl](https://github.com/AtomicGamer9523/Enderpearl) is now included

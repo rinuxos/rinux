@@ -640,7 +640,7 @@
     <span class="doccomment">/// safely used if the table is never modified or destroyed while in use.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;instructions&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">pointer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident"><span class="kw">super</span>::DescriptorTablePointer</span> {
-        <span class="kw">use</span> <span class="ident">core::mem::size_of</span>;
+        <span class="kw">use</span> <span class="ident">std3::mem::size_of</span>;
         <span class="ident"><span class="kw">super</span>::DescriptorTablePointer</span> {
             <span class="ident">base</span>: <span class="ident"><span class="kw">crate</span>::VirtAddr::new</span>(<span class="self">self</span>.<span class="ident">table</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="ident">u64</span>),
             <span class="ident">limit</span>: (<span class="self">self</span>.<span class="ident">len</span> <span class="op">*</span> <span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>() <span class="op">-</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">u16</span>,
@@ -787,7 +787,7 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">tss_segment</span>(<span class="ident">tss</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">TaskStateSegment</span>) -&gt; <span class="ident">Descriptor</span> {
         <span class="kw">use</span> <span class="ident"><span class="self">self</span>::DescriptorFlags</span> <span class="kw">as</span> <span class="ident">Flags</span>;
-        <span class="kw">use</span> <span class="ident">core::mem::size_of</span>;
+        <span class="kw">use</span> <span class="ident">std3::mem::size_of</span>;
 
         <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">tss</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">u64</span>;
 

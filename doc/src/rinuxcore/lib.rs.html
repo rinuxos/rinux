@@ -357,6 +357,9 @@
 <span id="351">351</span>
 <span id="352">352</span>
 <span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
 </pre><pre class="rust"><code><span class="comment">//</span>
 <span class="comment">// MIT License</span>
 <span class="comment">//</span>
@@ -419,13 +422,13 @@
 <span class="doccomment">//! </span>
 <span class="doccomment">//! #[cfg(not(test))]</span>
 <span class="doccomment">//! #[panic_handler]</span>
-<span class="doccomment">//! fn panic(info: &amp;core::panic::PanicInfo) -&gt; ! {</span>
+<span class="doccomment">//! fn panic(info: &amp;std3::panic::PanicInfo) -&gt; ! {</span>
 <span class="doccomment">//!     rinuxcore::print_err!(&quot;{}&quot;, info);</span>
 <span class="doccomment">//!     rinuxcore::hlt_loop();</span>
 <span class="doccomment">//! }</span>
 <span class="doccomment">//! #[cfg(test)]</span>
 <span class="doccomment">//! #[panic_handler]</span>
-<span class="doccomment">//! fn panic(info: &amp;core::panic::PanicInfo) -&gt; ! {</span>
+<span class="doccomment">//! fn panic(info: &amp;std3::panic::PanicInfo) -&gt; ! {</span>
 <span class="doccomment">//!     rinuxcore::test_panic_handler(info)</span>
 <span class="doccomment">//! }</span>
 <span class="doccomment">//! #[test_case]</span>
@@ -461,7 +464,7 @@
     };
 }
 
-<span class="kw">use</span> <span class="ident">core::panic::PanicInfo</span>;
+<span class="kw">use</span> <span class="ident">std3::panic::PanicInfo</span>;
 <span class="kw">use</span> <span class="ident">memory::BootInfoFrameAllocator</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">conf</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">alloc</span>;
@@ -480,6 +483,9 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;epearl&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">epearl</span>;
+
+<span class="comment">// #[cfg(feature = &quot;blake3&quot;)]</span>
+<span class="comment">// pub use blake3;</span>
 
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
@@ -500,7 +506,7 @@
 <span class="kw">static</span> <span class="kw-2">mut</span> <span class="ident">CONFIGTYPE</span>: <span class="ident">ConfigType</span> <span class="op">=</span> <span class="ident">ConfigType::File</span>;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">static</span> <span class="kw-2">mut</span> <span class="ident">CONFIG</span>: <span class="ident">conf::Config</span> <span class="op">=</span> <span class="ident">conf::Config::cnst</span>();
 <span class="kw">static</span> <span class="kw-2">mut</span> <span class="ident">TEST_MODE</span>: <span class="ident">BuildType</span> <span class="op">=</span> <span class="ident">BuildType::Test</span>;
-<span class="kw">const</span> <span class="ident">VERSION</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;v1.0.0-RELEASE&quot;</span>;
+<span class="kw">const</span> <span class="ident">VERSION</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;v1.2.0-RELEASE&quot;</span>;
 <span class="kw">const</span> <span class="ident">AUTHORS</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;Atomic&quot;</span>;
 <span class="kw">const</span> <span class="ident">RINUX_ART</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span> <span class="string">r#&quot;######   ###  #     #  #     #  #     #
 #     #   #   ##    #  #     #   #   #
@@ -535,7 +541,7 @@
     };
 }
 
-<span class="doccomment">/// Initializes the core of Rinux</span>
+<span class="doccomment">/// Initializes the std3 of Rinux</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">init</span>(<span class="ident">boot_info</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">BootInfo</span>) {
     <span class="kw">unsafe</span> {
         <span class="kw">if</span> <span class="ident">CONFIGURED</span> <span class="op">!</span><span class="op">=</span> <span class="bool-val">true</span> {
@@ -644,7 +650,7 @@
     <span class="ident">T</span>: <span class="ident">Fn</span>(),
 {
     <span class="kw">fn</span> <span class="ident">run</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-        <span class="macro">serial_print!</span>(<span class="string">&quot;{}...\t&quot;</span>, <span class="ident">core::any::type_name</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>());
+        <span class="macro">serial_print!</span>(<span class="string">&quot;{}...\t&quot;</span>, <span class="ident">std3::any::type_name</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>());
         <span class="self">self</span>();
         <span class="macro">serial_println!</span>(<span class="string">&quot;[ok]&quot;</span>);
     }

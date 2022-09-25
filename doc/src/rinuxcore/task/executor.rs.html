@@ -153,7 +153,7 @@
 
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Task</span>, <span class="ident">TaskId</span>};
 <span class="kw">use</span> <span class="ident">alloc</span>::{<span class="ident">collections::BTreeMap</span>, <span class="ident">sync::Arc</span>, <span class="ident">task::Wake</span>};
-<span class="kw">use</span> <span class="ident">core::task</span>::{<span class="ident">Context</span>, <span class="ident">Poll</span>, <span class="ident">Waker</span>};
+<span class="kw">use</span> <span class="ident">std3::task</span>::{<span class="ident">Context</span>, <span class="ident">Poll</span>, <span class="ident">Waker</span>};
 <span class="kw">use</span> <span class="ident">crossbeam_queue::ArrayQueue</span>;
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Executor</span> {

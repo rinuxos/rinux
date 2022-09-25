@@ -1,1 +1,1 @@
-window.ALL_CRATES = ["bit_field","enderpearl","lazy_static","rinuxcore","spin","uart_16550","vga_buffer","volatile","x86_64"];
+window.ALL_CRATES = ["bit_field","enderpearl","lazy_static","rinuxcore","spin","std3","uart_16550","vga_buffer","volatile","x86_64"];

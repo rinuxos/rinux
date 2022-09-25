@@ -148,7 +148,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="comment">// RDRAND support indicated by CPUID page 01h, ecx bit 30</span>
         <span class="comment">// https://en.wikipedia.org/wiki/RdRand#Overview</span>
-        <span class="kw">let</span> <span class="ident">cpuid</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">core::arch::x86_64::__cpuid</span>(<span class="number">0x1</span>) };
+        <span class="kw">let</span> <span class="ident">cpuid</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">std3::arch::x86_64::__cpuid</span>(<span class="number">0x1</span>) };
         <span class="kw">if</span> <span class="ident">cpuid</span>.<span class="ident">ecx</span> <span class="op">&amp;</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">30</span>) <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
             <span class="prelude-val">Some</span>(<span class="ident">RdRand</span>(()))
         } <span class="kw">else</span> {
@@ -162,7 +162,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_u64</span>(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span>: <span class="ident">u64</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">unsafe</span> {
-            <span class="kw">match</span> <span class="ident">core::arch::x86_64::_rdrand64_step</span>(<span class="kw-2">&amp;mut</span> <span class="ident">res</span>) {
+            <span class="kw">match</span> <span class="ident">std3::arch::x86_64::_rdrand64_step</span>(<span class="kw-2">&amp;mut</span> <span class="ident">res</span>) {
                 <span class="number">1</span> =&gt; <span class="prelude-val">Some</span>(<span class="ident">res</span>),
                 <span class="ident">x</span> =&gt; {
                     <span class="macro">debug_assert_eq!</span>(<span class="ident">x</span>, <span class="number">0</span>, <span class="string">&quot;rdrand64 returned non-binary value&quot;</span>);
@@ -177,7 +177,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_u32</span>(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">unsafe</span> {
-            <span class="kw">match</span> <span class="ident">core::arch::x86_64::_rdrand32_step</span>(<span class="kw-2">&amp;mut</span> <span class="ident">res</span>) {
+            <span class="kw">match</span> <span class="ident">std3::arch::x86_64::_rdrand32_step</span>(<span class="kw-2">&amp;mut</span> <span class="ident">res</span>) {
                 <span class="number">1</span> =&gt; <span class="prelude-val">Some</span>(<span class="ident">res</span>),
                 <span class="ident">x</span> =&gt; {
                     <span class="macro">debug_assert_eq!</span>(<span class="ident">x</span>, <span class="number">0</span>, <span class="string">&quot;rdrand32 returned non-binary value&quot;</span>);
@@ -192,7 +192,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_u16</span>(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span>: <span class="ident">u16</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">unsafe</span> {
-            <span class="kw">match</span> <span class="ident">core::arch::x86_64::_rdrand16_step</span>(<span class="kw-2">&amp;mut</span> <span class="ident">res</span>) {
+            <span class="kw">match</span> <span class="ident">std3::arch::x86_64::_rdrand16_step</span>(<span class="kw-2">&amp;mut</span> <span class="ident">res</span>) {
                 <span class="number">1</span> =&gt; <span class="prelude-val">Some</span>(<span class="ident">res</span>),
                 <span class="ident">x</span> =&gt; {
                     <span class="macro">debug_assert_eq!</span>(<span class="ident">x</span>, <span class="number">0</span>, <span class="string">&quot;rdrand16 returned non-binary value&quot;</span>);
