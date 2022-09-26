@@ -129,7 +129,7 @@
 <span class="comment">//</span>
 
 <span class="kw">use</span> <span class="ident">lazy_static::lazy_static</span>;
-<span class="kw">use</span> <span class="ident">spin::Mutex</span>;
+<span class="kw">use</span> <span class="ident">std3::sync::Mutex</span>;
 <span class="kw">use</span> <span class="ident">uart_16550::SerialPort</span>;
 
 <span class="macro">lazy_static!</span> {
@@ -141,8 +141,8 @@
 }
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">_print</span>(<span class="ident">args</span>: <span class="ident">::core::fmt::Arguments</span>) {
-    <span class="kw">use</span> <span class="ident">core::fmt::Write</span>;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">_print</span>(<span class="ident">args</span>: <span class="ident">::std3::fmt::Arguments</span>) {
+    <span class="kw">use</span> <span class="ident">std3::fmt::Write</span>;
     <span class="kw">use</span> <span class="ident">x86_64::instructions::interrupts</span>;
 
     <span class="ident">interrupts::without_interrupts</span>(<span class="op">|</span><span class="op">|</span> {

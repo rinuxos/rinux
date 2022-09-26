@@ -25,7 +25,7 @@
 #![no_std]
 #![no_main]
 
-use core::panic::PanicInfo;
+use std3::panic::PanicInfo;
 use rinuxcore::{exit_qemu, serial_print, serial_println, QemuExitCode};
 
 #[no_mangle]

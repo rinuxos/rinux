@@ -24,7 +24,7 @@
 
 use super::{align_up, Locked};
 use alloc::alloc::{GlobalAlloc, Layout};
-use core::{mem, ptr};
+use std3::{mem, ptr};
 
 struct ListNode {
     size: usize,

@@ -778,14 +778,14 @@
     <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::structures::paging::Size4KiB</span>;
     <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::PrivilegeLevel</span>;
     <span class="kw">use</span> <span class="ident">bit_field::BitField</span>;
-    <span class="kw">use</span> <span class="ident">core::convert::TryInto</span>;
+    <span class="kw">use</span> <span class="ident">std3::convert::TryInto</span>;
     <span class="comment">// imports for intra doc links</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">doc</span>)]</span>
     <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::registers</span>::{
         <span class="ident">control::Cr4Flags</span>,
         <span class="ident">segmentation</span>::{<span class="ident">Segment</span>, <span class="ident">Segment64</span>, <span class="ident">CS</span>, <span class="ident">SS</span>},
     };
-    <span class="kw">use</span> <span class="ident">core::arch::asm</span>;
+    <span class="kw">use</span> <span class="ident">std3::arch::asm</span>;
 
     <span class="kw">impl</span> <span class="ident">Msr</span> {
         <span class="doccomment">/// Read 64 bits msr register.</span>

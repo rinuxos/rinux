@@ -24,7 +24,7 @@
 
 use crate::vga_buffer::print_ok;
 use alloc::alloc::{GlobalAlloc, Layout};
-use core::ptr::null_mut;
+use std3::ptr::null_mut;
 use fixed_size_block::FixedSizeBlockAllocator;
 use x86_64::{
     structures::paging::{
@@ -86,17 +86,17 @@ unsafe impl GlobalAlloc for Dummy {
 }
 
 pub(crate) struct Locked<A> {
-    inner: spin::Mutex<A>,
+    inner: std3::sync::Mutex<A>,
 }
 
 impl<A> Locked<A> {
     pub(crate) const fn new(inner: A) -> Self {
         Locked {
-            inner: spin::Mutex::new(inner),
+            inner: std3::sync::Mutex::new(inner),
         }
     }
 
-    pub(crate) fn lock(&self) -> spin::MutexGuard<A> {
+    pub(crate) fn lock(&self) -> std3::sync::MutexGuard<A> {
         self.inner.lock()
     }
 }

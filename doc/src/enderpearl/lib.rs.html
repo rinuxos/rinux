@@ -359,6 +359,7 @@
 <span id="353">353</span>
 <span id="354">354</span>
 <span id="355">355</span>
+<span id="356">356</span>
 </pre><pre class="rust"><code><span class="comment">//</span>
 <span class="comment">// MIT License</span>
 <span class="comment">//</span>
@@ -399,6 +400,10 @@
 
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">alloc</span>;
 <span class="kw">use</span> <span class="ident">alloc</span>::{<span class="ident">string::String</span>, <span class="ident">vec::Vec</span>};
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">__runner</span> {
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::runner</span>::<span class="kw-2">*</span>;
+}
 <span class="kw">mod</span> <span class="ident">runner</span>;
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
@@ -611,12 +616,9 @@
     }
 
     <span class="doccomment">/// Uses a custom runner to run the command</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">_useCustomRunner</span><span class="op">&lt;</span><span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">String</span>, <span class="ident">bool</span>) -&gt; ()<span class="op">&gt;</span>(
-        <span class="ident">command</span>: <span class="kw-2">&amp;</span><span class="ident">Command</span>,
-        <span class="ident">print</span>: <span class="ident">bool</span>,
-        <span class="kw-2">mut</span> <span class="ident">f</span>: <span class="ident">F</span>,
-    ) {
-        <span class="ident">f</span>(<span class="ident">String::from</span>(<span class="kw-2">&amp;</span><span class="ident">command</span>.<span class="ident">command</span>), <span class="ident">print</span>)
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">_useCustomRunner</span>(<span class="ident">f</span>: <span class="ident">runner::RunableFunc</span>) {
+        <span class="ident">runner::set_runner</span>(<span class="ident">runner::Runner::Custom</span>(<span class="ident">f</span>));
+        <span class="comment">// f(String::from(&amp;command.command), print)</span>
     }
 }
 

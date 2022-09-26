@@ -945,7 +945,7 @@
 <span class="attribute">#![<span class="ident">warn</span>(<span class="ident">missing_docs</span>)]</span>
 
 <span class="kw">use</span> <span class="ident">access</span>::{<span class="ident">ReadOnly</span>, <span class="ident">ReadWrite</span>, <span class="ident">Readable</span>, <span class="ident">Writable</span>, <span class="ident">WriteOnly</span>};
-<span class="kw">use</span> <span class="ident">core</span>::{
+<span class="kw">use</span> <span class="ident">std3</span>::{
     <span class="ident">fmt</span>,
     <span class="ident">marker::PhantomData</span>,
     <span class="ident">ops::Deref</span>,
@@ -954,7 +954,7 @@
     <span class="ident">slice::SliceIndex</span>,
 };
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">core</span>::{
+<span class="kw">use</span> <span class="ident">std3</span>::{
     <span class="ident">intrinsics</span>,
     <span class="ident">ops</span>::{<span class="ident">Range</span>, <span class="ident">RangeBounds</span>},
     <span class="ident">slice::range</span>,
@@ -1104,7 +1104,7 @@
     <span class="doccomment">/// Returns a copy of the read value. Volatile reads are guaranteed not to be optimized</span>
     <span class="doccomment">/// away by the compiler, but by themselves do not have atomic ordering</span>
     <span class="doccomment">/// guarantees. To also get atomicity, consider looking at the `Atomic` wrapper types of</span>
-    <span class="doccomment">/// the standard/`core` library.</span>
+    <span class="doccomment">/// the standard/`std3` library.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ## Examples</span>
     <span class="doccomment">///</span>
@@ -1131,7 +1131,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Volatile writes are guaranteed to not be optimized away by the compiler, but by</span>
     <span class="doccomment">/// themselves do not have atomic ordering guarantees. To also get atomicity, consider</span>
-    <span class="doccomment">/// looking at the `Atomic` wrapper types of the standard/`core` library.</span>
+    <span class="doccomment">/// looking at the `Atomic` wrapper types of the standard/`std3` library.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ## Example</span>
     <span class="doccomment">///</span>
@@ -1553,7 +1553,7 @@
         <span class="ident">T</span>: <span class="ident">Copy</span>,
         <span class="ident">R</span>: <span class="ident">DerefMut</span>,
     {
-        <span class="comment">// implementation taken from https://github.com/rust-lang/rust/blob/683d1bcd405727fcc9209f64845bd3b9104878b8/library/core/src/slice/mod.rs#L2726-L2738</span>
+        <span class="comment">// implementation taken from https://github.com/rust-lang/rust/blob/683d1bcd405727fcc9209f64845bd3b9104878b8/library/std3/src/slice/mod.rs#L2726-L2738</span>
         <span class="kw">let</span> <span class="ident">Range</span> {
             <span class="ident">start</span>: <span class="ident">src_start</span>,
             <span class="ident">end</span>: <span class="ident">src_end</span>,

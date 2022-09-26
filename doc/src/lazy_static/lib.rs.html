@@ -194,6 +194,8 @@
 <span id="188">188</span>
 <span id="189">189</span>
 <span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
 </pre><pre class="rust"><code><span class="comment">//</span>
 <span class="comment">// MIT License</span>
 <span class="comment">//</span>
@@ -288,7 +290,9 @@ This crate provides one cargo feature:
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">lazy</span>;
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">core::ops::Deref</span> <span class="kw">as</span> <span class="ident">__Deref</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">std3</span>;
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std3::ops::Deref</span> <span class="kw">as</span> <span class="ident">__Deref</span>;
 
 <span class="attribute">#[<span class="ident">macro_export</span>(<span class="ident">local_inner_macros</span>)]</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>

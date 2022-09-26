@@ -26,8 +26,8 @@
 //! operations.
 
 #![no_std]
-
-use core::ops::{Bound, Range, RangeBounds};
+extern crate std3;
+use std3::ops::{Bound, Range, RangeBounds};
 
 /// A generic trait which provides methods for extracting and setting specific bits or ranges of
 /// bits.
@@ -230,7 +230,7 @@ pub trait BitArray<T: BitField> {
 macro_rules! bitfield_numeric_impl {
     ($($t:ty)*) => ($(
         impl BitField for $t {
-            const BIT_LENGTH: usize = ::core::mem::size_of::<Self>() as usize * 8;
+            const BIT_LENGTH: usize = ::std3::mem::size_of::<Self>() as usize * 8;
 
             #[inline]
             fn get_bit(&self, bit: usize) -> bool {

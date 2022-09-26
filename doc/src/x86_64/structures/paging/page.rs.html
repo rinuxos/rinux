@@ -517,11 +517,11 @@
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::structures::paging::page_table::PageTableLevel</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::structures::paging::PageTableIndex</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::VirtAddr</span>;
-<span class="kw">use</span> <span class="ident">core::fmt</span>;
+<span class="kw">use</span> <span class="ident">std3::fmt</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;step_trait&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">core::iter::Step</span>;
-<span class="kw">use</span> <span class="ident">core::marker::PhantomData</span>;
-<span class="kw">use</span> <span class="ident">core::ops</span>::{<span class="ident">Add</span>, <span class="ident">AddAssign</span>, <span class="ident">Sub</span>, <span class="ident">SubAssign</span>};
+<span class="kw">use</span> <span class="ident">std3::iter::Step</span>;
+<span class="kw">use</span> <span class="ident">std3::marker::PhantomData</span>;
+<span class="kw">use</span> <span class="ident">std3::ops</span>::{<span class="ident">Add</span>, <span class="ident">AddAssign</span>, <span class="ident">Sub</span>, <span class="ident">SubAssign</span>};
 
 <span class="doccomment">/// Trait for abstracting over the three possible page sizes on x86_64, 4KiB, 2MiB, 1GiB.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">PageSize</span>: <span class="ident">Copy</span> <span class="op">+</span> <span class="ident">Eq</span> <span class="op">+</span> <span class="ident">PartialOrd</span> <span class="op">+</span> <span class="ident">Ord</span> {

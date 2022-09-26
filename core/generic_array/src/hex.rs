@@ -15,7 +15,7 @@
 //! ```
 //!
 
-use core::{fmt, str, ops::Add, cmp::min};
+use std3::{fmt, str, ops::Add, cmp::min};
 
 use typenum::*;
 

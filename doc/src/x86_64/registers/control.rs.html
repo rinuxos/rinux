@@ -627,7 +627,7 @@
 <span class="kw">mod</span> <span class="ident">x86_64</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">instructions::tlb::Pcid</span>, <span class="ident">structures::paging::PhysFrame</span>, <span class="ident">PhysAddr</span>, <span class="ident">VirtAddr</span>};
-    <span class="kw">use</span> <span class="ident">core::arch::asm</span>;
+    <span class="kw">use</span> <span class="ident">std3::arch::asm</span>;
 
     <span class="kw">impl</span> <span class="ident">Cr0</span> {
         <span class="doccomment">/// Read the current set of CR0 flags.</span>

@@ -28,6 +28,9 @@ version = "0.1.0"
 edition = "2021"
 authors = ["AtomicGamer9523@github.com"]
 
+[dependencies]
+std3 = "0.1.1"
+
 [features]
 # Enable unstable features; requires Rust nightly; might break on compiler updates
 unstable = []

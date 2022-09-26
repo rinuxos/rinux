@@ -71,14 +71,14 @@ async fn main() {
 #[doc(hidden)]
 #[cfg(not(test))]
 #[panic_handler]
-fn panic(info: &core::panic::PanicInfo) -> ! {
+fn panic(info: &std3::panic::PanicInfo) -> ! {
     rinuxcore::print_err!("{}", info);
     rinuxcore::hlt_loop();
 }
 #[doc(hidden)]
 #[cfg(test)]
 #[panic_handler]
-fn panic(info: &core::panic::PanicInfo) -> ! {
+fn panic(info: &std3::panic::PanicInfo) -> ! {
     rinuxcore::test_panic_handler(info)
 }
 #[test_case]

@@ -894,11 +894,11 @@
 <span class="doccomment">//! Physical and virtual addresses manipulation</span>
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;step_trait&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">core::convert::TryFrom</span>;
-<span class="kw">use</span> <span class="ident">core::fmt</span>;
+<span class="kw">use</span> <span class="ident">std3::convert::TryFrom</span>;
+<span class="kw">use</span> <span class="ident">std3::fmt</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;step_trait&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">core::iter::Step</span>;
-<span class="kw">use</span> <span class="ident">core::ops</span>::{<span class="ident">Add</span>, <span class="ident">AddAssign</span>, <span class="ident">Sub</span>, <span class="ident">SubAssign</span>};
+<span class="kw">use</span> <span class="ident">std3::iter::Step</span>;
+<span class="kw">use</span> <span class="ident">std3::ops</span>::{<span class="ident">Add</span>, <span class="ident">AddAssign</span>, <span class="ident">Sub</span>, <span class="ident">SubAssign</span>};
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::structures::paging::page_table::PageTableLevel</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::structures::paging</span>::{<span class="ident">PageOffset</span>, <span class="ident">PageTableIndex</span>};
@@ -944,7 +944,7 @@
 <span class="doccomment">/// Contains the invalid address.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VirtAddrNotValid</span>(<span class="kw">pub</span> <span class="ident">u64</span>);
 
-<span class="kw">impl</span> <span class="ident">core::fmt::Debug</span> <span class="kw">for</span> <span class="ident">VirtAddrNotValid</span> {
+<span class="kw">impl</span> <span class="ident">std3::fmt::Debug</span> <span class="kw">for</span> <span class="ident">VirtAddrNotValid</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_tuple</span>(<span class="string">&quot;VirtAddrNotValid&quot;</span>)
             .<span class="ident">field</span>(<span class="kw-2">&amp;</span><span class="macro">format_args!</span>(<span class="string">&quot;{:#x}&quot;</span>, <span class="self">self</span>.<span class="number">0</span>))
@@ -1303,7 +1303,7 @@
 <span class="doccomment">/// Contains the invalid address.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PhysAddrNotValid</span>(<span class="kw">pub</span> <span class="ident">u64</span>);
 
-<span class="kw">impl</span> <span class="ident">core::fmt::Debug</span> <span class="kw">for</span> <span class="ident">PhysAddrNotValid</span> {
+<span class="kw">impl</span> <span class="ident">std3::fmt::Debug</span> <span class="kw">for</span> <span class="ident">PhysAddrNotValid</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_tuple</span>(<span class="string">&quot;PhysAddrNotValid&quot;</span>)
             .<span class="ident">field</span>(<span class="kw-2">&amp;</span><span class="macro">format_args!</span>(<span class="string">&quot;{:#x}&quot;</span>, <span class="self">self</span>.<span class="number">0</span>))

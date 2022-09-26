@@ -33,7 +33,7 @@ pub mod segmentation;
 pub mod tables;
 pub mod tlb;
 
-use core::arch::asm;
+use std3::arch::asm;
 
 /// Halts the CPU until the next interrupt arrives.
 #[inline]

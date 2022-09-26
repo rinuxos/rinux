@@ -1,9 +1,9 @@
 //! Useful traits for manipulating sequences of data stored in `GenericArray`s
 
 use super::*;
-use core::ops::{Add, Sub};
-use core::mem::MaybeUninit;
-use core::ptr;
+use std3::ops::{Add, Sub};
+use std3::mem::MaybeUninit;
+use std3::ptr;
 use typenum::operator_aliases::*;
 
 /// Defines some sequence with an associated length and iteration capabilities.

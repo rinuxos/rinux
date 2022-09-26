@@ -91,7 +91,7 @@ use bitflags::bitflags;
 macro_rules! wait_for {
     ($cond:expr) => {
         while !$cond {
-            core::hint::spin_loop()
+            std3::hint::spin_loop()
         }
     };
 }

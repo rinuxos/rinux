@@ -27,9 +27,9 @@
 use super::page::AddressNotAligned;
 use crate::structures::paging::page::{PageSize, Size4KiB};
 use crate::PhysAddr;
-use core::fmt;
-use core::marker::PhantomData;
-use core::ops::{Add, AddAssign, Sub, SubAssign};
+use std3::fmt;
+use std3::marker::PhantomData;
+use std3::ops::{Add, AddAssign, Sub, SubAssign};
 
 /// A physical memory frame.
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]

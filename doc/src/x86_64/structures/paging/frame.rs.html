@@ -272,9 +272,9 @@
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::page::AddressNotAligned</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::structures::paging::page</span>::{<span class="ident">PageSize</span>, <span class="ident">Size4KiB</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::PhysAddr</span>;
-<span class="kw">use</span> <span class="ident">core::fmt</span>;
-<span class="kw">use</span> <span class="ident">core::marker::PhantomData</span>;
-<span class="kw">use</span> <span class="ident">core::ops</span>::{<span class="ident">Add</span>, <span class="ident">AddAssign</span>, <span class="ident">Sub</span>, <span class="ident">SubAssign</span>};
+<span class="kw">use</span> <span class="ident">std3::fmt</span>;
+<span class="kw">use</span> <span class="ident">std3::marker::PhantomData</span>;
+<span class="kw">use</span> <span class="ident">std3::ops</span>::{<span class="ident">Add</span>, <span class="ident">AddAssign</span>, <span class="ident">Sub</span>, <span class="ident">SubAssign</span>};
 
 <span class="doccomment">/// A physical memory frame.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">Hash</span>)]</span>

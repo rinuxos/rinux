@@ -26,7 +26,7 @@
 
 use crate::structures::gdt::SegmentSelector;
 use crate::VirtAddr;
-use core::arch::asm;
+use std3::arch::asm;
 
 pub use crate::structures::DescriptorTablePointer;
 

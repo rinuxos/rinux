@@ -187,14 +187,14 @@ mod x86_64 {
     use crate::structures::paging::Size4KiB;
     use crate::PrivilegeLevel;
     use bit_field::BitField;
-    use core::convert::TryInto;
+    use std3::convert::TryInto;
     // imports for intra doc links
     #[cfg(doc)]
     use crate::registers::{
         control::Cr4Flags,
         segmentation::{Segment, Segment64, CS, SS},
     };
-    use core::arch::asm;
+    use std3::arch::asm;
 
     impl Msr {
         /// Read 64 bits msr register.

@@ -24,7 +24,7 @@
 
 use crate::{print, print_err, vga_buffer::print_ok};
 use conquer_once::spin::OnceCell;
-use core::{
+use std3::{
     pin::Pin,
     task::{Context, Poll},
 };

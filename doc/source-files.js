@@ -4,6 +4,7 @@ sourcesIndex["enderpearl"] = {"name":"","files":["lib.rs","runner.rs"]};
 sourcesIndex["lazy_static"] = {"name":"","files":["lazy.rs","lib.rs"]};
 sourcesIndex["rinuxcore"] = {"name":"","dirs":[{"name":"allocator","files":["bump.rs","fixed_size_block.rs","linked_list.rs"]},{"name":"conf","files":["file.rs","mod.rs"]},{"name":"task","files":["executor.rs","keyboard.rs","mod.rs","simple_executor.rs"]}],"files":["allocator.rs","gdt.rs","interrupts.rs","lib.rs","memory.rs","serial.rs"]};
 sourcesIndex["spin"] = {"name":"","dirs":[{"name":"mutex","files":["spin.rs"]}],"files":["barrier.rs","lazy.rs","lib.rs","mutex.rs","once.rs","relax.rs","rwlock.rs"]};
+sourcesIndex["std3"] = {"name":"","files":["lib.rs","non_builtin.rs"]};
 sourcesIndex["uart_16550"] = {"name":"","files":["lib.rs","mmio.rs","port.rs"]};
 sourcesIndex["vga_buffer"] = {"name":"","files":["lib.rs","writers.rs"]};
 sourcesIndex["volatile"] = {"name":"","files":["access.rs","lib.rs"]};

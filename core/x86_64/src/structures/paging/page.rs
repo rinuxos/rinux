@@ -27,11 +27,11 @@
 use crate::structures::paging::page_table::PageTableLevel;
 use crate::structures::paging::PageTableIndex;
 use crate::VirtAddr;
-use core::fmt;
+use std3::fmt;
 #[cfg(feature = "step_trait")]
-use core::iter::Step;
-use core::marker::PhantomData;
-use core::ops::{Add, AddAssign, Sub, SubAssign};
+use std3::iter::Step;
+use std3::marker::PhantomData;
+use std3::ops::{Add, AddAssign, Sub, SubAssign};
 
 /// Trait for abstracting over the three possible page sizes on x86_64, 4KiB, 2MiB, 1GiB.
 pub trait PageSize: Copy + Eq + PartialOrd + Ord {

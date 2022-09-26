@@ -185,7 +185,7 @@ bitflags! {
 mod x86_64 {
     use super::*;
     use crate::{instructions::tlb::Pcid, structures::paging::PhysFrame, PhysAddr, VirtAddr};
-    use core::arch::asm;
+    use std3::arch::asm;
 
     impl Cr0 {
         /// Read the current set of CR0 flags.

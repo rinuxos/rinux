@@ -199,7 +199,7 @@ impl GlobalDescriptorTable {
     /// safely used if the table is never modified or destroyed while in use.
     #[cfg(feature = "instructions")]
     fn pointer(&self) -> super::DescriptorTablePointer {
-        use core::mem::size_of;
+        use std3::mem::size_of;
         super::DescriptorTablePointer {
             base: crate::VirtAddr::new(self.table.as_ptr() as u64),
             limit: (self.len * size_of::<u64>() - 1) as u16,
@@ -346,7 +346,7 @@ impl Descriptor {
     #[inline]
     pub fn tss_segment(tss: &'static TaskStateSegment) -> Descriptor {
         use self::DescriptorFlags as Flags;
-        use core::mem::size_of;
+        use std3::mem::size_of;
 
         let ptr = tss as *const _ as u64;
 

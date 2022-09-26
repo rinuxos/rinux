@@ -25,7 +25,7 @@
 use crate::{gdt, hlt_loop, print_err, vga_buffer::print_ok};
 use lazy_static::lazy_static;
 use pic8259::ChainedPics;
-use spin;
+use std3::sync as spin;
 use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame, PageFaultErrorCode};
 
 pub(crate) const PIC_1_OFFSET: u8 = 32;

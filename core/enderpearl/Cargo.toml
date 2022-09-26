@@ -30,3 +30,4 @@ authors = ["AtomicGamer9523@github.com"]
 
 [dependencies]
 lazy_static = { path = "../lazy_static", package = "lazy_static" }
+std3 = "0.1.1"

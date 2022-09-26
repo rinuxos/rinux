@@ -60,13 +60,13 @@
 //! 
 //! #[cfg(not(test))]
 //! #[panic_handler]
-//! fn panic(info: &core::panic::PanicInfo) -> ! {
+//! fn panic(info: &std3::panic::PanicInfo) -> ! {
 //!     rinuxcore::print_err!("{}", info);
 //!     rinuxcore::hlt_loop();
 //! }
 //! #[cfg(test)]
 //! #[panic_handler]
-//! fn panic(info: &core::panic::PanicInfo) -> ! {
+//! fn panic(info: &std3::panic::PanicInfo) -> ! {
 //!     rinuxcore::test_panic_handler(info)
 //! }
 //! #[test_case]
@@ -102,7 +102,7 @@ macro_rules! kernel {
     };
 }
 
-use core::panic::PanicInfo;
+use std3::panic::PanicInfo;
 use memory::BootInfoFrameAllocator;
 pub mod conf;
 extern crate alloc;
@@ -144,7 +144,7 @@ static mut CONFIGURED: bool = false;
 static mut CONFIGTYPE: ConfigType = ConfigType::File;
 pub(crate) static mut CONFIG: conf::Config = conf::Config::cnst();
 static mut TEST_MODE: BuildType = BuildType::Test;
-const VERSION: &'static str = "v1.0.0-RELEASE";
+const VERSION: &'static str = "v1.2.0-RELEASE";
 const AUTHORS: &'static str = "Atomic";
 const RINUX_ART: &'static str = r#"######   ###  #     #  #     #  #     #
 #     #   #   ##    #  #     #   #   #
@@ -179,7 +179,7 @@ pub fn set_config_type(config_type: ConfigType) {
     };
 }
 
-/// Initializes the core of Rinux
+/// Initializes the std3 of Rinux
 pub fn init(boot_info: &'static BootInfo) {
     unsafe {
         if CONFIGURED != true {
@@ -288,7 +288,7 @@ where
     T: Fn(),
 {
     fn run(&self) {
-        serial_print!("{}...\t", core::any::type_name::<T>());
+        serial_print!("{}...\t", std3::any::type_name::<T>());
         self();
         serial_println!("[ok]");
     }

@@ -524,7 +524,7 @@ pub trait CleanUp {
 
     /// Remove all empty P1-P3 tables in a certain range
     /// ```
-    /// # use core::ops::RangeInclusive;
+    /// # use std3::ops::RangeInclusive;
     /// # use x86_64::{VirtAddr, structures::paging::{
     /// #    FrameDeallocator, Size4KiB, mapper::CleanUp, page::Page,
     /// # }};

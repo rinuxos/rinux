@@ -32,6 +32,7 @@ repository = "https://github.com/rust-osdev/uart_16550"
 edition = "2018"
 
 [dependencies]
+std3 = "0.1.1"
 bitflags = "1.1.0"
 rustversion = "1.0.5"
 

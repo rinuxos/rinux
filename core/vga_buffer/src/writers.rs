@@ -23,12 +23,10 @@
 //
 
 use lazy_static::lazy_static;
-use core::ops::{Deref, DerefMut};
+use std3::ops::{Deref, DerefMut};
 use volatile::Volatile;
-pub use core::fmt::{self,Write};
-use spin::Mutex;
-
-extern crate alloc;
+pub use std3::fmt::{self,Write};
+use std3::sync::Mutex;
 
 lazy_static! {
     #[doc(hidden)]

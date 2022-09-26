@@ -24,7 +24,7 @@
 
 use super::Locked;
 use alloc::alloc::{GlobalAlloc, Layout};
-use core::{
+use std3::{
     mem,
     ptr::{self, NonNull},
 };

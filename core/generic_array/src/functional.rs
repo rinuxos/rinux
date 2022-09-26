@@ -3,7 +3,7 @@
 //! Please see `tests/generics.rs` for examples of how to best use these in your generic functions.
 
 use super::ArrayLength;
-use core::iter::FromIterator;
+use std3::iter::FromIterator;
 
 use crate::sequence::*;
 
