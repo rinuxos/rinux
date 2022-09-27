@@ -21,7 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-
+use std3::__reexports::{x86_64,lazy_static,uart_16550};
 use lazy_static::lazy_static;
 use std3::sync::Mutex;
 use uart_16550::SerialPort;

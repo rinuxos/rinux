@@ -33,22 +33,22 @@ use rinuxcore::{
     BootInfo,
 
     //? Useful for setting custom project metadata, instead of using enderpearl
-    set_config_type,ConfigType,conf::Config
+    // set_config_type,ConfigType,conf::Config
 };
 
 
 kernel!(kernel_main);
 fn kernel_main(boot_info: &'static BootInfo) -> ! {
     //? Useful for setting custom project metadata, instead of using enderpearl
-    set_config_type(
-        ConfigType::Custom(
-            Config::new(
-                "MyProject",
-                "v0.1.0",
-                false
-            )
-        )
-    );
+    // set_config_type(
+    //     ConfigType::Custom(
+    //         Config::new(
+    //             "MyProject",
+    //             "v0.1.0",
+    //             false
+    //         )
+    //     )
+    // );
 
     rinuxcore::init(boot_info);
     let mut executor = Executor::new();

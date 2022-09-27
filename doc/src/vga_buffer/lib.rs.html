@@ -129,7 +129,6 @@
 <span id="123">123</span>
 <span id="124">124</span>
 <span id="125">125</span>
-<span id="126">126</span>
 </pre><pre class="rust"><code><span class="comment">//</span>
 <span class="comment">// MIT License</span>
 <span class="comment">//</span>
@@ -157,8 +156,7 @@
 <span class="attribute">#![<span class="ident">no_std</span>]</span>
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">custom_test_frameworks</span>)]</span>
 <span class="attribute">#![<span class="ident">recursion_limit</span> <span class="op">=</span> <span class="string">&quot;512&quot;</span>]</span>
-
-<span class="kw">use</span> <span class="ident">x86_64::instructions::interrupts</span>;
+<span class="kw">use</span> <span class="ident">std3::__reexports::x86_64::instructions::interrupts</span>;
 <span class="kw">mod</span> <span class="ident">writers</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">writers</span>::<span class="kw-2">*</span>;
 

@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"struct":[["XCr0","Extended feature enable mask register"],["XCr0Flags","Configuration flags of the XCr0 register."]]};

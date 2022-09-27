@@ -24,7 +24,7 @@
 
 [package]
 name = "rinuxcore"
-version = "1.0.0"
+version = "2.0.0"
 authors = ["AtomicGamer9523@github.com"]
 edition = "2018"
 license = "MIT"
@@ -39,23 +39,20 @@ harness = false
 
 [features]
 epearl = []
-# blake3 = ["dep:blake3"]
+std3 = []
+
+pureos = []
+custom = []
 
 
 [dependencies]
 bootloader = { version = "0.9.8", features = ["map_physical_memory"]}
-epearl = { path = "../enderpearl", package = "enderpearl" }
-# blake3 = { path = "../blake3/rust_bindings", package = "blake3" }
-config = { path = "../config", package = "config" }
 vga_buffer = { path = "../vga_buffer", package = "vga_buffer" }
-lazy_static = { path = "../lazy_static", package = "lazy_static" }
-volatile = { path = "../volatile", package = "volatile"}
-x86_64 = { path = "../x86_64", package = "x86_64"}
-uart_16550 = { path = "../uart_16550", package = "uart_16550"}
-std3 = "0.1.1"
-pic8259 = "0.10.1"
-pc-keyboard = "0.5.0"
+epearl = { path = "../enderpearl", package = "enderpearl" }
+config = { path = "../config", package = "config" }
 linked_list_allocator = "0.9.0"
+pc-keyboard = "0.5.0"
+pic8259 = "0.10.1"
 
 [dependencies.crossbeam-queue]
 version = "0.2.1"
@@ -70,6 +67,10 @@ default-features = false
 version = "0.3.4"
 default-features = false
 features = ["alloc"]
+
+[dependencies.std3]
+path = "../../std3"
+version = "0.1.22"
 
 
 

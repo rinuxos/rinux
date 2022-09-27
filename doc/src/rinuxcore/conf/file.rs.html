@@ -33,7 +33,6 @@
 <span id="27">27</span>
 <span id="28">28</span>
 <span id="29">29</span>
-<span id="30">30</span>
 </pre><pre class="rust"><code><span class="comment">//</span>
 <span class="comment">// MIT License</span>
 <span class="comment">//</span>
@@ -60,10 +59,9 @@
 
 
 <span class="kw">use</span> <span class="ident">config</span>;
-
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const</span> <span class="ident">PROJECT_NAME</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span> <span class="ident">config::PROJECT_NAME</span>;
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const</span> <span class="ident">PROJECT_VERSION</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span> <span class="ident">config::PROJECT_VERSION</span>;
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const</span> <span class="ident">QUIET_BOOT</span>: <span class="ident">bool</span> <span class="op">=</span> <span class="ident">config::QUIET_BOOT</span>;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">static</span> <span class="kw-2">mut</span> <span class="ident">PROJECT_NAME</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span> <span class="ident">config::PROJECT_NAME</span>;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">static</span> <span class="kw-2">mut</span> <span class="ident">PROJECT_VERSION</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span> <span class="ident">config::PROJECT_VERSION</span>;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">static</span> <span class="kw-2">mut</span> <span class="ident">QUIET_BOOT</span>: <span class="ident">bool</span> <span class="op">=</span> <span class="ident">config::QUIET_BOOT</span>;
 </code></pre></div>
 </section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="rinuxcore" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (20a6f3a8a 2022-06-25)" ></div>
 </body></html>

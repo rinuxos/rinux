@@ -1,6 +1,6 @@
-/target
+**/target
 
-Cargo.lock
+**/Cargo.lock
 
 **/*.rs.bk
 
@@ -9,4 +9,4 @@ Cargo.lock
 
 # Now Auto-Generated
 /enderpearl/*.enderpearl
-*.exe
+**/*.exe

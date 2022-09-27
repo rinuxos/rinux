@@ -4,11 +4,7 @@ All commands are allowed
 
 
 If you are getting the error 'Please use the enderpearl build system' try running
-'enderpearl tryfix', fixed the issue 99% of the time
-#TRYFIX(
-cargo build
-cargo check
-)
+'./epearl --fix', fixed the issue 99% of the time
 
 
 #FIRSTRUN(
@@ -16,13 +12,13 @@ cargo build
 cargo check
 )
 
+#HELPME(
+echo run './epearl --help' for help
+)
+
 
 #BUILD(
 echo nothing in build
-)
-
-#DOC(
-cargo doc --no-deps --package "bit_field@0.10.0" --package "enderpearl" --package "lazy_static" --package "rinuxcore" --package "spin" --package "uart_16550" --package "vga_buffer" --package "volatile@0.1.0" --package "x86_64@2.14.10"
 )
 
 

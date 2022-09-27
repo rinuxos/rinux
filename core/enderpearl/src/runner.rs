@@ -26,15 +26,17 @@
 //TODO: Implement a runner system
 
 extern crate alloc;
+
 use alloc::{string::String,boxed::Box};
 
 pub type RunableFunc = Box<dyn Fn(&String,bool)->Result<(),RunnerError>>;
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
 pub struct RunnerError {
-    error: String,
+    error: &'static str,
 }
 impl RunnerError {
-    pub fn new(error: String) -> Self { Self { error } }
+    pub fn new(error: &'static str) -> Self { Self { error } }
     pub fn to_panic(&self) { panic!("{}", self.error) }
 }
 
@@ -70,6 +72,9 @@ pub(crate) fn run(command: &String, print: bool) {
     };
 }
 
-pub(crate) fn default_runner(_command: &String, _print: bool) -> Result<(),RunnerError>{
-    panic!("Please use custom enderpearl runners for now");
+pub(crate) fn default_runner(command: &String, _print: bool) -> Result<(),RunnerError> {
+    if command != "" {
+        RunnerError::new("Please use custom enderpearl runners for now");
+    }
+    Ok(())
 }

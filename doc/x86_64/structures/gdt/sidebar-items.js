@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":[["Descriptor","A 64-bit mode segment descriptor."]],"struct":[["DescriptorFlags","Flags for a GDT descriptor. Not all flags are valid for all descriptor types."],["GlobalDescriptorTable","A 64-bit mode global descriptor table (GDT)."]]};

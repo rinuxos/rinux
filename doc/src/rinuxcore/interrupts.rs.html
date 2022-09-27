@@ -131,6 +131,7 @@
 <span id="125">125</span>
 <span id="126">126</span>
 <span id="127">127</span>
+<span id="128">128</span>
 </pre><pre class="rust"><code><span class="comment">//</span>
 <span class="comment">// MIT License</span>
 <span class="comment">//</span>
@@ -156,6 +157,7 @@
 <span class="comment">//</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">gdt</span>, <span class="ident">hlt_loop</span>, <span class="ident">print_err</span>, <span class="ident">vga_buffer::print_ok</span>};
+<span class="kw">use</span> <span class="ident">std3::__reexports</span>::{<span class="ident">x86_64</span>,<span class="ident">lazy_static</span>};
 <span class="kw">use</span> <span class="ident">lazy_static::lazy_static</span>;
 <span class="kw">use</span> <span class="ident">pic8259::ChainedPics</span>;
 <span class="kw">use</span> <span class="ident">std3::sync</span> <span class="kw">as</span> <span class="ident">spin</span>;

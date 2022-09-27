@@ -24,6 +24,7 @@
 
 use crate::vga_buffer::print_ok;
 use bootloader::bootinfo::{MemoryMap, MemoryRegionType};
+use std3::__reexports::x86_64;
 use x86_64::{
     structures::paging::{FrameAllocator, OffsetPageTable, PageTable, PhysFrame, Size4KiB},
     PhysAddr, VirtAddr,

@@ -156,14 +156,13 @@ impl ConfigKV {
     }
 }
 
+#[allow(unused_assignments)]
 pub(crate) fn read_config(contents: String) -> Vec<ConfigKV> {
     let mut keys_and_values: Vec<ConfigKV> = Vec::new();
-    #[allow(unused_assignments)]
     let mut kv1: ConfigKV = ConfigKV::new();
     let mut key1: String = String::new();
     let mut val1: String = String::new();
     let mut dattype: u8 = 0;
-    #[allow(unused_assignments)]
     for part in contents.chars() {
         if part == '#' {
             kv1 = ConfigKV::new();
@@ -289,9 +288,47 @@ pub(crate) fn runcmd(cmd: String, tkn: &EnderPearl, print: bool){
 }
 pub(crate) fn help(color: bool){
     if color {
-        println!("\x1b[38;5;24mEnderPearl\x1b[0m:\n    '\x1b[38;5;34mbuild\x1b[0m' or '\x1b[38;5;34m.\x1b[0m' \x1b[38;5;208m->\x1b[0m runs the '\x1b[38;5;87mbuild\x1b[0m' command\n    '\x1b[38;5;34m*\x1b[0m' \x1b[38;5;208m->\x1b[0m runs the command with that name");
+        println!("\x1b[38;5;24mEnderPearl\x1b[0m:\n    '\x1b[38;5;34m--fix\x1b[0m' \x1b[38;5;208m->\x1b[0m attempts to fix build errors\n    '\x1b[38;5;34m--gen\x1b[0m' \x1b[38;5;208m->\x1b[0m generates/modifies files based on your configuration\n    '\x1b[38;5;34m--nocolor\x1b[0m' \x1b[38;5;208m->\x1b[0m prints without color\n    '\x1b[38;5;34mbuild\x1b[0m' or '\x1b[38;5;34m.\x1b[0m' \x1b[38;5;208m->\x1b[0m runs the '\x1b[38;5;87mbuild\x1b[0m' command\n    '\x1b[38;5;34m*\x1b[0m' \x1b[38;5;208m->\x1b[0m runs the command with that name");
     } else {
-        println!("EnderPearl:\n    'build' or '.' -> runs the 'build' command\n    '*' -> runs the command with that name");
+        println!("EnderPearl:\n    '--fix' -> attempts to fix build errors\n    '--gen' -> generates/modifies files based on your configuration\n    '--nocolor' -> prints without color\n    'build' or '.' -> runs the 'build' command\n    '*' -> runs the command with that name");
+    }
+}
+pub(crate) fn gen<T: std::fmt::Display>(print: bool,color: bool,i1: T, i2: T, i3: T) {
+    match File::create("./core/config/src/lib.rs") {
+        Ok(mut f) => {
+            match f.write_all(
+                format!(
+                    "#![no_std]\npub const PROJECT_NAME: &'static str = \"{}\";\npub const PROJECT_VERSION: &'static str = \"{}\";\npub const QUIET_BOOT: bool = {};",
+                    i1,
+                    i2,
+                    i3
+                ).as_bytes()
+            ) {
+                Ok(_) => {
+                    if print {
+                        if color {
+                            println!("\x1b[38;5;24mEnderPearl\x1b[0m: \x1b[38;5;34mGeneration Successful\x1b[0m");
+                        } else {
+                            println!("EnderPearl: Generation Successful");
+                        }
+                    }
+                },
+                Err(_) => {
+                    if color {
+                        println!("\x1b[38;5;24mEnderPearl \x1b[38;5;196mError\x1b[0m: 'Unable to write file: ./core/config/src/lib.rs'");
+                    } else {
+                        println!("EnderPearl Error: 'Unable to write file: ./core/config/src/lib.rs'");
+                    }
+                }
+            }
+        },
+        Err(_) => {
+            if color {
+                println!("\x1b[38;5;24mEnderPearl \x1b[38;5;196mError\x1b[0m: 'Unable to create file: ./core/config/src/lib.rs'");
+            } else {
+                println!("EnderPearl Error: 'Unable to create file: ./core/config/src/lib.rs'");
+            }
+        }
     }
 }
 fn main() -> io::Result<()> {
@@ -319,40 +356,65 @@ fn main() -> io::Result<()> {
         }
     };
     let (_, tkn) = Token::tokenize(contents, contents2);
-    let mut arg: String = match env::args().nth(1) {
-        Some(data) => data,
-        None => String::from("")
-    }.to_lowercase();
-    for args in env::args() {
-        if args.contains("--quiet") {
-            print = false;
-        }
-        if args.contains("--no-color") || args.contains("--nocolor") {
-            color = false;
-        }
-    }
-    if arg.starts_with("--") {
-        arg = arg.replace("--","");
-        if arg == "help" {
-            help(color);
-            return Ok(());
+    for arg in env::args() {
+        if arg.starts_with("--") {
+            if arg.contains("--quiet") {
+                print = false;
+            }
+            if arg.contains("--no-color") || arg.contains("--nocolor") || arg.contains("--no-colour") || arg.contains("--nocolour") || arg.contains("-n") {
+                color = false;
+            }
+            if arg.contains("--help") || arg.contains("-h") {
+                help(color);
+            }
+            if arg.contains("--fix") {
+                gen(false, color,"MyProject","v0.1.0","false");
+            }
+            if arg.contains("--gen") {
+                let config = match File::open("./enderpearl/config.enderpearl") {
+                    Ok(mut f) => {
+                        let mut contents = String::new();
+                        f.read_to_string(&mut contents).unwrap();
+                        read_config(contents)
+                    },
+                    Err(_) => {
+                        if color {
+                            println!("\x1b[38;5;24mEnderPearl \x1b[38;5;196mError\x1b[0m: 'Unable to open file: ./enderpearl/config.enderpearl'");
+                        } else {
+                            println!("EnderPearl Error: 'Unable to open file: ./enderpearl/config.enderpearl'");
+                        }
+                        panic!();
+                    }
+                };
+                let mut name: String = String::new();
+                let mut version: String = String::new();
+                let mut boot: String = String::new();
+                for cfg in config {
+                    if cfg.key.to_lowercase() == "name" {
+                        name = cfg.value;
+                    } else if cfg.key.to_lowercase() == "version" {
+                        version = cfg.value;
+                    } else if cfg.key.to_lowercase() == "quiet" {
+                        if cfg.value.to_lowercase() == "true" {
+                            boot = String::from("true");
+                        } else {
+                            boot = String::from("false");
+                        }
+                    }
+                }
+                gen(print, color, name, version, boot);
+            }
         } else {
-            help(color);
-            return Ok(());
+            if arg == "build" || arg == "." {
+                runcmd(String::from("build"),&tkn,print);
+            } else if arg == "pre" || arg == "post" {
+                println!("Sorry, you may not use this special operation");
+            } else if arg == "" || arg == "help" {
+                help(color);
+            } else {
+                runcmd(arg,&tkn,print);
+            }
         }
-    } else {
-        if arg == "build" || arg == "." {
-            runcmd(String::from("build"),&tkn,print);
-            return Ok(());
-        } else if arg == "pre" || arg == "post" {
-            println!("Sorry, you may not use this special operation");
-            return Ok(());
-        } else if arg == "" || arg == "help" {
-            help(color);
-            return Ok(());
-        } else {
-            runcmd(arg,&tkn,print);
-            return Ok(());
-        }
-    }
+    };
+    Ok(())
 }

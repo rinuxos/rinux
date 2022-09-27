@@ -74,6 +74,9 @@
 <span id="68">68</span>
 <span id="69">69</span>
 <span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
 </pre><pre class="rust"><code><span class="comment">//</span>
 <span class="comment">// MIT License</span>
 <span class="comment">//</span>
@@ -135,12 +138,15 @@
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">get_config</span>(<span class="self">self</span>, <span class="ident">config_type</span>: <span class="ident">ConfigType</span>) -&gt; <span class="self">Self</span> {
         <span class="kw">match</span> <span class="ident">config_type</span> {
-            <span class="ident">ConfigType::File</span> =&gt; <span class="ident">Config</span> {
-                <span class="ident">project_name</span>: <span class="ident">file::PROJECT_NAME</span>,
-                <span class="ident">project_version</span>: <span class="ident">file::PROJECT_VERSION</span>,
-                <span class="ident">quiet_boot</span>: <span class="ident">file::QUIET_BOOT</span>,
-            },
-            <span class="ident">ConfigType::UserDefined</span>(<span class="ident">data</span>) =&gt; <span class="ident">data</span>,
+            <span class="ident">ConfigType::File</span> =&gt; { <span class="kw">unsafe</span> {
+                <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">Config</span> {
+                    <span class="ident">project_name</span>: <span class="ident">file::PROJECT_NAME</span>,
+                    <span class="ident">project_version</span>: <span class="ident">file::PROJECT_VERSION</span>,
+                    <span class="ident">quiet_boot</span>: <span class="ident">file::QUIET_BOOT</span>,
+                };
+                <span class="ident">res</span>
+            }},
+            <span class="ident">ConfigType::UserDefined</span>(<span class="ident">data</span>) =&gt; <span class="ident">data</span>
         }
     }
 }

@@ -84,6 +84,7 @@
 <span id="78">78</span>
 <span id="79">79</span>
 <span id="80">80</span>
+<span id="81">81</span>
 </pre><pre class="rust"><code><span class="comment">//</span>
 <span class="comment">// MIT License</span>
 <span class="comment">//</span>
@@ -109,6 +110,7 @@
 <span class="comment">//</span>
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::vga_buffer::print_ok</span>;
+<span class="kw">use</span> <span class="ident">std3::__reexports</span>::{<span class="ident">x86_64</span>,<span class="ident">lazy_static</span>};
 <span class="kw">use</span> <span class="ident">lazy_static::lazy_static</span>;
 <span class="kw">use</span> <span class="ident">x86_64::structures::gdt</span>::{<span class="ident">Descriptor</span>, <span class="ident">GlobalDescriptorTable</span>, <span class="ident">SegmentSelector</span>};
 <span class="kw">use</span> <span class="ident">x86_64::structures::tss::TaskStateSegment</span>;

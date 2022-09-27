@@ -22,8 +22,9 @@
 // SOFTWARE.
 //
 
+use std3::__reexports::x86_64;
 use super::{Task, TaskId};
-use alloc::{collections::BTreeMap, sync::Arc, task::Wake};
+use std3::{collections::BTreeMap, sync::Arc, task::Wake};
 use std3::task::{Context, Poll, Waker};
 use crossbeam_queue::ArrayQueue;
 

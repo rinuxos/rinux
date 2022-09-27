@@ -23,7 +23,7 @@
 //
 
 use super::Task;
-use alloc::collections::VecDeque;
+use std3::collections::VecDeque;
 use std3::task::{Context, Poll, RawWaker, RawWakerVTable, Waker};
 
 pub struct SimpleExecutor {

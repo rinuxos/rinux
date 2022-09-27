@@ -32,7 +32,3 @@ target = "x86_64-rinux.json"
 [target.'cfg(target_os = "none")']
 runner = "bootimage runner"
 
-
-[env]
-# can be "test", "debug", and "release"
-BUILD_TYPE = "release"
