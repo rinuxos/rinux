@@ -6,7 +6,6 @@ version = "0.1.0"
 more_lengths = []
 
 [dependencies.std3]
-path = "../../std3"
 version = "0.1.22"
 
 [dependencies]

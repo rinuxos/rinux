@@ -69,7 +69,6 @@ default-features = false
 features = ["alloc"]
 
 [dependencies.std3]
-path = "../../std3"
 version = "0.1.22"
 
 

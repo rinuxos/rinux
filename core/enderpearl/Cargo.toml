@@ -29,5 +29,4 @@ edition = "2021"
 authors = ["AtomicGamer9523@github.com"]
 
 [dependencies.std3]
-path = "../../std3"
 version = "0.1.22"
