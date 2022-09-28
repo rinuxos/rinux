@@ -75,6 +75,7 @@
 //! }
 //! ```
 //!  
+//! [STD3 Docs Here](https://www.github.linkrbot.com/std3)
 //!
 
 #![no_std]
@@ -102,6 +103,8 @@ macro_rules! kernel {
     };
 }
 
+
+#[macro_use] pub extern crate std3;
 use std3::panic::PanicInfo;
 use memory::BootInfoFrameAllocator;
 pub mod conf;
@@ -114,16 +117,13 @@ pub mod interrupts;
 pub mod memory;
 #[doc(hidden)]
 pub mod serial;
-pub use x86_64;
+use std3::__reexports::x86_64;
 #[doc(hidden)]
 pub mod gdt;
 pub mod task;
 
 #[cfg(feature = "epearl")]
 pub extern crate epearl;
-
-// #[cfg(feature = "blake3")]
-// pub use blake3;
 
 
 #[allow(unused_imports)]
@@ -135,16 +135,15 @@ pub use vga_buffer::{print,println,print_err};
 #[repr(u8)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum BuildType {
-    Test = 0,
-    Debug = 1,
-    Release = 2,
+    Debug = 0,
+    Release = 1,
 }
 
 static mut CONFIGURED: bool = false;
 static mut CONFIGTYPE: ConfigType = ConfigType::File;
 pub(crate) static mut CONFIG: conf::Config = conf::Config::cnst();
-static mut TEST_MODE: BuildType = BuildType::Test;
-const VERSION: &'static str = "v1.2.0-RELEASE";
+static mut TEST_MODE: BuildType = BuildType::Debug;
+static mut VERSION: &'static str = "v1.3.0";
 const AUTHORS: &'static str = "Atomic";
 const RINUX_ART: &'static str = r#"######   ###  #     #  #     #  #     #
 #     #   #   ##    #  #     #   #   #
@@ -164,15 +163,21 @@ pub enum ConfigType {
 
 /// Used for setting source for rinux to get it's config from
 pub fn set_config_type(config_type: ConfigType) {
-    match config_type {
-        ConfigType::File => {
-            unsafe {
-                CONFIG = conf::Config::cnst().get_config(conf::ConfigType::File);
-            };
-        }
-        ConfigType::Custom(data) => unsafe {
-            CONFIG = conf::Config::cnst().get_config(conf::ConfigType::UserDefined(data));
-        },
+    if cfg!(pureOS) {
+        unsafe {
+            CONFIG = conf::Config::new("PureOS",VERSION,false)
+        };
+    } else {
+        match config_type {
+            ConfigType::File => {
+                unsafe {
+                    CONFIG = conf::Config::cnst().get_config(conf::ConfigType::File);
+                };
+            }
+            ConfigType::Custom(data) => unsafe {
+                CONFIG = conf::Config::cnst().get_config(conf::ConfigType::UserDefined(data));
+            },
+        };
     };
     unsafe {
         CONFIGURED = true;
@@ -199,25 +204,16 @@ pub fn init(boot_info: &'static BootInfo) {
             }
         }
 
-        match env!("BUILD_TYPE") {
-            v => {
-                if v == "test" {
-                    TEST_MODE = BuildType::Test
-                } else if v == "debug" {
-                    TEST_MODE = BuildType::Debug;
-                } else if v == "release" {
-                    TEST_MODE = BuildType::Release;
-                } else {
-                    TEST_MODE = BuildType::Debug;
-                };
-            }
+        if cfg!(debug_assertions) {
+            TEST_MODE = BuildType::Debug;
+        } else {
+            TEST_MODE = BuildType::Release;
+            VERSION = "v1.3.0-RELEASE";
         }
 
         vga_buffer::_print_logo(format_args!("{}\n", RINUX_ART));
         if VERSION.ends_with("-RELEASE") {
-            if TEST_MODE == BuildType::Test {
-                vga_buffer::_print_warn(format_args!("Rinux Version: {}-TEST\n", VERSION));
-            } else if TEST_MODE == BuildType::Debug {
+            if TEST_MODE == BuildType::Debug {
                 vga_buffer::_print_logo(format_args!("Rinux Version: {}\n", VERSION));
             } else if TEST_MODE == BuildType::Release {
                 vga_buffer::_print_logo(format_args!("Rinux Version: {}\n", VERSION));
@@ -225,9 +221,7 @@ pub fn init(boot_info: &'static BootInfo) {
                 panic!("Invalid BuildType");
             }
         } else {
-            if TEST_MODE == BuildType::Test {
-                vga_buffer::_print_warn(format_args!("Rinux Version: {}-TEST\n", VERSION));
-            } else if TEST_MODE == BuildType::Debug {
+            if TEST_MODE == BuildType::Debug {
                 vga_buffer::_print_warn(format_args!("Rinux Version: {}\n", VERSION));
             } else if TEST_MODE == BuildType::Release {
                 panic!("Please match VERSION and ENV.BUILD_TYPE");
@@ -303,7 +297,7 @@ pub fn test_runner(tests: &[&dyn Testable]) {
     exit_qemu(QemuExitCode::Success);
 }
 
-/// It's in its name
+/// It's in the name
 pub fn test_panic_handler(info: &PanicInfo) -> ! {
     serial_println!("[failed]\n");
     serial_println!("Error: {}\n", info);

@@ -25,8 +25,7 @@
 #![no_std]
 #![feature(custom_test_frameworks)]
 #![recursion_limit = "512"]
-
-use x86_64::instructions::interrupts;
+use std3::__reexports::x86_64::instructions::interrupts;
 mod writers;
 pub use writers::*;
 

@@ -24,7 +24,6 @@
 
 
 use config;
-
-pub(crate) const PROJECT_NAME: &'static str = config::PROJECT_NAME;
-pub(crate) const PROJECT_VERSION: &'static str = config::PROJECT_VERSION;
-pub(crate) const QUIET_BOOT: bool = config::QUIET_BOOT;
+pub(crate) static mut PROJECT_NAME: &'static str = config::PROJECT_NAME;
+pub(crate) static mut PROJECT_VERSION: &'static str = config::PROJECT_VERSION;
+pub(crate) static mut QUIET_BOOT: bool = config::QUIET_BOOT;

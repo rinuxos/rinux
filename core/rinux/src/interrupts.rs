@@ -23,6 +23,7 @@
 //
 
 use crate::{gdt, hlt_loop, print_err, vga_buffer::print_ok};
+use std3::__reexports::{x86_64,lazy_static};
 use lazy_static::lazy_static;
 use pic8259::ChainedPics;
 use std3::sync as spin;

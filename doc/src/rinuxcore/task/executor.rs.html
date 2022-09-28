@@ -127,6 +127,7 @@
 <span id="121">121</span>
 <span id="122">122</span>
 <span id="123">123</span>
+<span id="124">124</span>
 </pre><pre class="rust"><code><span class="comment">//</span>
 <span class="comment">// MIT License</span>
 <span class="comment">//</span>
@@ -151,8 +152,9 @@
 <span class="comment">// SOFTWARE.</span>
 <span class="comment">//</span>
 
+<span class="kw">use</span> <span class="ident">std3::__reexports::x86_64</span>;
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Task</span>, <span class="ident">TaskId</span>};
-<span class="kw">use</span> <span class="ident">alloc</span>::{<span class="ident">collections::BTreeMap</span>, <span class="ident">sync::Arc</span>, <span class="ident">task::Wake</span>};
+<span class="kw">use</span> <span class="ident">std3</span>::{<span class="ident">collections::BTreeMap</span>, <span class="ident">sync::Arc</span>, <span class="ident">task::Wake</span>};
 <span class="kw">use</span> <span class="ident">std3::task</span>::{<span class="ident">Context</span>, <span class="ident">Poll</span>, <span class="ident">Waker</span>};
 <span class="kw">use</span> <span class="ident">crossbeam_queue::ArrayQueue</span>;
 

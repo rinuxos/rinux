@@ -22,9 +22,9 @@
 // SOFTWARE.
 //
 
-use lazy_static::lazy_static;
+use std3::__reexports::lazy_static::lazy_static;
 use std3::ops::{Deref, DerefMut};
-use volatile::Volatile;
+use std3::__reexports::volatile::Volatile;
 pub use std3::fmt::{self,Write};
 use std3::sync::Mutex;
 

@@ -22,7 +22,7 @@
 // SOFTWARE.
 //
 
-use alloc::boxed::Box;
+use std3::boxed::Box;
 use std3::{
     future::Future,
     pin::Pin,

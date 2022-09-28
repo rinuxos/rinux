@@ -36,23 +36,25 @@ SOFTWARE.
 
 Tools needed to run: [`bootimage`](https://github.com/rust-osdev/bootimage), and [`Qemu`](https://qemu.org). [Enderpearl](https://github.com/AtomicGamer9523/Enderpearl) is now included
 
-1. First Build:
+Building:
 
-```shell
-./epearl firstrun
+```bash
+python x.py build
 ```
 
-2. All other builds:
+Running:
 
-```shell
-cargo run
+```bash
+python x.py run
 ```
+
+If you are encountering build errors envolving enderpearl, please run `./epearl --fix` and try again
 
 <br>
 
 ### Limitations:
 
-no `std` (working on a replacement)
+no `std` instead: [STD3](https://www.github.linkrbot.com/std3)
 
 no terminal
 
@@ -61,5 +63,5 @@ no terminal
 ### Build for release:
 
 ```shell
-enderpearl release
+python x.py release
 ```

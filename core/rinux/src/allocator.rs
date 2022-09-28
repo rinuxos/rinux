@@ -23,9 +23,10 @@
 //
 
 use crate::vga_buffer::print_ok;
-use alloc::alloc::{GlobalAlloc, Layout};
+use std3::alloc::{GlobalAlloc, Layout};
 use std3::ptr::null_mut;
 use fixed_size_block::FixedSizeBlockAllocator;
+use std3::__reexports::x86_64;
 use x86_64::{
     structures::paging::{
         mapper::MapToError, FrameAllocator, Mapper, Page, PageTableFlags, Size4KiB,

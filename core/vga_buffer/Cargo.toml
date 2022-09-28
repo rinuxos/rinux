@@ -28,8 +28,6 @@ version = "0.1.0"
 edition = "2021"
 authors = ["AtomicGamer9523@github.com"]
 
-[dependencies]
-lazy_static = { path = "../lazy_static", package = "lazy_static" }
-volatile = { path = "../volatile", package = "volatile"}
-x86_64 = { path = "../x86_64", package = "x86_64"}
-std3 = "0.1.1"
+[dependencies.std3]
+version = "0.1.22"
+features = ["full"]

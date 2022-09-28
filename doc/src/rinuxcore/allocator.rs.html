@@ -110,6 +110,7 @@
 <span id="104">104</span>
 <span id="105">105</span>
 <span id="106">106</span>
+<span id="107">107</span>
 </pre><pre class="rust"><code><span class="comment">//</span>
 <span class="comment">// MIT License</span>
 <span class="comment">//</span>
@@ -135,9 +136,10 @@
 <span class="comment">//</span>
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::vga_buffer::print_ok</span>;
-<span class="kw">use</span> <span class="ident">alloc::alloc</span>::{<span class="ident">GlobalAlloc</span>, <span class="ident">Layout</span>};
+<span class="kw">use</span> <span class="ident">std3::alloc</span>::{<span class="ident">GlobalAlloc</span>, <span class="ident">Layout</span>};
 <span class="kw">use</span> <span class="ident">std3::ptr::null_mut</span>;
 <span class="kw">use</span> <span class="ident">fixed_size_block::FixedSizeBlockAllocator</span>;
+<span class="kw">use</span> <span class="ident">std3::__reexports::x86_64</span>;
 <span class="kw">use</span> <span class="ident">x86_64</span>::{
     <span class="ident">structures::paging</span>::{
         <span class="ident">mapper::MapToError</span>, <span class="ident">FrameAllocator</span>, <span class="ident">Mapper</span>, <span class="ident">Page</span>, <span class="ident">PageTableFlags</span>, <span class="ident">Size4KiB</span>,
