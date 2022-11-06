@@ -25,8 +25,44 @@
 import platform, os
 from enum import Enum
 
-__DEFAULT_FILE_BUILD = "This file is used for importing your own projects into Rinux\nNOT for building Rinux\nAllowed commands are: 'STASIS', 'PRE', and 'POST', all other ones will be ignored\nDO NOT CHANGE THE ORDER OF COMMANDS\n\n#PRE(\ngit clone https://github.com/AtomicGamer9523/std3\n)\n\n\n#POST(\necho 'STASIS Complete'\n)\n\n\n\n#STASIS(\necho 'YOUR PACKAGES HERE'\n)"
-__DEFAULT_FILE_CONFIG = "this file is used for configuring Rinux\nNOT for building Rinux\nAllowed properties are: 'NAME', 'QUIET', and 'VERSION', all other ones will be ignored\n\nName for the Project, string\n#NAME(MyProject)\n\nProject's version, string\n#VERSION(v0.1.0)\n\nIf no debug info should be printed, will still print errors bool -> 'true' or 'false'\n#QUIET(false)"
+__DEFAULT_FILE_BUILD = """This file is used for importing your own projects into Rinux
+NOT for building Rinux
+Allowed commands are: 'STASIS', 'PRE', and 'POST', all other ones will be ignored
+DO NOT CHANGE THE ORDER OF COMMANDS
+
+#PRE(
+git clone https://github.com/AtomicGamer9523/std3
+git clone https://github.com/AtomicGamer9523/rinuxcore
+)
+
+
+#POST(
+echo STASIS Complete
+)
+
+
+#STASIS(
+echo YOUR PACKAGES HERE
+)"""
+__DEFAULT_FILE_CONFIG = """this file is used for configuring Rinux
+NOT for building Rinux
+Allowed properties are: 'NAME', 'QUIET', and 'VERSION', all other ones will be ignored
+
+Name for the Project, string
+#NAME(MyProject)
+
+Project's version, string
+#VERSION(v0.1.0)
+
+If no debug info should be printed, will still print errors bool -> 'true' or 'false'
+#QUIET(false)"""
+__DEFAULT_CONFIG_LIB = """#![no_std]
+pub const PROJECT_NAME: &'static str = \"HyperNet\";
+pub const PROJECT_VERSION: &'static str = \"v1.0.0\";
+pub const QUIET_BOOT: bool = true;"""
+__DEFAULT_CONFIG_CARGO = """[package]
+name = \"config\"
+version = \"0.1.0\""""
 
 class __TextKind(Enum):
     ConfigValue = 0,
@@ -186,7 +222,7 @@ def hlp(color: bool = True) -> None:
 
 def __gen(i1: str, i2: str, i3: str, prnt: bool = True, color: bool = True) -> None:
     try:
-        f = open("./core/config/src/lib.rs", "wt")
+        f = open("./enderpearl/packages/config/src/lib.rs", "wt")
         data = "#![no_std]\n"
         data += "pub const PROJECT_NAME: &'static str = \"{}\";\npub const PROJECT_VERSION: &'static str = \"{}\";\npub const QUIET_BOOT: bool = {};".format(i1, i2, i3)
         f.write(data)
@@ -194,9 +230,9 @@ def __gen(i1: str, i2: str, i3: str, prnt: bool = True, color: bool = True) -> N
     except(FileNotFoundError):
         if prnt:
             if color:
-                print("\x1b[38524mEnderPearl \x1b[385196mError\x1b[0m: \"Unable to create file: ./core/config/src/lib.rs\"")
+                print("\x1b[38524mEnderPearl \x1b[385196mError\x1b[0m: \"Unable to create file: ./enderpearl/packages/config/src/lib.rs\"")
             else:
-                print("EnderPearl Error: \"Unable to create file: ./core/config/src/lib.rs\"")
+                print("EnderPearl Error: \"Unable to create file: ./enderpearl/packages/config/src/lib.rs\"")
 
 def __get_tkn() -> EnderPearl:
     contents = ""
@@ -245,6 +281,32 @@ def run(argv: list) -> None:
             if arg.startswith("--help") or arg.startswith("-h"):
                 hlp(color)
                 return
+            if arg.startswith("--mkdir"):
+                try:
+                    os.mkdir("enderpearl/packages")
+                except(FileExistsError):
+                    pass
+                try:
+                    os.mkdir("enderpearl/packages/config")
+                except(FileExistsError):
+                    pass
+                try:
+                    os.mkdir("enderpearl/packages/config/src")
+                except(FileExistsError):
+                    pass
+                try:
+                    f = open("./enderpearl/packages/config/src/lib.rs", "w")
+                    f.write(__DEFAULT_CONFIG_LIB)
+                    f.close()
+                except(FileExistsError):
+                    pass
+                try:
+                    f = open("./enderpearl/packages/config/Cargo.toml", "w")
+                    f.write(__DEFAULT_CONFIG_CARGO)
+                    f.close()
+                except(FileExistsError):
+                    pass
+                
             if arg.startswith("--fix"):
                 __gen("MyProject","v0.1.0","false",False, color)
                 return
@@ -259,10 +321,10 @@ def run(argv: list) -> None:
                         if op.name.lower() == "pre":
                             # op.run("")
                             op.run("enderpearl/packages")
-                        elif op.name.lower() == "post":
+                        elif op.name.lower() == "stasis":
                             # op.run("")
                             op.run("enderpearl/packages")
-                        elif op.name.lower() == "stasis":
+                        elif op.name.lower() == "post":
                             # op.run("")
                             op.run("enderpearl/packages")
 

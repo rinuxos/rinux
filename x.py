@@ -34,10 +34,6 @@ def clean(full:bool=False):
 
 def main():
     __release = False
-    if len(sys.argv) < 2:
-        _help()
-        sys.exit(0)
-    cmd = str(sys.argv[1])
 
     if '--release' in sys.argv:
         __release = True
@@ -45,18 +41,24 @@ def main():
         clean()
         return
 
+    if len(sys.argv) < 2:
+        _help()
+        sys.exit(0)
+    cmd = str(sys.argv[1])
+
     if cmd == "build":
         build(__release)
         return
     elif cmd == "run":
         if __release:
-            os.system("cargo bootimage --release")
+            os.system("cargo run --release")
         else:
             os.system("cargo run")
         return
     elif cmd == "init":
         os.system("cargo install bootimage")
-        enderpearl.run(["--init","--gen"])
+        enderpearl.run(["--mkdir","--init","--gen",])
+        enderpearl.run(["--stasis"])
         return
     elif cmd == "gen":
         enderpearl.run(["--gen"])

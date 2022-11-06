@@ -1,9 +1,0 @@
-[package]
-name = "packages"
-version = "0.1.0"
-
-[lib]
-path = "lib.rs"
-
-[dependencies]
-std3 = { path = "./packages/std3" }

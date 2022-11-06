@@ -5,26 +5,26 @@ All commands are allowed
 
 #FIRSTRUN(
 echo 'Initializing first run'
-python x.py init
-python x.py gen
-python x.py stasis
+./epearl init
+./epearl gen
+./epearl stasis
 echo 'Initialization complete'
 )
 
 #FIX(
-python x.py --fix
+./epearl --fix
 )
 
 #HELP(
-echo "run 'python x.py --help' for help"
+echo "run './epearl --help' for help"
 )
 
 #PRE(
-python x.py gen
+./epearl gen
 )
 
 #POST(
-python x.py --clean
+./epearl --clean
 )
 
 
@@ -38,9 +38,4 @@ Building for release
 #RELEASE(
 cargo build --release
 cargo bootimage --release
-)
-
-#TEST(
-echo 'here'
-git clone github.com/AtomicGamer9523/Hyperhasher
 )
