@@ -24,6 +24,10 @@ jobs:
           toolchain: nightly
       - name: Install `rust-src` Rustup Component
         run: rustup component add rust-src
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - run: python x.py init
       - name: Run `cargo check`
         uses: actions-rs/cargo@v1
         with:

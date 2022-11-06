@@ -39,15 +39,20 @@ jobs:
     - name: "Install cargo-binutils"
       run: cargo install cargo-binutils --version 0.1.7 --debug
 
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10' 
+    - run: python x.py init
+
     - run: cargo xbuild
-      working-directory: test-kernel
-      name: 'Build Test Kernel'
+      working-directory: rinux
+      name: 'Build Kernel'
 
     - name: 'Build Bootloader'
       run: cargo xbuild --bin bootloader --features binary --release
       env:
-        KERNEL: "test-kernel/target/x86_64-test-kernel/debug/test-kernel"
-        KERNEL_MANIFEST: "test-kernel/Cargo.toml"
+        KERNEL: "rinux/target/x86_64-rinux/debug/rinux"
+        KERNEL_MANIFEST: "rinux/Cargo.toml"
 
     - name: 'Convert Bootloader ELF to Binary'
       run: cargo objcopy -- -I elf64-x86-64 -O binary --binary-architecture=i386:x86-64 target/x86_64-bootloader/release/bootloader target/x86_64-bootloader/release/bootloader.bin
@@ -83,8 +88,8 @@ jobs:
       shell: 'bash {0}'
 
 
-  build_example_kernel:
-    name: "Build Example Kernel"
+  build_kernel:
+    name: "Build Kernel"
     strategy:
       matrix:
         platform: [
@@ -106,9 +111,13 @@ jobs:
       run: rustup component add rust-src llvm-tools-preview
     - name: "Install cargo-xbuild"
       run: cargo install cargo-xbuild --debug
-    - name: 'Build Example Kernel'
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10' 
+    - run: python x.py init
+    - name: 'Build Kernel'
       run: cargo xbuild
-      working-directory: example-kernel
+      working-directory: rinux
 
 
   check_formatting:
@@ -120,8 +129,12 @@ jobs:
     - name: "Use the latest Rust nightly with rustfmt"
       uses: actions-rs/toolchain@v1
       with:
-          toolchain: nightly
-          profile: minimal
-          components: rustfmt
-          override: true
+        toolchain: nightly
+        profile: minimal
+        components: rustfmt
+        override: true
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - run: python x.py init
     - run: cargo fmt -- --check
