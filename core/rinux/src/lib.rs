@@ -22,116 +22,126 @@
 // SOFTWARE.
 //
 
-//! # Rinux
-//! 
-//! ## OS, written in rust
-//! 
-//! ### Basic Example:
-//! 
-//! ```rust
-//! #![no_std]
-//! #![no_main]
-//! #![feature(custom_test_frameworks)]
-//! #![test_runner(rinuxcore::test_runner)]
-//! #![reexport_test_harness_main = "test_main"]
-//!
-//! use rinuxcore::{
-//!     kernel, println,
-//!     task::{
-//!         executor::Executor,
-//!         Task
-//!     },
-//!     BootInfo
-//! };
-//! kernel!(kernel_main);
-//! fn kernel_main(boot_info: &'static BootInfo) -> ! {
-//!     rinuxcore::init(boot_info);
-//!     let mut executor = Executor::new();
-//! 
-//!     executor.spawn(Task::new(rinuxcore::task::keyboard::init()));
-//!     executor.spawn(Task::new(main()));
-//! 
-//!     executor.run()
-//! }
-//! 
-//! async fn main() {
-//!     println!("Hello World");
-//! }
-//! 
-//! #[cfg(not(test))]
-//! #[panic_handler]
-//! fn panic(info: &std3::panic::PanicInfo) -> ! {
-//!     rinuxcore::print_err!("{}", info);
-//!     rinuxcore::hlt_loop();
-//! }
-//! #[cfg(test)]
-//! #[panic_handler]
-//! fn panic(info: &std3::panic::PanicInfo) -> ! {
-//!     rinuxcore::test_panic_handler(info)
-//! }
-//! #[test_case]
-//! fn trivial_assertion() {
-//!     assert_eq!(1, 1);
-//! }
-//! ```
-//!  
-//! [STD3 Docs Here](https://www.github.linkrbot.com/std3)
-//!
+/*! # Rinux
+
+## OS, written in rust
+
+### Basic Example:
+
+```rust
+#![no_std]
+#![no_main]
+#![feature(custom_test_frameworks)]
+#![test_runner(rinuxcore::test_runner)]
+#![reexport_test_harness_main = "test_main"]
+
+use rinuxcore::{
+    println,
+    task::{executor::Executor, Task},
+    BootInfo
+};
+
+#[rinuxcore::main]
+fn kernel_main(boot_info: &'static BootInfo) -> ! {
+    rinuxcore::init(&boot_info);
+
+    let mut executor = Executor::new();
+    executor.spawn(Task::new(rinuxcore::task::keyboard::init()));
+    executor.spawn(Task::new(main()));
+
+    executor.run()
+}
+
+async fn main() {
+    println!("Hello World");
+}
+
+
+
+#[panic_handler]
+fn panic(info: &std3::panic::PanicInfo) -> ! {
+    rinuxcore::print_err!("{}", info);
+    rinuxcore::hlt_loop();
+}
+```
+
+[STD3 Docs Here](https://www.github.linkrbot.com/std3)
+*/
 
 #![no_std]
+#![feature(staged_api)]
+#![feature(rinuxcore_custom_config)]
+#![stable(feature = "rinuxcore", since = "0.1.23")]
+
+
+
 #![cfg_attr(test, no_main)]
 #![feature(custom_test_frameworks)]
 #![feature(abi_x86_interrupt)]
 #![feature(alloc_error_handler)]
 #![feature(const_mut_refs)]
+#![feature(std3_reexports)]
+#![feature(std3_bootloader)]
 #![test_runner(crate::test_runner)]
 #![reexport_test_harness_main = "test_main"]
-
-pub use bootloader::BootInfo;
-
-#[macro_export]
-macro_rules! kernel {
-    ($path:path) => {
-        #[doc(hidden)]
-        #[export_name = "_start"]
-        pub extern "C" fn __impl_start(boot_info: &'static $crate::BootInfo) -> ! {
-            // validate the signature of the program entry point
-            let f: fn(&'static $crate::BootInfo) -> ! = $path;
-
-            f(boot_info)
-        }
-    };
-}
+#![allow(unused_attributes)]
 
 
-#[macro_use] pub extern crate std3;
+
+
+#[stable(feature = "rinuxcore", since = "0.1.23")]
+#[doc(hidden)]
+extern crate rinux_macros as pm;
+#[stable(feature = "rinuxcore", since = "0.1.23")]
+pub use pm::main;
+#[stable(feature = "rinuxcore_std3", since = "0.1.23")]
+
+#[macro_use]
+pub extern crate std3;
+#[stable(feature = "rinuxcore", since = "0.1.23")]
+pub use std3::__bootloader::bootloader::BootInfo;
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 use std3::panic::PanicInfo;
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 use memory::BootInfoFrameAllocator;
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 pub mod conf;
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 extern crate alloc;
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 #[doc(hidden)]
 pub mod allocator;
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 #[doc(hidden)]
 pub mod interrupts;
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 #[doc(hidden)]
 pub mod memory;
+#[unstable(feature = "rinuxcore_serial", issue = "none")]
 #[doc(hidden)]
 pub mod serial;
+#[unstable(feature = "rinuxcore_x86_64", issue = "none")]
 use std3::__reexports::x86_64;
+#[unstable(feature = "rinuxcore_gdt", issue = "none")]
 #[doc(hidden)]
 pub mod gdt;
+#[unstable(feature = "rinuxcore_task", issue = "none")]
 pub mod task;
 
+#[unstable(feature = "rinuxcore_enderpearl", issue = "none")]
 #[cfg(feature = "epearl")]
 pub extern crate epearl;
 
 
+#[unstable(feature = "rinuxcore_vga_buffer", issue = "none")]
 #[allow(unused_imports)]
 #[macro_use]
 pub extern crate vga_buffer;
+#[unstable(feature = "rinuxcore_vga_buffer", issue = "none")]
 pub use vga_buffer::{print,println,print_err};
 
 
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 #[repr(u8)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum BuildType {
@@ -139,12 +149,19 @@ enum BuildType {
     Release = 1,
 }
 
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 static mut CONFIGURED: bool = false;
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 static mut CONFIGTYPE: ConfigType = ConfigType::File;
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 pub(crate) static mut CONFIG: conf::Config = conf::Config::cnst();
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 static mut TEST_MODE: BuildType = BuildType::Debug;
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 static mut VERSION: &'static str = "v1.3.0";
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 const AUTHORS: &'static str = "Atomic";
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 const RINUX_ART: &'static str = r#"######   ###  #     #  #     #  #     #
 #     #   #   ##    #  #     #   #   #
 #     #   #   # #   #  #     #    # #
@@ -155,6 +172,7 @@ const RINUX_ART: &'static str = r#"######   ###  #     #  #     #  #     #
 "#;
 
 /// Enum for Configuration Data Specification
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 #[derive(Debug, Clone, Copy)]
 pub enum ConfigType {
     File,
@@ -162,6 +180,7 @@ pub enum ConfigType {
 }
 
 /// Used for setting source for rinux to get it's config from
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 pub fn set_config_type(config_type: ConfigType) {
     if cfg!(pureOS) {
         unsafe {
@@ -184,56 +203,46 @@ pub fn set_config_type(config_type: ConfigType) {
     };
 }
 
+
+#[doc(hidden)]
+#[stable(feature = "rinuxcore", since = "0.1.23")]
+pub unsafe fn __core_init(){
+    if CONFIGURED != true {
+        set_config_type(ConfigType::File);
+    }
+
+    match CONFIGTYPE {
+        ConfigType::Custom(data) => {
+            if data.project_name == "" || data.project_version == "" {
+                panic!("Please use the enderpearl build system");
+            };
+        }
+        ConfigType::File => {
+            if CONFIG.project_name == "" || CONFIG.project_version == "" {
+                panic!("Please use the enderpearl build system");
+            };
+        }
+    }
+
+    if cfg!(debug_assertions) {
+        TEST_MODE = BuildType::Debug;
+    } else {
+        TEST_MODE = BuildType::Release;
+        VERSION = "v1.3.0-RELEASE";
+    }
+
+    vga_buffer::__set_init_rinux(print_init);
+}
+
+
+
 /// Initializes the std3 of Rinux
-pub fn init(boot_info: &'static BootInfo) {
+#[stable(feature = "rinuxcore", since = "0.1.23")]
+pub fn  init(boot_info: &'static BootInfo) {
     unsafe {
         if CONFIGURED != true {
-            set_config_type(ConfigType::File);
+            __core_init()
         }
-
-        match CONFIGTYPE {
-            ConfigType::Custom(data) => {
-                if data.project_name == "" || data.project_version == "" {
-                    panic!("Please use the enderpearl build system");
-                };
-            }
-            ConfigType::File => {
-                if CONFIG.project_name == "" || CONFIG.project_version == "" {
-                    panic!("Please use the enderpearl build system");
-                };
-            }
-        }
-
-        if cfg!(debug_assertions) {
-            TEST_MODE = BuildType::Debug;
-        } else {
-            TEST_MODE = BuildType::Release;
-            VERSION = "v1.3.0-RELEASE";
-        }
-
-        vga_buffer::_print_logo(format_args!("{}\n", RINUX_ART));
-        if VERSION.ends_with("-RELEASE") {
-            if TEST_MODE == BuildType::Debug {
-                vga_buffer::_print_logo(format_args!("Rinux Version: {}\n", VERSION));
-            } else if TEST_MODE == BuildType::Release {
-                vga_buffer::_print_logo(format_args!("Rinux Version: {}\n", VERSION));
-            } else {
-                panic!("Invalid BuildType");
-            }
-        } else {
-            if TEST_MODE == BuildType::Debug {
-                vga_buffer::_print_warn(format_args!("Rinux Version: {}\n", VERSION));
-            } else if TEST_MODE == BuildType::Release {
-                panic!("Please match VERSION and ENV.BUILD_TYPE");
-            } else {
-                panic!("Invalid BuildType");
-            }
-        }
-
-        vga_buffer::_print_logo(format_args!(
-            "Rinux Authors: [{}]\nScript: {}\nScript Version: {}\n\n",
-            AUTHORS, CONFIG.project_name, CONFIG.project_version
-        ));
 
         use x86_64::VirtAddr;
         gdt::init();
@@ -272,11 +281,43 @@ pub fn init(boot_info: &'static BootInfo) {
     test_main();
 }
 
+
+fn print_init(){
+    unsafe {
+        vga_buffer::_print_logo(format_args!("{}\n", RINUX_ART));
+        if VERSION.ends_with("-RELEASE") {
+            if TEST_MODE == BuildType::Debug {
+                vga_buffer::_print_logo(format_args!("Rinux Version: {}\n", VERSION));
+            } else if TEST_MODE == BuildType::Release {
+                vga_buffer::_print_logo(format_args!("Rinux Version: {}\n", VERSION));
+            } else {
+                panic!("Invalid BuildType");
+            }
+        } else {
+            if TEST_MODE == BuildType::Debug {
+                vga_buffer::_print_warn(format_args!("Rinux Version: {}\n", VERSION));
+            } else if TEST_MODE == BuildType::Release {
+                panic!("Please match VERSION and ENV.BUILD_TYPE");
+            } else {
+                panic!("Invalid BuildType");
+            }
+        }
+
+        vga_buffer::_print_logo(format_args!(
+            "Rinux Authors: [{}]\nScript: {}\nScript Version: {}\n\n",
+            AUTHORS, CONFIG.project_name, CONFIG.project_version
+        ));
+    }
+}
+
 /// Useful for testing
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 pub trait Testable {
+    #[stable(feature = "rinuxcore", since = "0.1.23")]
     fn run(&self) -> ();
 }
 
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 impl<T> Testable for T
 where
     T: Fn(),
@@ -289,6 +330,7 @@ where
 }
 
 /// Runs Tests
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 pub fn test_runner(tests: &[&dyn Testable]) {
     serial_println!("Running {} tests", tests.len());
     for test in tests {
@@ -298,6 +340,7 @@ pub fn test_runner(tests: &[&dyn Testable]) {
 }
 
 /// It's in the name
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 pub fn test_panic_handler(info: &PanicInfo) -> ! {
     serial_println!("[failed]\n");
     serial_println!("Error: {}\n", info);
@@ -306,6 +349,7 @@ pub fn test_panic_handler(info: &PanicInfo) -> ! {
 }
 
 /// Enum For Qemu Exit codes, sometimes useful
+#[unstable(feature = "rinuxcore_qemu", issue = "none")]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u32)]
 pub enum QemuExitCode {
@@ -314,6 +358,7 @@ pub enum QemuExitCode {
 }
 
 /// Quits Qemu using certain exit code
+#[unstable(feature = "rinuxcore_qemu", issue = "none")]
 pub fn exit_qemu(exit_code: QemuExitCode) {
     use x86_64::instructions::port::Port;
     unsafe {
@@ -323,16 +368,16 @@ pub fn exit_qemu(exit_code: QemuExitCode) {
 }
 
 /// Loop used to just do nothing
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 pub fn hlt_loop() -> ! {
     loop {
         x86_64::instructions::hlt();
     }
 }
 
+
 #[cfg(test)]
-use bootloader::entry_point;
-#[cfg(test)]
-entry_point!(test_kernel_main);
+kernel!(test_kernel_main);
 #[cfg(test)]
 fn test_kernel_main(boot_info: &'static BootInfo) -> ! {
     init(boot_info);

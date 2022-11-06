@@ -24,11 +24,13 @@
 
 mod file;
 
+#[unstable(feature = "rinuxcore_custom_config", issue = "none")]
 pub enum ConfigType {
     File,
     UserDefined(Config),
 }
 
+#[unstable(feature = "rinuxcore_custom_config", issue = "none")]
 #[derive(Debug, Default, Clone, Copy)]
 pub struct Config {
     pub project_name: &'static str,
@@ -36,7 +38,9 @@ pub struct Config {
     pub quiet_boot: bool,
 }
 
+#[unstable(feature = "rinuxcore_custom_config", issue = "none")]
 impl Config {
+    // #[rustc_const_stable(feature = "rinuxcore", since = "0.1.23")]
     pub const fn cnst() -> Self {
         Config {
             project_name: "",
@@ -45,6 +49,7 @@ impl Config {
         }
     }
 
+    // #[stable(feature = "rinuxcore", since = "0.1.23")]
     pub const fn new(
         project_name: &'static str,
         project_version: &'static str,
@@ -57,6 +62,7 @@ impl Config {
         }
     }
 
+    #[unstable(feature = "rinuxcore_custom_config", issue = "none")]
     pub(crate) fn get_config(self, config_type: ConfigType) -> Self {
         match config_type {
             ConfigType::File => { unsafe {

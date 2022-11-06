@@ -28,6 +28,7 @@ use std3::{collections::BTreeMap, sync::Arc, task::Wake};
 use std3::task::{Context, Poll, Waker};
 use crossbeam_queue::ArrayQueue;
 
+#[unstable(feature = "rinuxcore_task", issue = "none")]
 pub struct Executor {
     tasks: BTreeMap<TaskId, Task>,
     task_queue: Arc<ArrayQueue<TaskId>>,
@@ -35,6 +36,7 @@ pub struct Executor {
 }
 
 impl Executor {
+    #[unstable(feature = "rinuxcore_task", issue = "none")]
     pub fn new() -> Self {
         Executor {
             tasks: BTreeMap::new(),
@@ -43,6 +45,7 @@ impl Executor {
         }
     }
 
+    #[unstable(feature = "rinuxcore_task", issue = "none")]
     pub fn spawn(&mut self, task: Task) {
         let task_id = task.id;
         if self.tasks.insert(task.id, task).is_some() {
@@ -51,6 +54,7 @@ impl Executor {
         self.task_queue.push(task_id).expect("queue full");
     }
 
+    #[unstable(feature = "rinuxcore_task", issue = "none")]
     pub fn run(&mut self) -> ! {
         loop {
             self.run_ready_tasks();

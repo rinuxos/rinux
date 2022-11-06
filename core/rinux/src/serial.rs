@@ -21,11 +21,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
+
 use std3::__reexports::{x86_64,lazy_static,uart_16550};
 use lazy_static::lazy_static;
 use std3::sync::Mutex;
 use uart_16550::SerialPort;
 
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 lazy_static! {
     pub(crate) static ref SERIAL1: Mutex<SerialPort> = {
         let mut serial_port = unsafe { SerialPort::new(0x3F8) };
@@ -34,6 +36,7 @@ lazy_static! {
     };
 }
 
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 #[doc(hidden)]
 pub(crate) fn _print(args: ::std3::fmt::Arguments) {
     use std3::fmt::Write;
@@ -47,6 +50,7 @@ pub(crate) fn _print(args: ::std3::fmt::Arguments) {
     });
 }
 
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 #[macro_export]
 macro_rules! serial_print {
     (
@@ -64,6 +68,7 @@ macro_rules! serial_print {
     };
 }
 
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 #[macro_export]
 macro_rules! serial_println {
     ( ) => (

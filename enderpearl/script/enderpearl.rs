@@ -198,15 +198,16 @@ impl Command {
         }
     }
 
-    pub(crate) fn run(&self, print: bool) {
+    pub(crate) fn run(&self, print: bool, root: &'static str) {
         let output = if cfg!(target_os = "windows") {
             process::Command::new("cmd")
-            .args(["/C", self.command.as_str()])
+            .args(["/C", format!("cd ./{}",&root).as_str(), self.command.as_str()])
             .output()
             .expect("failed to execute process")
         } else {
             process::Command::new("sh")
             .arg("-c")
+            .arg(format!("cd ./{}",&root))
             .arg(self.command.clone())
             .output()
             .expect("failed to execute process")
@@ -235,9 +236,9 @@ impl Operation {
         }
     }
 
-    pub fn run(&self, print: bool) {
+    pub fn run(&self, print: bool,root: &'static str) {
         for command in &self.commands {
-            command.run(print);
+            command.run(print, root);
         }
     }
 }
@@ -260,8 +261,8 @@ impl EnderPearl {
         self.operations.push(op);
     }
 
-    pub fn run(&self, name: String){
-        runcmd(name, &self,self.print);
+    pub fn run(&self, name: String) {
+        runcmd(name, &self,self.print, "");
     }
 }
 
@@ -269,20 +270,20 @@ impl EnderPearl {
 
 
 
-pub(crate) fn runcmd(cmd: String, tkn: &EnderPearl, print: bool){
+pub(crate) fn runcmd(cmd: String, tkn: &EnderPearl, print: bool, root: &'static str) {
     for op in &tkn.operations {
         if op.name.to_lowercase() == String::from("pre") {
-            op.run(print);
+            op.run(print, &root);
         }
     };
     for op in &tkn.operations {
         if op.name.to_lowercase() == cmd {
-            op.run(print);
+            op.run(print, &root);
         }
     };
     for op in &tkn.operations {
         if op.name.to_lowercase() == String::from("post") {
-            op.run(print);
+            op.run(print, &root);
         }
     };
 }
@@ -370,6 +371,32 @@ fn main() -> io::Result<()> {
             if arg.contains("--fix") {
                 gen(false, color,"MyProject","v0.1.0","false");
             }
+            if arg.contains("--stasis"){
+                let build = match File::open("./enderpearl/build.enderpearl") {
+                    Ok(mut f) => {
+                        let mut contents = String::new();
+                        f.read_to_string(&mut contents).unwrap();
+                        let stasises = Token::tokenize(contents, String::new()).1;
+                        for op in &stasises.operations {
+                            if op.name.to_lowercase() == String::from("pre") {
+                                op.run(print,"");
+                            } else if op.name.to_lowercase() == String::from("post") {
+                                op.run(print,"");
+                            } else if op.name.to_lowercase() == String::from("stasis") {
+                                op.run(print,"");
+                            }
+                        };
+                    },
+                    Err(_) => {
+                        if color {
+                            println!("\x1b[38;5;24mEnderPearl \x1b[38;5;196mError\x1b[0m: 'Unable to open file: ./enderpearl/build.enderpearl'");
+                        } else {
+                            println!("EnderPearl Error: 'Unable to open file: ./enderpearl/build.enderpearl'");
+                        }
+                        panic!();
+                    }
+                };
+            }
             if arg.contains("--gen") {
                 let config = match File::open("./enderpearl/config.enderpearl") {
                     Ok(mut f) => {
@@ -406,13 +433,13 @@ fn main() -> io::Result<()> {
             }
         } else {
             if arg == "build" || arg == "." {
-                runcmd(String::from("build"),&tkn,print);
+                runcmd(String::from("build"),&tkn,print,"");
             } else if arg == "pre" || arg == "post" {
                 println!("Sorry, you may not use this special operation");
             } else if arg == "" || arg == "help" {
                 help(color);
             } else {
-                runcmd(arg,&tkn,print);
+                runcmd(arg,&tkn,print,"");
             }
         }
     };

@@ -26,6 +26,7 @@ use super::{align_up, Locked};
 use alloc::alloc::{GlobalAlloc, Layout};
 use std3::ptr;
 
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 pub struct BumpAllocator {
     heap_start: usize,
     heap_end: usize,
@@ -33,6 +34,7 @@ pub struct BumpAllocator {
     allocations: usize,
 }
 
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 #[allow(dead_code)]
 impl BumpAllocator {
     pub const fn new() -> Self {
@@ -43,6 +45,7 @@ impl BumpAllocator {
             allocations: 0,
         }
     }
+    #[stable(feature = "rinuxcore", since = "0.1.23")]
     pub unsafe fn init(&mut self, heap_start: usize, heap_size: usize) {
         self.heap_start = heap_start;
         self.heap_end = heap_start.saturating_add(heap_size);
@@ -50,6 +53,7 @@ impl BumpAllocator {
     }
 }
 
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 unsafe impl GlobalAlloc for Locked<BumpAllocator> {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
         let mut bump = self.lock();

@@ -1,1 +1,0 @@
-window.ALL_CRATES = ["enderpearl","rinux","rinuxcore","vga_buffer"];

@@ -38,11 +38,13 @@ fn list_index(layout: &Layout) -> Option<usize> {
 struct ListNode {
     next: Option<&'static mut ListNode>,
 }
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 pub struct FixedSizeBlockAllocator {
     list_heads: [Option<&'static mut ListNode>; BLOCK_SIZES.len()],
     fallback_allocator: linked_list_allocator::Heap,
 }
 
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 impl FixedSizeBlockAllocator {
     pub const fn new() -> Self {
         const EMPTY: Option<&'static mut ListNode> = None;
@@ -62,6 +64,7 @@ impl FixedSizeBlockAllocator {
     }
 }
 
+#[stable(feature = "rinuxcore", since = "0.1.23")]
 unsafe impl GlobalAlloc for Locked<FixedSizeBlockAllocator> {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
         let mut allocator = self.lock();

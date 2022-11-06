@@ -25,6 +25,7 @@
 #![no_std]
 #![feature(custom_test_frameworks)]
 #![recursion_limit = "512"]
+#![feature(std3_reexports)]
 use std3::__reexports::x86_64::instructions::interrupts;
 mod writers;
 pub use writers::*;
@@ -100,7 +101,17 @@ pub fn _print_info(args: fmt::Arguments) {
         INFOWRITER.lock().write_fmt(args).unwrap();
     });
 }
-
+#[doc(hidden)]
+pub fn __set_init_rinux(f: fn()) {
+    unsafe { RINUX_INIT_FN = Some(f) };
+}
+static mut RINUX_INIT_FN: Option<fn()> = None;
+pub fn __init_rinux() {
+    match unsafe { RINUX_INIT_FN } {
+        Some(f) => f(),
+        None => {}
+    };
+}
 #[test_case]
 fn test_print_simple() {
     print!("test_print_simple output\n");

@@ -23,8 +23,9 @@
 //
 
 use crate::vga_buffer::print_ok;
+use std3::{__bootloader::bootloader,__reexports::x86_64};
 use bootloader::bootinfo::{MemoryMap, MemoryRegionType};
-use std3::__reexports::x86_64;
+#[unstable(feature = "rinuxcore_x86_64", issue = "none")]
 use x86_64::{
     structures::paging::{FrameAllocator, OffsetPageTable, PageTable, PhysFrame, Size4KiB},
     PhysAddr, VirtAddr,

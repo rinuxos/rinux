@@ -3,22 +3,34 @@ NOT for importing your own projects into Rinux
 All commands are allowed
 
 
-If you are getting the error 'Please use the enderpearl build system' try running
-'./epearl --fix', fixed the issue 99% of the time
-
-
 #FIRSTRUN(
-cargo build
-cargo check
+echo 'Initializing first run'
+python x.py init
+python x.py gen
+python x.py stasis
+echo 'Initialization complete'
 )
 
-#HELPME(
-echo run './epearl --help' for help
+#FIX(
+python x.py --fix
+)
+
+#HELP(
+echo "run 'python x.py --help' for help"
+)
+
+#PRE(
+python x.py gen
+)
+
+#POST(
+python x.py --clean
 )
 
 
 #BUILD(
-echo nothing in build
+cargo build
+cargo bootimage
 )
 
 
@@ -26,4 +38,9 @@ Building for release
 #RELEASE(
 cargo build --release
 cargo bootimage --release
+)
+
+#TEST(
+echo 'here'
+git clone github.com/AtomicGamer9523/Hyperhasher
 )

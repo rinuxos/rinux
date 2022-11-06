@@ -38,15 +38,19 @@ name = "stack_overflow"
 harness = false
 
 [features]
+default = ["epearl"]
+full = ["default", "x86_64"]
+x86_64 = []
+
+
 epearl = []
-std3 = []
 
 pureos = []
 custom = []
 
 
 [dependencies]
-bootloader = { version = "0.9.8", features = ["map_physical_memory"]}
+rinux_macros = { path = "../rinux_macros", package = "rinux_macros" }
 vga_buffer = { path = "../vga_buffer", package = "vga_buffer" }
 epearl = { path = "../enderpearl", package = "enderpearl" }
 config = { path = "../config", package = "config" }
@@ -69,7 +73,9 @@ default-features = false
 features = ["alloc"]
 
 [dependencies.std3]
-version = "0.1.22"
+path = "../../enderpearl/packages/std3"
+features = ["full"]
+version = "0.1.23"
 
 
 

@@ -35,8 +35,8 @@ path = "./core/config"
 
 
 [dependencies.bootloader]
-version = "0.9.8"
 features = ["map_physical_memory"]
+version = "0.9.8"
 
 [dependencies.rinuxcore]
 path = "./core/rinux"
@@ -45,5 +45,6 @@ features = [
     "epearl"
 ]
 
-[dependencies.std3]
-version = "0.1.22"
+[dependencies.epearl_packages]
+path = "./enderpearl"
+package = "packages"

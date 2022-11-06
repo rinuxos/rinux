@@ -30,16 +30,21 @@ use std3::{
     task::{Context, Poll},
 };
 
+#[unstable(feature = "rinuxcore_task", issue = "none")]
 pub mod executor;
+#[unstable(feature = "rinuxcore_keyboard", issue = "none")]
 pub mod keyboard;
+#[unstable(feature = "rinuxcore_task", issue = "none")]
 pub mod simple_executor;
 
+#[unstable(feature = "rinuxcore_task", issue = "none")]
 pub struct Task {
     id: TaskId,
     future: Pin<Box<dyn Future<Output = ()>>>,
 }
 
 impl Task {
+    #[unstable(feature = "rinuxcore_task", issue = "none")]
     pub fn new(future: impl Future<Output = ()> + 'static) -> Task {
         Task {
             id: TaskId::new(),

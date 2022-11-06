@@ -26,21 +26,25 @@ use super::Task;
 use std3::collections::VecDeque;
 use std3::task::{Context, Poll, RawWaker, RawWakerVTable, Waker};
 
+#[unstable(feature = "rinuxcore_task", issue = "none")]
 pub struct SimpleExecutor {
     task_queue: VecDeque<Task>,
 }
 
 impl SimpleExecutor {
+    #[unstable(feature = "rinuxcore_task", issue = "none")]
     pub fn new() -> SimpleExecutor {
         SimpleExecutor {
             task_queue: VecDeque::new(),
         }
     }
 
+    #[unstable(feature = "rinuxcore_task", issue = "none")]
     pub fn spawn(&mut self, task: Task) {
         self.task_queue.push_back(task)
     }
 
+    #[unstable(feature = "rinuxcore_task", issue = "none")]
     pub fn run(&mut self) {
         while let Some(mut task) = self.task_queue.pop_front() {
             let waker = dummy_waker();

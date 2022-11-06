@@ -50,11 +50,13 @@ pub(crate) fn add_scancode(scancode: u8) {
     }
 }
 
+#[unstable(feature = "rinuxcore_keyboard", issue = "none")]
 pub struct ScancodeStream {
     _private: (),
 }
 
 impl ScancodeStream {
+    #[unstable(feature = "rinuxcore_keyboard", issue = "none")]
     pub fn new() -> Self {
         match SCANCODE_QUEUE.try_init_once(|| ArrayQueue::new(100)) {
             Ok(_) => {
@@ -73,6 +75,7 @@ impl ScancodeStream {
     }
 }
 
+#[unstable(feature = "rinuxcore_keyboard", issue = "none")]
 impl Stream for ScancodeStream {
     type Item = u8;
 
@@ -96,6 +99,7 @@ impl Stream for ScancodeStream {
     }
 }
 
+#[unstable(feature = "rinuxcore_keyboard", issue = "none")]
 pub async fn print_keypresses() {
     let mut scancodes = ScancodeStream::new();
     let mut keyboard = Keyboard::new(layouts::Us104Key, ScancodeSet1, HandleControl::Ignore);
@@ -114,6 +118,7 @@ pub async fn print_keypresses() {
     }
 }
 
+#[unstable(feature = "rinuxcore_keyboard", issue = "none")]
 pub async fn init() {
     let _ = ScancodeStream::new();
     let _ = Keyboard::new(layouts::Us104Key, ScancodeSet1, HandleControl::Ignore);
