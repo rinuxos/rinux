@@ -4,6 +4,8 @@ on:
   push:
     branches: ["main"]
 
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
 permissions:
   contents: read

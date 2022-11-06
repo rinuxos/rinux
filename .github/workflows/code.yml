@@ -1,6 +1,9 @@
-name: Build
+name: Code
 
 on: [push, pull_request]
+
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
 jobs:
   check:

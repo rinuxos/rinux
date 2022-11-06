@@ -2,6 +2,9 @@ name: Build
 
 on: [push, pull_request]
 
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
 jobs:
   test:
     name: "Test"
