@@ -55,6 +55,10 @@ jobs:
         with:
           profile: minimal
           toolchain: nightly
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10' 
+      - run: python x.py init
       - name: Install bootimage
         run: cargo install bootimage --debug
       - name: Checkout Repository
@@ -65,10 +69,6 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: bootimage
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10' 
-      - run: python x.py init
 
       # install QEMU
       - name: Install QEMU (Linux)
