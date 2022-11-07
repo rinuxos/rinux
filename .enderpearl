@@ -3,22 +3,34 @@ NOT for importing your own projects into Rinux
 All commands are allowed
 
 
-If you are getting the error 'Please use the enderpearl build system' try running
-'./epearl --fix', fixed the issue 99% of the time
-
-
 #FIRSTRUN(
-cargo build
-cargo check
+echo 'Initializing first run'
+./epearl init
+./epearl gen
+./epearl stasis
+echo 'Initialization complete'
 )
 
-#HELPME(
-echo run './epearl --help' for help
+#FIX(
+./epearl --fix
+)
+
+#HELP(
+echo "run './epearl --help' for help"
+)
+
+#PRE(
+./epearl gen
+)
+
+#POST(
+./epearl --clean
 )
 
 
 #BUILD(
-echo nothing in build
+cargo build
+cargo bootimage
 )
 
 
