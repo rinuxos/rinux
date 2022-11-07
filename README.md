@@ -22,13 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
-<p align="center"><img src="./doc/icon.png"alt="rinux-logo"style="width:10%"/></p>
-<h1 align="center">
-    <b style="font-size:5vw;font-family:courier;align:center;background:url(./doc/mech.png) repeat center center;background-size:50%;-webkit-text-fill-color:transparent;-webkit-background-clip:text;-moz-background-clip:text;background-clip:text;-webkit-text-stroke:1px rgb(75,45,35);">Rinux</b>
-</h1>
-<p align="center"style="">Library for writing OSs with <a href="https://www.rust-lang.org/">Rust</a></p><div align="center">
-
-<a><img src="https://img.shields.io/crates/l/std3?label=License"></a><a href="https://www.github.linkrbot.com/std3"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/AtomicGamer9523/std3/Page?label=Docs"></a><br><a href="https://rust-osdev.com/"><img src="https://img.shields.io/github/followers/atomicgamer9523?label=AtomicGamer9523%20(Me)&style=social"/></a></div><br><b>Obtaining</b>:<br><samp>Mercurial: </samp><kbd>hg clone linkrbot.com/hg/std3</kbd><br><samp>Git: </samp><kbd>git clone github.com/AtomicGamer9523/std3</kbd>
+# Rinux
 
 ## OS written in rust
 

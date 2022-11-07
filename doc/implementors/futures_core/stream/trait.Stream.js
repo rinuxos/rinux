@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["rinuxcore"] = [{"text":"impl Stream for <a class=\"struct\" href=\"rinuxcore/task/keyboard/struct.ScancodeStream.html\" title=\"struct rinuxcore::task::keyboard::ScancodeStream\">ScancodeStream</a>","synthetic":false,"types":["rinuxcore::task::keyboard::ScancodeStream"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
