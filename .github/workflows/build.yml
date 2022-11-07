@@ -1,6 +1,6 @@
 name: Build
 
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
@@ -27,99 +27,16 @@ jobs:
         with:
           profile: minimal
           toolchain: nightly
-      - name: Build Enderpearl
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
-          command: python x.py init
+          python-version: '3.10' 
+      - run: python x.py init
       - name: Install `rust-src` Rustup Component
         run: rustup component add rust-src
       - name: Run `cargo check`
         uses: actions-rs/cargo@v1
         with:
           command: check
-
-  test:
-    name: Test
-    strategy:
-      fail-fast: false
-      matrix:
-        platform: [
-          ubuntu-latest,
-          macos-latest,
-          windows-latest
-        ]
-    runs-on: ${{ matrix.platform }}
-    steps:
-      - name: Install Rust Toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: nightly
-      - name: Install bootimage
-        run: cargo install bootimage --debug
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-      - name: Install Rustup Components
-        run: rustup component add rust-src llvm-tools-preview
-      - name: Run `cargo bootimage`
-        uses: actions-rs/cargo@v1
-        with:
-          command: bootimage
-      - name: Build Enderpearl
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-          command: python x.py init
-
-      # install QEMU
-      - name: Install QEMU (Linux)
-        run: sudo apt update && sudo apt install qemu-system-x86
-        if: runner.os == 'Linux'
-      - name: Install QEMU (macOS)
-        run: brew install qemu
-        if: runner.os == 'macOS'
-        env:
-          HOMEBREW_NO_AUTO_UPDATE: 1
-          HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK: 1
-          HOMEBREW_NO_INSTALL_CLEANUP: 1
-      - name: Install QEMU (Windows)
-        run: |
-          choco install qemu --version 2021.5.5
-          echo "$Env:Programfiles\qemu" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-        if: runner.os == 'Windows'
-        shell: pwsh
-      - name: "Print QEMU Version"
-        run: qemu-system-x86_64 --version
-
-      - name: Run `cargo test`
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-
-  check_formatting:
-    name: Check Formatting
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-      - name: Install Rust Toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: nightly
-          components: rustfmt
-          override: true
-      - name: Build Enderpearl
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-          command: python x.py init
-      - name: Run `cargo fmt`
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --all -- --check
 
   clippy:
     name: Clippy
@@ -134,11 +51,10 @@ jobs:
           toolchain: nightly
           components: clippy, rust-src
           override: true
-      - name: Build Enderpearl
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
-        run: python x.py init
+          python-version: '3.10' 
+      - run: python x.py init
       - name: Run `cargo clippy`
         uses: actions-rs/cargo@v1
         with:
