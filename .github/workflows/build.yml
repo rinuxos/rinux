@@ -31,7 +31,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-          command: python x.py init
+          command: x.py init
       - name: Install `rust-src` Rustup Component
         run: rustup component add rust-src
       - name: Run `cargo check`
@@ -70,7 +70,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-          command: python x.py init
+          command: x.py init
 
       # install QEMU
       - name: Install QEMU (Linux)
@@ -114,7 +114,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-          command: python x.py init
+          command: x.py init
       - name: Run `cargo fmt`
         uses: actions-rs/cargo@v1
         with:
@@ -138,7 +138,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-          command: python x.py init
+          command: x.py init
       - name: Run `cargo clippy`
         uses: actions-rs/cargo@v1
         with:
