@@ -1,3 +1,0 @@
-(function() {var implementors = {};
-implementors["vga_buffer"] = [{"text":"impl <a class=\"trait\" href=\"vga_buffer/trait.Write.html\" title=\"trait vga_buffer::Write\">Write</a> for <a class=\"struct\" href=\"vga_buffer/struct.Writer.html\" title=\"struct vga_buffer::Writer\">Writer</a>","synthetic":false,"types":["vga_buffer::writers::Writer"]}];
-if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

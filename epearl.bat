@@ -44,8 +44,8 @@ set APP_HOME=%DIRNAME%
 for %%i in ("%APP_HOME%") do set APP_HOME=%%~fi
 
 @REM Build
-set RUSTC_EXE=rustc.exe
-%RUSTC_EXE% --version >NUL 2>&1
+set PYTHON_EXE=python.exe
+%PYTHON_EXE% --version >NUL 2>&1
 if "%ERRORLEVEL%" == "0" goto execute
 
 echo.
@@ -54,14 +54,9 @@ echo.
 echo Please install rust
 
 :execute
-@REM Setup the command line
-set CLASSPATH=%APP_HOME%\gradle\wrapper\gradle-wrapper.jar
-
 
 @REM Build Enderpearl
-"%RUSTC_EXE%" "%APP_HOME%\enderpearl\script\enderpearl.rs" -o "%APP_HOME%\enderpearl\script\enderpearl.exe"
-DEL "%APP_HOME%\enderpearl\script\enderpearl.pdb"
-"%APP_HOME%\enderpearl\script\enderpearl.exe" "%*%"
+"%PYTHON_EXE%" "%APP_HOME%\x.py" "%*%"
 
 :end
 @REM End local scope for the variables with windows NT shell
