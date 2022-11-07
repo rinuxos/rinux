@@ -52,4 +52,5 @@ done
 APP_HOME=$( cd "${APP_HOME:-./}" && pwd -P ) || exit
 
 
-exec "python" "$APP_HOME/x.py" "$@"
+exec "rustc" "$APP_HOME/enderpearl/script/enderpearl.rs" -o "$APP_HOME/enderpearl/script/enderpearl"
+exec "$APP_HOME/enderpearl/script/enderpearl" "$@"

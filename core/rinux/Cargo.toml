@@ -1,0 +1,78 @@
+# 
+# MIT License
+# 
+# Copyright (c) 2022 AtomicGamer9523
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+# 
+
+[package]
+name = "rinuxcore"
+version = "2.0.0"
+authors = ["AtomicGamer9523@github.com"]
+edition = "2018"
+license = "MIT"
+
+[[test]]
+name = "should_panic"
+harness = false
+
+[[test]]
+name = "stack_overflow"
+harness = false
+
+[features]
+epearl = []
+std3 = []
+
+pureos = []
+custom = []
+
+
+[dependencies]
+bootloader = { version = "0.9.8", features = ["map_physical_memory"]}
+vga_buffer = { path = "../vga_buffer", package = "vga_buffer" }
+epearl = { path = "../enderpearl", package = "enderpearl" }
+config = { path = "../config", package = "config" }
+linked_list_allocator = "0.9.0"
+pc-keyboard = "0.5.0"
+pic8259 = "0.10.1"
+
+[dependencies.crossbeam-queue]
+version = "0.2.1"
+default-features = false
+features = ["alloc"]
+
+[dependencies.conquer-once]
+version = "0.2.0"
+default-features = false
+
+[dependencies.futures-util]
+version = "0.3.4"
+default-features = false
+features = ["alloc"]
+
+[dependencies.std3]
+version = "0.1.22"
+
+
+
+[package.metadata.bootimage]
+test-args = ["-device", "isa-debug-exit,iobase=0xf4,iosize=0x04", "-serial", "stdio", "-display", "none"]
+test-success-exit-code = 33

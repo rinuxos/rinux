@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":[["Color",""]],"macro":[["print",""],["print_err",""],["print_info",""],["print_ok",""],["println",""]],"mod":[["fmt","Utilities for formatting and printing `String`s."]],"struct":[["Writer",""]],"trait":[["Write","A trait for writing or formatting into Unicode-accepting buffers or streams."]]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":[["_customTokenize","Uses the enderpearl tokenizer to tokenize content"]],"struct":[["Command","Command Structure"],["EnderPearl","Enderpearl structure includes a vector of Operations"],["Operation","Operation Structure includes a name and a vector of commands"]]};
