@@ -2,37 +2,22 @@ This file is used for building Rinux
 NOT for importing your own projects into Rinux
 All commands are allowed
 
-
-#FIRSTRUN(
-echo 'Initializing first run'
-./epearl init
-./epearl gen
-./epearl stasis
-echo 'Initialization complete'
-)
-
-#FIX(
-./epearl --fix
-)
-
 #HELP(
-echo "run './epearl --help' for help"
+echo "run 'python x.py --help' for help"
 )
 
 #PRE(
-./epearl gen
+python x.py gen
 )
 
 #POST(
-./epearl --clean
+echo DONE
 )
-
 
 #BUILD(
 cargo build
 cargo bootimage
 )
-
 
 Building for release
 #RELEASE(
