@@ -373,7 +373,7 @@ def run(argv: str) -> None:
                         else:
                             auto_stasis = False
                 if auto_stasis:
-                    run(["--stasis"])
+                    run("--stasis")
                 __gen(name, version, boot, True, color)
             if arg.startswith("--init"):
                 try:
