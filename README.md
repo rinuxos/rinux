@@ -22,52 +22,35 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 
-<p align="center"><img src="./doc/icon.png"alt="rinux-logo"style="width:10%"/></p>
-<h1 align="center">
-    <b style="font-size:5vw;font-family:courier;align:center;background:url(./doc/mech.png) repeat center center;background-size:50%;-webkit-text-fill-color:transparent;-webkit-background-clip:text;-moz-background-clip:text;background-clip:text;-webkit-text-stroke:1px rgb(75,45,35);">Rinux</b>
-</h1>
-<p align="center"style="">Library for writing OSs with <a href="https://www.rust-lang.org/">Rust</a></p><div align="center">
+<p align="center"><img src="./doc/icon.png"alt="rinux-logo"style="width:10%"/></p><h1 align="center"><b style="font-size:5vw;font-family:courier;align:center;background:url(./doc/mech.png) repeat center center;background-size:8vw;-webkit-text-fill-color:transparent;-webkit-background-clip:text;-moz-background-clip:text;background-clip:text;-webkit-text-stroke:1px rgb(75,45,35);">Rinux</b></h1><p align="center"style="">Library for writing OSs with <a href="https://www.rust-lang.org/">Rust</a></p><div align="center"><a><img src="https://img.shields.io/crates/l/std3?label=License"></a> <a href="https://www.github.linkrbot.com/rinux/rinuxcore"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/AtomicGamer9523/rinux/Doc?label=Docs"></a><br><a href="https://www.github.com/AtomicGamer9523"><img src="https://img.shields.io/github/followers/atomicgamer9523?label=AtomicGamer9523%20(Me)&style=social"/></a></div><br><h3><b>Obtaining</b>:</h3><samp>Mercurial: </samp><kbd>hg clone linkrbot.com/hg/rinux</kbd><br><samp>Git: </samp><kbd>git clone github.com/AtomicGamer9523/rinux</kbd>
 
-<a><img src="https://img.shields.io/crates/l/std3?label=License"></a><a href="https://www.github.linkrbot.com/std3"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/AtomicGamer9523/std3/Page?label=Docs"></a><br><a href="https://rust-osdev.com/"><img src="https://img.shields.io/github/followers/atomicgamer9523?label=AtomicGamer9523%20(Me)&style=social"/></a></div><br><b>Obtaining</b>:<br><samp>Mercurial: </samp><kbd>hg clone linkrbot.com/hg/std3</kbd><br><samp>Git: </samp><kbd>git clone github.com/AtomicGamer9523/std3</kbd>
-
-## OS written in rust
-
-[![Build](https://github.com/AtomicGamer9523/rinux/actions/workflows/code.yml/badge.svg)](https://github.com/AtomicGamer9523/rinux/actions/workflows/code.yml) [![Page](https://github.com/AtomicGamer9523/rinux/actions/workflows/pages.yml/badge.svg)](https://atomicgamer9523.github.io/rinux)
-
-### [Docs](https://atomicgamer9523.github.io/rinux)
-
-### If you would like to help with STD3, please do so [here](https://github.com/AtomicGamer9523/std3)
-
-### Build yourself:
-
-Tools needed to run: [`bootimage`](https://github.com/rust-osdev/bootimage), and [`Qemu`](https://qemu.org). [Enderpearl](https://github.com/AtomicGamer9523/Enderpearl) is now included
-
-Building:
+<h3><b>Documentation</b>: </h3><a href="https://www.github.linkrbot.com/rinux/rinuxcore">www.github.linkrbot.com/rinux/rinuxcore</a>
+<br>
+<h3><b>Note</b>:</h3>
+<p>This project depends on <a href="https://github.com/AtomicGamer9523/std3">STD3</a>, which is still <strong>WIP</strong>.
+If you are able to contribute to it please do so! :)</a></p>
+<h3><b>Building</b>:</h3>
+<p>Items expected in PATH:
+<ul>
+    <li><a href="https://www.python.org/">Python</a></li>
+    <li><a href="https://www.qemu.org/">Qemu</a></li>
+    <li><a href="https://www.rust-lang.org/">Rust</a></li>
+</ul>
+First time:</p>
 
 ```bash
-python x.py build
+./epearl init
 ```
-
-Running:
+<p>Building Code:</p>
 
 ```bash
-python x.py run
+./epearl build
 ```
+<p>Running on Qemu:</p>
 
-If you are encountering build errors envolving enderpearl, please run `./epearl --fix` and try again
-
-<br>
-
-### Limitations:
-
-no `std` instead: [STD3](https://www.github.linkrbot.com/std3)
-
-no terminal
-
-<br>
-
-### Build for release:
-
-```shell
-python x.py release
+```bash
+./epearl run
 ```
+<h3><b>Enderpearl Documentation</b>: </h3>
+
+[here](./enderpearl/README.md)

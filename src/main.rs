@@ -4,9 +4,10 @@
 #![test_runner(rinuxcore::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
-
+// Rinuxcore features
 #![feature(rinuxcore_task)]
 #![feature(rinuxcore_keyboard)]
+
 
 use rinuxcore::{
     println,
@@ -14,6 +15,7 @@ use rinuxcore::{
     BootInfo,
     std3
 };
+
 
 #[rinuxcore::main]
 fn kernel_main(boot_info: &'static BootInfo) -> ! {

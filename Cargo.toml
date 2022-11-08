@@ -34,6 +34,7 @@ license = "MIT"
 features = ["map_physical_memory"]
 version = "0.9.8"
 
+
 [dependencies.rinuxcore]
 path = "./enderpearl/packages/rinuxcore"
 package = "rinuxcore"

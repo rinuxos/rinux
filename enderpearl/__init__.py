@@ -55,7 +55,10 @@ Project's version, string
 #VERSION(v0.1.0)
 
 If no debug info should be printed, will still print errors bool -> 'true' or 'false'
-#QUIET(false)"""
+#QUIET(false)
+
+Automatically update Stasises
+#AUTOSTASIS(true)"""
 __DEFAULT_CONFIG_LIB = """#![no_std]
 pub const PROJECT_NAME: &'static str = \"HyperNet\";
 pub const PROJECT_VERSION: &'static str = \"v1.0.0\";
@@ -122,7 +125,7 @@ class EnderPearl(object):
 
 
 
-def __tokenize(string: str, config: str) -> EnderPearl:
+def __tokenize(string: str, config: str, prefix: str = "#") -> EnderPearl:
     config = __read_config(config)
     efile = EnderPearl(True)
     op = Operation()
@@ -131,7 +134,7 @@ def __tokenize(string: str, config: str) -> EnderPearl:
     config_str = ""
     txttype = __TextKind.NONE
     for part in string:
-        if part == "#":
+        if part == prefix:
             op = Operation()
             txttype = __TextKind.CommandName
         elif part == "(":
@@ -270,11 +273,11 @@ def __run(cmd: str, tkn: EnderPearl, color: bool = True) -> None:
     else:
         __runcmd(cmd,tkn,"") 
 
-def run(argv: list) -> None:
+def run(argv: str) -> None:
     tkn = __get_tkn()
     color = True
 
-    for arg in argv:
+    for arg in argv.split(" "):
         if arg.startswith("--"):
             if arg.startswith("--no-color") or arg.startswith("--nocolor") or arg.startswith("--no-colour") or arg.startswith("--nocolour") or arg.startswith("--n"):
                 color = False
@@ -305,11 +308,9 @@ def run(argv: list) -> None:
                     f.write(__DEFAULT_CONFIG_CARGO)
                     f.close()
                 except(FileExistsError):
-                    pass
-                
+                    pass 
             if arg.startswith("--fix"):
                 __gen("MyProject","v0.1.0","false",False, color)
-                return
             if arg.startswith("--stasis"):
                 try:
                     f = open("enderpearl/build.enderpearl", "rt")
@@ -355,6 +356,7 @@ def run(argv: list) -> None:
                 name = ""
                 version = ""
                 boot = ""
+                auto_stasis = True
                 for cfg in stasises:
                     if cfg.key.lower() == "name":
                         name = cfg.value
@@ -365,7 +367,14 @@ def run(argv: list) -> None:
                             boot = "true"
                         else:
                             boot = "false"
-                __gen(name, version, boot,True, color)
+                    elif cfg.key.lower() == "autostasis":
+                        if cfg.value.lower() == "true":
+                            auto_stasis = True
+                        else:
+                            auto_stasis = False
+                if auto_stasis:
+                    run("--stasis")
+                __gen(name, version, boot, True, color)
             if arg.startswith("--init"):
                 try:
                     f = open("./enderpearl/config.enderpearl", "wt")
@@ -381,3 +390,6 @@ def run(argv: list) -> None:
                     print("Unable to create file: build.enderpearl")
         else:
             __run(arg, tkn, True)
+
+if __name__ == "__main__":
+    raise Exception("This file is not meant to be run directly")
