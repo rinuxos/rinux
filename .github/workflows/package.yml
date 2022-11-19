@@ -38,10 +38,10 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-      - name: Install Rinux Toolchain
-        uses: AtomicGamer9523/rinuxaction@v1
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10' 
       - run: python x.py init
       - run: python x.py build
+      - name: Install Rinux Toolchain
+        uses: AtomicGamer9523/rinuxaction@v1
