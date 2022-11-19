@@ -1,0 +1,11 @@
+[submodule "work/enderpearl"]
+	path = work/enderpearl
+	url = https://github.com/AtomicGamer9523/enderpearl
+
+[submodule "work/rinuxcore"]
+	path = work/rinuxcore
+	url = https://github.com/AtomicGamer9523/rinuxcore
+
+[submodule "work/std3"]
+	path = work/std3
+	url = https://github.com/AtomicGamer9523/std3

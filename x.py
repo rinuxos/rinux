@@ -1,3 +1,47 @@
+import enderpearl
+import shutil
+import sys
+
+
+def main() -> None:
+    enderpearl.extension.RELEASE = False
+    clean()
+    for arg in sys.argv:
+        if arg.__contains__("--release"):
+            enderpearl.extension.RELEASE = True
+    if len(sys.argv) < 2:
+        print(enderpearl.extension.helper())
+        sys.exit(0)
+    cmd = str(sys.argv[1])
+    if cmd.startswith("--"):
+        enderpearl.parser.default_run(cmd)
+        if cmd.startswith("--release"):
+            enderpearl.extension.RELEASE = True
+            return
+        elif cmd.startswith("--help"):
+            print(enderpearl.extension.helper())
+            return
+        print("Unknown option: " + cmd)
+        return
+    else:
+        enderpearl.extension.command_parser(cmd)
+
+
+def clean() -> None:
+    try:
+        shutil.rmtree("./enderpearl/__pycache__")
+    except OSError:
+       pass
+
+if __name__ == "__main__":
+    try:
+        main()
+        clean()
+    except KeyboardInterrupt:
+        print("Interrupted")
+        clean()
+        sys.exit(0)
+
 # 
 # MIT License
 # 
@@ -21,100 +65,3 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 # 
-
-import enderpearl
-import shutil
-import sys
-import os
-
-def HELP_MESSAGE():
-    return """Available commands:
-    - build: Builds in debug mode, pass '--release' to build in release
-    - run: Builds and runs, pass '--release' to run in release
-    - init: Initializes the project
-    - gen: Generates the project config files
-    - stasis: Installes dependencies from stasis"""
-
-
-def build(release: bool):
-    enderpearl.run("--gen --nocolor --quiet")
-    if release == True:
-        enderpearl.run("release")
-    else:
-        enderpearl.run("build")
-
-
-def clean(full: bool = False):
-    if full:
-        os.system("cargo clean")
-        try:
-            shutil.rmtree("./enderpearl/packages")
-        except OSError:
-            pass
-    try:
-        shutil.rmtree("./enderpearl/__pycache__")
-    except OSError:
-       pass
-
-
-def main():
-    clean()
-    __release = False
-
-    for arg in sys.argv:
-        if arg.__contains__("--clean"):
-            clean(True)
-            return
-        if arg.__contains__("--release"):
-            __release = True
-
-    if len(sys.argv) < 2:
-        print(HELP_MESSAGE())
-        sys.exit(0)
-    cmd = str(sys.argv[1])
-
-    if cmd.startswith("--"):
-        if cmd.startswith("--clean"):
-            clean(True)
-            return
-        elif cmd.startswith("--release"):
-            __release = True
-            return
-        elif cmd.startswith("--help"):
-            print(HELP_MESSAGE())
-            return
-        print("Unknown option: " + cmd)
-        return
-    elif cmd.startswith("build"):
-        build(__release)
-        return
-    elif cmd.startswith("run"):
-        if __release:
-            os.system("cargo run --release")
-        else:
-            os.system("cargo run")
-        return
-    elif cmd.startswith("init"):
-        os.system("cargo install bootimage")
-        enderpearl.run("--mkdir --init --gen --stasis")
-        return
-    elif cmd.startswith("gen"):
-        enderpearl.run("--gen")
-        return
-    elif cmd.startswith("stasis"):
-        enderpearl.run("--stasis")
-        return
-    elif cmd.startswith("help"):
-        print(HELP_MESSAGE())
-        return
-    else:
-        enderpearl.run(cmd)
-
-if __name__ == "__main__":
-    try:
-        main()
-        clean()
-    except KeyboardInterrupt:
-        print("Interrupted")
-        clean()
-        sys.exit(0)
