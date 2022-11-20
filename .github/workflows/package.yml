@@ -39,4 +39,4 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
       - name: Build Rinux Package
-        uses: AtomicGamer9523/rinuxaction@v1
+        uses: AtomicGamer9523/rinuxaction@v0.1
