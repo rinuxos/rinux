@@ -40,3 +40,5 @@ jobs:
         uses: actions/checkout@v2
       - name: Build Rinux Package
         uses: AtomicGamer9523/rinuxaction@pre1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
