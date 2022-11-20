@@ -26,11 +26,6 @@ name: Package
 
 on: [push, pull_request, workflow_dispatch]
 
-env:
-  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-
-
-
 jobs:
   package:
     name: Package
