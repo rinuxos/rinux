@@ -26,11 +26,6 @@ name: Build
 
 on: [push, pull_request, workflow_dispatch]
 
-env:
-  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-
-
-
 jobs:
   check:
     name: Check
@@ -45,41 +40,24 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
-      - name: Install Rust Toolchain
-        uses: actions-rs/toolchain@v1
+        uses: actions/checkout@v3
+      - name: Build Rinux Package
+        uses: AtomicGamer9523/rinuxaction@v1
         with:
-          profile: minimal
-          toolchain: nightly
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10' 
-      - run: python x.py init
-      - name: Install `rust-src` Rustup Component
-        run: rustup component add rust-src
-      - name: Run `cargo check`
-        uses: actions-rs/cargo@v1
-        with:
-          command: check
+          token: ${{ secrets.GITHUB_TOKEN }}
+          release: false
+      - run: rustup component add rust-src
+      - run: cargo check
 
   clippy:
     name: Clippy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
-      - name: Install Rust Toolchain
-        uses: actions-rs/toolchain@v1
+        uses: actions/checkout@v3
+      - name: Build Rinux Package
+        uses: AtomicGamer9523/rinuxaction@v1
         with:
-          profile: minimal
-          toolchain: nightly
-          components: clippy, rust-src
-          override: true
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10' 
-      - run: python x.py init
-      - name: Run `cargo clippy`
-        uses: actions-rs/cargo@v1
-        with:
-          command: clippy
+          token: ${{ secrets.GITHUB_TOKEN }}
+          release: false
+      - run: cargo clippy
