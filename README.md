@@ -51,6 +51,10 @@ First time:</p>
 ```bash
 ./epearl run
 ```
+<h3><b>Projects</b>: </h3>
+
+[here](./PROJECTS.md)
+
 <h3><b>Enderpearl Documentation</b>: </h3>
 
 [here](./enderpearl/README.md)
