@@ -42,26 +42,13 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v1
-
-    - name: Install Rust toolchain
-      uses: actions-rs/toolchain@v1
-      with:
-        toolchain: nightly
-        profile: minimal
-        override: true
-        components: rustfmt, rust-src
-
-    - uses: actions/setup-python@v4
-      with:
-        python-version: '3.10' 
-    - run: python x.py init
-    - name: Build Documentation
-      uses: actions-rs/cargo@v1
-      with:
-        command: doc
-        args: --no-deps -p "rinuxcore"
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Build Rinux Package
+        uses: AtomicGamer9523/rinuxaction@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - run: cargo doc --no-deps -p "rinuxcore"
     
     - name: Setup Pages
       uses: actions/configure-pages@v2
