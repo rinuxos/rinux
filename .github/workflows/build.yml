@@ -45,6 +45,7 @@ jobs:
         uses: AtomicGamer9523/rinuxaction@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          release: false
       - run: rustup component add rust-src
       - run: cargo check
 
@@ -58,4 +59,5 @@ jobs:
         uses: AtomicGamer9523/rinuxaction@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          release: false
       - run: cargo clippy

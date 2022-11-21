@@ -48,6 +48,7 @@ jobs:
         uses: AtomicGamer9523/rinuxaction@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          release: false
       - run: cargo doc --no-deps -p "rinuxcore"
     
     - name: Setup Pages
