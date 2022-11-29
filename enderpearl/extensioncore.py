@@ -1,7 +1,7 @@
 from enderpearl.parser import DEFAULT_FILE_CONFIG, DEFAULT_FILE_BUILD
 from enderpearl.parser import tokenize, runcmd, read_config
 from enderpearl.parser import EnderPearl, ConfigKV
-import os
+import shutil, os
 
 __DEFAULT_CONFIG_LIB = """#![no_std]
 pub const PROJECT_NAME: &'static str = \"HyperNet\";
@@ -23,18 +23,25 @@ def hlp() -> str:
         - stasis: Installes dependencies from stasis"""
 
 def __gen(i1: str, i2: str, i3: str, prnt: bool = True, color: bool = True) -> None:
-    try:
-        f = open("./enderpearl/packages/config/src/lib.rs", "wt")
+    def dgen() -> str:
         data = "#![no_std]\n"
         data += "pub const PROJECT_NAME: &'static str = \"{}\";\npub const PROJECT_VERSION: &'static str = \"{}\";\npub const QUIET_BOOT: bool = {};".format(i1, i2, i3)
-        f.write(data)
+        return data
+    try:
+        f = open("./enderpearl/packages/config/src/lib.rs", "wt")
+        f.write(dgen())
         f.close()
     except(FileNotFoundError):
-        if prnt:
-            if color:
-                print("\x1b[38524mEnderPearl \x1b[385196mError\x1b[0m: \"Unable to create file: ./enderpearl/packages/config/src/lib.rs\"")
-            else:
-                print("EnderPearl Error: \"Unable to create file: ./enderpearl/packages/config/src/lib.rs\"")
+        try:
+            f = open("./enderpearl/packages/config/src/lib.rs", "xt")
+            f.write(dgen())
+            f.close()
+        except(FileNotFoundError):
+            if prnt:
+                if color:
+                    print("\x1b[38524mEnderPearl \x1b[385196mError\x1b[0m: \"Unable to create file: ./enderpearl/packages/config/src/lib.rs\"")
+                else:
+                    print("EnderPearl Error: \"Unable to create file: ./enderpearl/packages/config/src/lib.rs\"")
 
 def __get_tkn() -> EnderPearl:
     contents = ""
@@ -112,21 +119,25 @@ def run(argv: str) -> None:
                 __gen("MyProject","v0.1.0","false",False, color)
             if arg.startswith("--stasis"):
                 try:
+                    os.mkdir("enderpearl/packages")
+                except(FileExistsError):
+                    pass
+                try:
                     f = open("enderpearl/build.enderpearl", "rt")
                     contents = f.read()
                     f.close()
                     stasisz: EnderPearl = tokenize(contents,"")
-                    # print(stasisz)
+                    times_ran = 0
                     for op in stasisz.operations:
-                        if op.name.lower() == "pre":
-                            # op.run("")
+                        if op.name.lower() == "pre" and times_ran == 0:
                             op.run("enderpearl/packages")
-                        elif op.name.lower() == "stasis":
-                            # op.run("")
+                            times_ran  = 1
+                        elif op.name.lower() == "stasis" and times_ran == 1:
                             op.run("enderpearl/packages")
-                        elif op.name.lower() == "post":
-                            # op.run("")
+                            times_ran = 2
+                        elif op.name.lower() == "post" and times_ran == 2:
                             op.run("enderpearl/packages")
+                            times_ran = 3
 
                 except(FileNotFoundError):
                     try:
@@ -187,6 +198,17 @@ def run(argv: str) -> None:
                     f.close()
                 except(FileNotFoundError):
                     print("Unable to create file: build.enderpearl")
+            if arg.startswith("--clean"): 
+                import stat
+                def on_rm_error(_f,path,_i):
+                    os.chmod( path, stat.S_IWRITE )
+                    os.unlink( path )
+                try:
+                    shutil.rmtree("enderpearl/packages",onerror=on_rm_error)
+                except(FileNotFoundError):
+                    pass
+                os.system("cargo clean")
+                
         else:
             __run(arg, tkn, True)
 

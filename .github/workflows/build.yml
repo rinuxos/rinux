@@ -42,7 +42,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Build Rinux Package
-        uses: AtomicGamer9523/rinuxaction@v1
+        uses: rinuxos/rinuxaction@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release: false
@@ -56,7 +56,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Build Rinux Package
-        uses: AtomicGamer9523/rinuxaction@v1
+        uses: rinuxos/rinuxaction@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release: false
