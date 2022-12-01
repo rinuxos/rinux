@@ -25,7 +25,10 @@ def command_parser(cmd: str) -> None:
         extensioncore.run("--mkdir --init --gen --stasis")
         return
     elif cmd.startswith("gen"):
-        extensioncore.run("--gen")
+        extensioncore.run("--mkdir --gen")
+        return
+    elif cmd.startswith("fix"):
+        extensioncore.run("--mkdir --fix")
         return
     elif cmd.startswith("stasis"):
         extensioncore.run("--stasis")
@@ -33,6 +36,8 @@ def command_parser(cmd: str) -> None:
     elif cmd.startswith("help"):
         print(helper())
         return
+    elif cmd.startswith("clean"):
+        extensioncore.run("--clean")
 
 
 

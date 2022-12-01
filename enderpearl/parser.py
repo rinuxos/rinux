@@ -9,6 +9,7 @@ DO NOT CHANGE THE ORDER OF COMMANDS
 #PRE(
 git clone https://github.com/AtomicGamer9523/std3
 git clone https://github.com/AtomicGamer9523/rinuxcore
+git clone https://github.com/AtomicGamer9523/bootloader
 )
 
 

@@ -10,11 +10,16 @@
 
 
 use rinuxcore::{
+    composer::job,
     println,
     task::{executor::Executor, Task},
     BootInfo,
     std3
 };
+
+job!(HelloWorld=||{
+    println!("Hello World!");
+});
 
 
 #[rinuxcore::main]
@@ -24,7 +29,10 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
 
     // Built-in keyboard driver, requires "rinuxcore_keyboard" feature
     executor.spawn(Task::new(rinuxcore::task::keyboard::init()));
+    executor.run_first_task_in_queue();
     executor.spawn(Task::new(main()));
+
+    HelloWorld.run();
 
     executor.run()
 }
