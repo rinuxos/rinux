@@ -31,13 +31,13 @@ license = "MIT"
 
 
 [dependencies.bootloader]
-# path = "./enderpearl/packages/bootloader" # Used in production
-path = "../bootloader" # Used for development
+path = "./enderpearl/packages/bootloader" # Used in production
+# path = "../bootloader" # Used for development
 features = ["map_physical_memory"]
 
 
 [dependencies.rinuxcore]
-# path = "./enderpearl/packages/rinuxcore" # Used in production
-path = "../rinuxcore" # Used for development
+path = "./enderpearl/packages/rinuxcore" # Used in production
+# path = "../rinuxcore" # Used for development
 package = "rinuxcore"
 features = ["full"]
