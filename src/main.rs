@@ -10,17 +10,11 @@
 
 
 use rinuxcore::{
-    composer::job,
     println,
     task::{executor::Executor, Task},
     BootInfo,
     std3
 };
-
-job!(HelloWorld=||{
-    println!("Hello World!");
-});
-
 
 #[rinuxcore::main]
 fn kernel_main(boot_info: &'static BootInfo) -> ! {
@@ -32,15 +26,12 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
     executor.run_first_task_in_queue();
     executor.spawn(Task::new(main()));
 
-    HelloWorld.run();
-
     executor.run()
 }
 
 async fn main() {
     println!("Hello World");
 }
-
 
 
 #[panic_handler]
